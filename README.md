@@ -1,0 +1,118 @@
+<h3 align="center">Teaching material by
+<a href="https://fabiofurini.github.io/">Fabio Furini</a></h3>
+<p align="center">
+  Associate professor of Operations Research ·
+  <a href="https://www.diag.uniroma1.it/">DIAG</a>, Sapienza University of Rome ·
+  <a href="https://fabiofurini.github.io/">personal website</a>
+</p>
+
+# Operations Research Lab
+
+> **The author.** Since September 2021 Fabio Furini has been an associate
+> professor at DIAG, Sapienza University of Rome. Ph.D. in Control Engineering
+> and Operations Research at the University of Bologna (2011), research fellow
+> there until 2012; postdoc at Université Paris-13 (2012–2013); from 2013 to 2019
+> *Maître de Conférences* at Université Paris-Dauphine. *Habilitation à Diriger
+> des Recherches* in France in 2017 and Italian National Scientific
+> Qualification for Full Professor in Operations Research in 2019. In 2020 CNR
+> researcher at IASI-CNR in Rome.
+> Personal website: <https://fabiofurini.github.io/>
+
+Continuous optimization models — the course lecture
+notes in online form, with Python/Gurobi code, data and case studies.
+
+**📖 Online lecture notes: [fabiofurini.github.io/nlp-modelling](https://fabiofurini.github.io/nlp-modelling/)**
+
+**▶️ Runnable notebooks in Colab: [the list of chapters](https://fabiofurini.github.io/nlp-modelling/notebooks/)** — they run in the browser, with nothing to install.
+
+## Download as PDF
+
+- [Full lecture notes](https://fabiofurini.github.io/nlp-modelling/pdf/nlp-modelling-notes.pdf) (127 pages)
+- [Lecture slides](https://fabiofurini.github.io/nlp-modelling/downloads/), one deck per chapter, on the downloads page
+
+## Contents
+
+**Tools**
+
+- [Theory: linear programming](https://fabiofurini.github.io/nlp-modelling/theory-lp/) — duality, complementary slackness, shadow prices and sensitivity
+- [Theory: nonlinear optimization](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/) — convexity, QP, KKT conditions
+- [Solver: linear models](https://fabiofurini.github.io/nlp-modelling/solver-lp/) — building the model, running it, reading and interpreting the solution
+- [Solver: nonlinear models](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/) — function constraints, bilinear terms, tolerances
+
+**Deterministic models**
+
+- [Multi-period production and inventory](https://fabiofurini.github.io/nlp-modelling/production/) — LP/QP
+- [Supply chain with congestion and CO₂](https://fabiofurini.github.io/nlp-modelling/supplychain/) — LP/NLP
+- [Markowitz portfolio](https://fabiofurini.github.io/nlp-modelling/markowitz/) — QP
+- [Pricing and revenue management](https://fabiofurini.github.io/nlp-modelling/pricing/) — NLP
+- [Advertising budget](https://fabiofurini.github.io/nlp-modelling/budget/) — convex NLP
+- [Continuous location](https://fabiofurini.github.io/nlp-modelling/location/) — convex NLP
+- [Electric vehicle charging](https://fabiofurini.github.io/nlp-modelling/ev-charging/) — LP/QP
+- [Queues and service capacity](https://fabiofurini.github.io/nlp-modelling/queues/) — convex NLP
+- [Data Envelopment Analysis](https://fabiofurini.github.io/nlp-modelling/dea/) — LP, relative efficiency and the dual
+
+**Decisions under uncertainty**
+
+- [The newsvendor and its variants](https://fabiofurini.github.io/nlp-modelling/newsvendor/) — stochastic LP
+- [VaR and CVaR](https://fabiofurini.github.io/nlp-modelling/var-cvar/) — scenario LP
+- [Arbitrage and pricing](https://fabiofurini.github.io/nlp-modelling/arbitrage/) — LP, the duality that prices
+
+**Optimization and machine learning**
+
+- [Support Vector Machine](https://fabiofurini.github.io/nlp-modelling/svm/) — QP
+- [Robust and quantile regression](https://fabiofurini.github.io/nlp-modelling/regression/) — LP, estimating the parameters
+
+**The course**
+
+- [Lab organization](https://fabiofurini.github.io/nlp-modelling/organization/) — lab sessions, deliverables, assessment
+
+## Running the models
+
+Every chapter has its own script in [`python/`](python/) (`lab04`–`lab17`), with the
+data in [`data/`](data/):
+
+```bash
+python3 -m pip install gurobipy matplotlib pandas scipy
+python3 python/run_all.py     # all models: data, results and figures
+```
+
+With nothing to install, every chapter has its own notebook in
+[`notebooks/`](notebooks/): it opens in Colab from the badge at the top of the
+chapter page (the full list is [on the website](https://fabiofurini.github.io/nlp-modelling/notebooks/))
+and runs in the browser. The notebooks are generated from the scripts —
+`python3 python/make_notebooks.py` — so the course code stays in one place.
+
+The `gurobipy` licence bundled with the pip package is enough for every model in
+the course; the free academic licence can be activated at
+[portal.gurobi.com](https://portal.gurobi.com).
+
+## Licence
+
+- **Text, figures and data** (`docs/`, `data/`): [CC BY 4.0](LICENSE) — anyone may
+  reuse, adapt and redistribute them, in other courses too, with attribution.
+- **Python code** (`python/`): [MIT](LICENSE-CODE), the usual licence for software,
+  so that reusing the scripts raises no ambiguity.
+
+To cite the material see [`CITATION.cff`](CITATION.cff): GitHub turns it into the
+*Cite this repository* entry. Exercise solutions are not
+published: they are distributed in class.
+
+## Versione italiana
+
+The whole lab is also available in Italian:
+**[fabiofurini.github.io/modellazione-pnl](https://fabiofurini.github.io/modellazione-pnl/)**
+([repository](https://github.com/fabiofurini/modellazione-pnl)).
+
+## Same series
+
+- [MIP Modelling](https://fabiofurini.github.io/mip-modelling/)
+- [Mathematical Analysis 1](https://fabiofurini.github.io/mathematical-analysis-1/)
+- [Linear Algebra](https://fabiofurini.github.io/linear-algebra/)
+- [Linear Programming](https://fabiofurini.github.io/linear-programming/)
+- [Convex Optimization](https://fabiofurini.github.io/convex-optimization/)
+- [Algorithms](https://fabiofurini.github.io/algorithms/)
+
+---
+
+Teaching material by **[Fabio Furini](https://fabiofurini.github.io/)** — [DIAG](https://www.diag.uniroma1.it/), Sapienza University of Rome.
+Exercise solutions are distributed in class.
