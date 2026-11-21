@@ -1,7 +1,7 @@
-site_name: Operations Research Lab · Fabio Furini
+site_name: NLP Modelling · Fabio Furini
 site_url: https://fabiofurini.github.io/nlp-modelling/
 site_description: >-
-  Continuous optimization models:
+  Nonlinear programming models:
   lecture notes, Python/Gurobi code, data and case studies.
 site_author: Fabio Furini
 repo_url: https://github.com/fabiofurini/nlp-modelling
@@ -56,6 +56,9 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/fabiofurini
       name: GitHub
+    - icon: material/chart-timeline-variant
+      link: https://fabiofurini.github.io/lp-modelling/
+      name: LP Modelling
     - icon: material/vector-polygon
       link: https://fabiofurini.github.io/mip-modelling/
       name: MIP Modelling
@@ -110,31 +113,23 @@ nav:
   - Home: index.md
   - Tools:
       - tools.md
-      - Theory, linear programming: theory-lp.md
       - Theory, nonlinear optimization: theory-nonlinear.md
-      - Solver, linear models: solver-lp.md
       - Solver, nonlinear models: solver-nonlinear.md
       - Notebooks in Colab: notebooks.md
   - Deterministic models:
       - deterministic-models.md
-      - Production and inventory: production.md
+      - Production with quadratic smoothing: production-quadratic.md
       - Supply chain and CO2: supplychain.md
       - Markowitz portfolio: markowitz.md
       - Pricing and revenue management: pricing.md
       - Advertising budget: budget.md
       - Continuous location: location.md
-      - Electric vehicle charging: ev-charging.md
+      - EV charging with a smooth profile: ev-charging-quadratic.md
       - Queues and service capacity: queues.md
-      - Data Envelopment Analysis: dea.md
-  - Decisions under uncertainty:
-      - decisions-uncertainty.md
-      - The newsvendor: newsvendor.md
-      - VaR and CVaR: var-cvar.md
-      - Arbitrage and pricing: arbitrage.md
   - Optimization and machine learning:
       - optimization-ml.md
       - Support Vector Machine: svm.md
-      - Robust and quantile regression: regression.md
+      - Least-squares regression: least-squares.md
   - Quiz: self-assessment.md
   - Downloads: downloads.md
   - Index:

@@ -1,6 +1,6 @@
 # Downloads
 
-All the material of the lab, in PDF, updated at every publication of the website.
+All the material of the course, in PDF, updated at every publication of the website.
 Text, figures and data are released under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.en); the Python
 scripts under the
@@ -10,13 +10,12 @@ scripts under the
 
 <div class="grid cards" markdown>
 
--   :material-book-open-variant: **Lecture notes of the lab**
+-   :material-book-open-variant: **Lecture notes of the course**
 
     ---
 
     Models, worked examples, case studies and sensitivity analysis: the tools,
-    deterministic models, decisions under uncertainty, optimization and
-    machine learning.
+    nonlinear deterministic models, optimization and machine learning.
 
     [:octicons-download-24: nlp-modelling-notes.pdf](pdf/nlp-modelling-notes.pdf)
 
@@ -42,38 +41,29 @@ The lecture slides, one deck per chapter of the notes (PDF).
 
     ---
 
-    - [Introduction to the laboratory](pdf/slides-01-introduction.pdf)
-    - [Theory background](pdf/slides-02-background.pdf)
-    - [The solver: building, solving, interpreting](pdf/slides-03-python-gurobi.pdf)
+    - [Introduction to the course](pdf/slides-01-introduction.pdf)
+    - [Background: convexity, QP and KKT](pdf/slides-02-background.pdf)
+    - [The solver for nonlinear models](pdf/slides-03-python-gurobi.pdf)
 
 -   :material-presentation: **Deterministic models**
 
     ---
 
-    - [Multi-period production and inventory](pdf/slides-04-production.pdf)
+    - [Production with quadratic smoothing](pdf/slides-04-production-quadratic.pdf)
     - [Supply chain with congestion and sustainability](pdf/slides-05-supply-chain.pdf)
     - [The Markowitz portfolio](pdf/slides-06-markowitz.pdf)
     - [Pricing and revenue management](pdf/slides-07-pricing.pdf)
     - [Advertising budget allocation](pdf/slides-08-budget.pdf)
     - [Continuous location of a service](pdf/slides-09-location.pdf)
-    - [Smart charging of electric vehicles](pdf/slides-10-ev-charging.pdf)
+    - [EV charging with a smooth profile](pdf/slides-10-ev-charging-quadratic.pdf)
     - [Service capacity and waiting times](pdf/slides-11-queues.pdf)
-    - [Data Envelopment Analysis](pdf/slides-12-dea.pdf)
-
--   :material-presentation: **Decisions under uncertainty**
-
-    ---
-
-    - [The Newsvendor and its variants](pdf/slides-13-newsvendor.pdf)
-    - [VaR and CVaR](pdf/slides-14-var-cvar.pdf)
-    - [Arbitrage and pricing](pdf/slides-15-arbitrage.pdf)
 
 -   :material-presentation: **Optimization and machine learning**
 
     ---
 
     - [Support Vector Machine](pdf/slides-12-svm.pdf)
-    - [Robust and quantile regression](pdf/slides-17-regression.pdf)
+    - [Least-squares regression](pdf/slides-13-least-squares.pdf)
 
 </div>
 

@@ -2,9 +2,11 @@
 
 [:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-02-background.pdf)
 
-The second subchapter of the background: convexity, quadratic programming and
-KKT conditions — the nonlinear extension of the [LP theory](theory-lp.md).
-It closes with the sensitivity protocol used in every laboratory session.
+The theory background of the course: convexity, quadratic programming and KKT
+conditions — the nonlinear extension of LP theory, recalled in
+[LP Modelling](https://fabiofurini.github.io/lp-modelling/theory-lp/) together with the
+sensitivity protocol. Convex sets and functions are covered in the course
+[Convex Optimization](https://fabiofurini.github.io/convex-optimization/).
 
 ## Convexity and quadratic programming
 
@@ -74,14 +76,3 @@ the right-hand side by $\varepsilon$, re-optimize, incremental ratio).
     with the general procedure. With right-hand side $6 + \varepsilon$ the optimal
     value grows by $\approx 8\varepsilon$ (exactly: $\tilde f(d) = \tfrac{2}{3}d^2$,
     hence $24 + 8\varepsilon + \tfrac{2}{3}\varepsilon^2$).
-
-## The sensitivity protocol (used in every chapter)
-
-1. **Base scenario**: solve, verify, identify the active constraints.
-2. **One-at-a-time**: vary one key parameter over a grid.
-3. **Shadow prices and reduced costs**: compare the dual with a re-optimization
-   after a perturbation; read the $\bar c_j$ of every variable at zero (its
-   profitability threshold).
-4. **Scenarios**: pessimistic, central, optimistic.
-5. **Trade-off**: trace a frontier (cost-service, risk-return…).
-6. **Stability**: data ±5% → does the recommendation hold?

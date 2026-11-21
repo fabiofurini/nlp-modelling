@@ -2,7 +2,7 @@
 
 The bridge between the two disciplines: a learning model is, in the end, an
 optimization problem to be solved with the same solver as the rest of the course.
-A QP that classifies and an LP that estimates.
+A QP that classifies and a QP that estimates.
 
 <div class="grid cards" markdown>
 
@@ -15,14 +15,13 @@ A QP that classifies and an LP that estimates.
 
     [:octicons-arrow-right-24: QP](svm.md)
 
--   :material-chart-scatter-plot: **Robust and quantile regression**
+-   :material-chart-scatter-plot: **Least-squares regression**
 
     ---
 
-    Estimating the parameters with an LP: absolute instead of squared
-    deviations, support points from the duals and the quantile the newsvendor
-    needs.
+    Least squares as a convex QP: the KKT conditions are the normal equations,
+    the comparison with robust and quantile regression, ridge.
 
-    [:octicons-arrow-right-24: LP](regression.md)
+    [:octicons-arrow-right-24: Convex QP](least-squares.md)
 
 </div>

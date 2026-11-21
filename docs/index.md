@@ -6,7 +6,7 @@ hide:
 
 <div class="hero" markdown>
 
-# Operations Research Lab
+# NLP Modelling
 
 <!-- collana-riga -->
 <p class="collana-riga" markdown>A course of the <b>Operations Research and Mathematics</b> series · [all the courses](#the-series)</p>
@@ -15,11 +15,10 @@ hide:
 Teaching material designed and developed by **[Fabio Furini](https://fabiofurini.github.io/)**, associate
 professor at [DIAG](https://www.diag.uniroma1.it/), Sapienza University of Rome.
 
-**Continuous optimization models** — the course lecture
-notes in online form, with Python/Gurobi code, data and reproducible case
-studies.
+**Nonlinear programming models** — the online version of the course lecture notes,
+with Python/Gurobi code and reproducible case studies.
 
-Prerequisites: [Linear Programming](https://fabiofurini.github.io/linear-programming/) and [Convex Optimization](https://fabiofurini.github.io/convex-optimization/).
+Prerequisites: [LP Modelling](https://fabiofurini.github.io/lp-modelling/) and [Convex Optimization](https://fabiofurini.github.io/convex-optimization/).
 
 [Start :material-arrow-right:](tools.md){ .md-button .md-button--primary }
 [:material-clipboard-check-outline: Quiz](self-assessment.md){ .md-button }
@@ -47,35 +46,26 @@ Markowitz's efficient frontier: every point is an optimal portfolio for a level 
 
     ---
 
-    How a model is built, how it is run, how to read the solution, the shadow
-    prices and the reduced costs: the theory and the solver.
+    Convexity, quadratic programming and KKT conditions; the solver commands for
+    nonlinear models and the multipliers of QPs.
 
-    [:octicons-arrow-right-24: The four chapters](tools.md)
+    [:octicons-arrow-right-24: The chapters](tools.md)
 
 -   :material-factory: **Deterministic models**
 
     ---
 
-    Production, supply chain, portfolio, pricing, budget, location, electric
-    vehicle charging, queues, branch efficiency: every datum is known.
+    Production with smoothing, supply chain, portfolio, prices, budget, location,
+    electric vehicle charging, queues: all the data are known.
 
-    [:octicons-arrow-right-24: The nine problems](deterministic-models.md)
-
--   :material-dice-multiple: **Decisions under uncertainty**
-
-    ---
-
-    You decide before you know: the quantile rule, tail risk and the duality that
-    prices financial instruments.
-
-    [:octicons-arrow-right-24: The three problems](decisions-uncertainty.md)
+    [:octicons-arrow-right-24: The eight problems](deterministic-models.md)
 
 -   :material-robot: **Optimization and machine learning**
 
     ---
 
-    The SVM as a convex QP and robust regression as an LP: margin, dual, support
-    vectors and support points — without ML libraries.
+    The SVM and least squares as convex QPs: margin, dual, support vectors, normal
+    equations — with no ML libraries.
 
     [:octicons-arrow-right-24: The two problems](optimization-ml.md)
 

@@ -2,6 +2,11 @@
 
 [:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-03-python-gurobi.pdf)
 
+The general `gurobipy` commands (building, running, reading the solution) are in
+[LP Modelling, "Implementation: linear models"](https://fabiofurini.github.io/lp-modelling/solver-lp/)
+and in the [solver guide](https://github.com/fabiofurini/lp-modelling/blob/main/GUROBI_GUIDE.md).
+Here only what is specific to nonlinear models.
+
 **A single solver: general NLPs are solved with Gurobi too** (from version 12
 on), with the same syntax and the same checklist as the linear models.
 Nonlinear functions as functional constraints on auxiliary variables — `addGenConstrLog`,
@@ -38,6 +43,14 @@ have the same marginal reading as shadow prices. Numerical check recommended in 
 lab: perturb the right-hand side by ε and check again that
 `new_optimum ≈ old_optimum + Pi·ε`.
 
+
+## Multipliers in convex QPs
+
+In convex QPs with linear constraints the attribute `Pi` of each constraint is the KKT
+multiplier; quadratic constraints need `m.Params.QCPDual = 1` (attribute `QCPi`).
+Unlike in LPs the multiplier is exact only at the margin: the check by perturbation
+uses a small $\varepsilon$ (example in the chapter
+[Production with quadratic smoothing](production-quadratic.md)).
 
 ## Why a single solver
 

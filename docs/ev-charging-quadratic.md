@@ -1,49 +1,34 @@
-# Smart charging of electric vehicles
+# Electric vehicle charging with a smooth profile
 
-[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-10-ev-charging.pdf)
+[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-10-ev-charging-quadratic.pdf) · [:material-pencil: Exercises](#exercises)
 
-**Class:** LP / convex QP · **Script:** `python/lab10_ev_charging.py`
+**Class:** convex QP · **Script:** `python/lab10_ev_charging_quadratic.py`
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab10_ev_charging.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab10_ev_charging_quadratic.ipynb)
 
-A fleet must be fully charged by the morning by exploiting the cheap hours — but if
-all the vehicles charge together, the peak draw explodes. A problem that *seems* to
-require on/off variables and instead is a pure LP: the real decision — how much
-power — is continuous.
-
-**The problem in words.** *We decide* the power $x_{vt}$ for each vehicle and hour.
-*The objective*: minimum energy expenditure. *The constraints*: the energy required
-before departure, charging only while plugged in and below the power of the charger,
-total draw below the power of the meter.
+The case, the data and the linear model are those of
+[LP Modelling, "Smart charging of electric vehicles"](https://fabiofurini.github.io/lp-modelling/ev-charging/).
+Minimum-cost charging chases the cheap hours: the total draw rises to 103.4 kW and
+changes by up to 54.9 kW from one hour to the next. Here a **quadratic** penalty on
+the hourly jumps of the total draw is added to the objective.
 
 ## Model
 
-**Data (input of the model).**
+**What changes.** Data, variables and constraints are those of the linear model
+($x_{vt}$ power to vehicle $v$ in hour $t$, prices $\pi_t$, availability $a_{vt}$,
+energy $e_v$, powers $\bar p_v$, base load $b_t$, meter $k$, efficiency $\eta$). A
+single datum is added:
 
 | Symbol | Type | Meaning |
 |---|---|---|
-| $n$ | $\in \mathbb{Z}_{\ge 1}$ | number of vehicles, indexed by $v \in \{1, 2, \dots, n\}$ |
-| $m$ | $\in \mathbb{Z}_{\ge 1}$ | number of hourly intervals, indexed by $t \in \{1, 2, \dots, m\}$, of duration $\Delta t$ (here $\Delta t = 1$ h) |
-| $\pi_t$ | $\in \mathbb{Q}_{\ge 0}$ | energy price in hour $t$ (€/kWh) |
-| $a_{vt}$ | $\in \{0, 1\}$ | observed *datum*: $1$ if vehicle $v$ is plugged in during hour $t$, $0$ otherwise |
-| $e_v$ | $\in \mathbb{Q}_{> 0}$ | energy required by vehicle $v$ before departure (kWh) |
-| $\bar p_v$ | $\in \mathbb{Q}_{> 0}$ | maximum charging power of vehicle $v$ (kW) |
-| $b_t$ | $\in \mathbb{Q}_{\ge 0}$ | base load of the building in hour $t$ (kW) |
-| $k$ | $\in \mathbb{Q}_{> 0}$ | maximum power that can be drawn from the meter (kW) |
-| $\eta$ | $\in \mathbb{Q},\ 0 < \eta \le 1$ | charging efficiency |
+| $\gamma$ | $\in \mathbb{Q}_{\ge 0}$ | weight of the jumps of the total draw (€ per kW²) |
 
-**Decision variables.** We introduce the following $n\,m$ non-negative variables:
-
-$$
-x_{vt} = \text{power assigned to vehicle } v \text{ in hour } t \text{ (kW)},
-\qquad \forall v \in \{1, 2, \dots, n\},~\forall t \in \{1, 2, \dots, m\}.
-$$
-
-Using these variables, an LP model for the problem is the following:
+With $z_t = b_t + \sum_{v=1}^{n} x_{vt}$ (a linear expression, not a new variable), a
+QP model for the problem is the following:
 
 $$
 \begin{aligned}
-\min ~~ \sum_{v=1}^{n} \sum_{t=1}^{m} \pi_t\, \Delta t\, x_{vt} & & \\
+\min ~~ \sum_{v=1}^{n} \sum_{t=1}^{m} \pi_t\, \Delta t\, x_{vt} + \gamma \sum_{t=2}^{m} \bigl( z_t - z_{t-1} \bigr)^{2} & & \\
 \text{subject to} \quad \eta \sum_{t=1}^{m} \Delta t\, x_{vt} &\ge e_v, & \forall v \in \{1, 2, \dots, n\}, \\
 \sum_{v=1}^{n} x_{vt} + b_t &\le k, & \forall t \in \{1, 2, \dots, m\}, \\
 x_{vt} &\le a_{vt}\, \bar p_v, & \forall v \in \{1, 2, \dots, n\},~\forall t \in \{1, 2, \dots, m\}, \\
@@ -53,127 +38,108 @@ $$
 
 Description of the objective function and of the constraints:
 
-- the linear objective function minimizes the energy expenditure of the night: the
-  power $x_{vt}$ delivered for the duration $\Delta t$ costs
-  $\pi_t\, \Delta t\, x_{vt}$ euros;
-- the linear **energy** constraints ensure that every vehicle receives all the energy
-  it requires before departure; the efficiency $\eta$ stands on the left: of the
-  energy that is drawn, only the fraction $\eta$ ends up in the battery ($n$ linear
-  constraints);
-- the linear **grid** constraints impose that the overall draw (charging plus base
-  load) never exceeds the power of the meter: these are the constraints that couple
-  the vehicles to each other ($m$ linear constraints);
-- the linear **power** constraints limit the power of every vehicle to that of its
-  charger and set it to zero in the hours in which the vehicle is absent
-  ($a_{vt} = 0$): availability is a *datum*, not a decision, and this is why no
-  binary variables are needed ($n\,m$ linear constraints);
-- the non-negativity constraints on $x_{vt}$ define the variables of the model.
+- the quadratic objective function adds to the energy spend the weight $\gamma$ times
+  the square of every hourly jump of the total draw;
+- the linear **energy** constraints guarantee the requirement of every vehicle
+  ($n$ linear constraints);
+- the linear **grid** constraints limit the draw at the meter ($m$ linear constraints);
+- the linear **power** constraints limit every vehicle and set it to zero when it is
+  absent ($n\,m$ linear constraints);
+- the non-negativity constraints define the variables of the model.
 
-Variants: peak shaving ($\min z$ with $\sum_{v=1}^{n} x_{vt} + b_t \le z$ for every
-$t \in \{1, 2, \dots, m\}$); smooth profile (QP with
-$\gamma \sum_{t=2}^{m} (z_t - z_{t-1})^2$); multi-objective cost $+\,\rho\,z$.
-The energy constraint is written as $\ge$ because charging more than necessary is
-allowed but never worthwhile (the price is positive): at the optimum it holds with
-equality.
+The jumps are those of the **total** draw, base load included: charging can also
+soften the ramps of the building.
 
-!!! example "Worked example by hand (1 vehicle, 2 hours)"
-    $e = 10$ kWh ($\eta = 1$), prices $\pi_1 = 0{,}10$ and $\pi_2 = 0{,}20$ €/kWh,
-    $\bar p = 8$ kW: we charge 8 kWh in the cheap hour and 2 in the expensive one
-    (cost $8 \cdot 0{,}10 + 2 \cdot 0{,}20 = 1{,}20$ €). Shadow price of the energy
-    requirement = 0.20 €/kWh (the price of the *marginal hour*); shadow price of the
-    power limit in hour 1 = 0.10 €/kW. With $\bar p = 12$: everything in the cheap
-    hour, cost 1.00 €, dual of the requirement 0.10 and dual of the power 0
-    (constraint not active).
+!!! example "Worked example (1 vehicle, 2 hours)"
+    $e = 10$ kWh, $\eta = 1$, prices $0.10$ and $0.20$ €/kWh, $\bar p = 12$ kW. The
+    linear model charges everything in the cheap hour. With $\gamma = 0.01$ the solver
+    gives $\tilde x = (6.25;\ 3.75)$, $\tilde z = 1.4375$ and energy multiplier
+    $0.15$. With $x_1 = 5 + d$ the objective is $1.5 - 0.1d + 4\gamma d^2$, with
+    minimum at $d = 1/(80\gamma)$ (for $\gamma \ge 1/400$). Stationarity gives
+    $\lambda = (0.10 + 0.20)/2 = 0.15$: the marginal kWh costs the **average** of the
+    two prices.
 
-## Case study
-
-Six vans with different night windows, meter $k = 120$ kW, $\eta = 0{,}95$.
+## Results
 
 ```text
-Minimum cost   : 20.36 EUR/night   peak draw 103.4 kW (limit 120)
-Peak shaving   : minimum possible peak 68.0 kW
-Shadow prices of the energy requirement (EUR/kWh):
-  V1 0.0947   V2 0.0842   V3 0.0842   V4 0.0947   V5 0.0947   V6 0.0842
+gamma = 0.000: spend 20.36  peak 103.4 kW  largest jump 54.9  sum jumps^2 7268.4
+gamma = 0.001: spend 21.76  peak  77.3 kW  largest jump 15.4  sum jumps^2 1188.4
+gamma = 0.010: spend 24.67  peak  68.0 kW  largest jump 10.0  sum jumps^2  298.2
 ```
 
-![Draw profiles](img/cap10_profili.png)
+![Total draw for three values of gamma](img/cap10_profili_qp.png)
 
-The shadow prices of the energy requirement are equal to $0{,}0842 = 0{,}08/\eta$ or
-$0{,}0947 = 0{,}09/\eta$: they are the prices of the **marginal hours** of each
-vehicle (the cheapest hour still free within its window), corrected for the
-efficiency. V2, V3 and V6 have windows that cover the hours at $0{,}08$; V1, V4 and
-V5 arrive late or leave early and their marginal hour costs $0{,}09$. One additional
-kWh of requirement therefore costs between 8.4 and 9.5 cents depending on the
-vehicle.
+With $\gamma = 0.01$ the smooth profile costs €4.31 more per night and brings the peak
+to 68 kW, the lowest possible. The linear compromise cost + ρ·peak of LP Modelling
+reached the same peak spending less, because it only looks at the maximum; the QP also
+pays to soften every ramp.
 
 ## Sensitivity
 
-![Cost-peak frontier](img/cap10_frontiera.png)
-
 ```text
-Trade-off cost + rho*peak:
-  rho = 0.00: cost 20.36  peak 103.4     rho = 0.20: cost 22.15  peak 68.0
-  rho = 0.05: cost 20.69  peak  86.5     rho = 0.50: cost 22.15  peak 68.0
-  rho = 0.10: cost 21.39  peak  74.9
-Meter capacity:
-  k = 60, 65 kW: INFEASIBLE     k = 80: 21.09     k = 120: 20.36
-  k = 70 kW    : 21.93          k = 90: 20.63
+          V1      V2      V3      V4      V5      V6   (EUR/kWh)
+g=0     0.0947  0.0842  0.0842  0.0947  0.0947  0.0842
+g=0.001 0.0886  0.0886  0.0886  0.0886  0.0886  0.0886
+g=0.01  0.0916  0.0916  0.0916  0.0916  0.0916  0.0916
+Check (g = 0.01): e_1 + 1 kWh -> 0.0917;  e_1 + 0.01 kWh -> 0.0916
 ```
 
-Cutting the peak from 103 to 75 kW (−28%) costs only one euro per night; getting
-down to 68 kW costs less than two. The pure minimax (peak 68) without the cost term
-would spend 27.79 €: the trade-off with $\rho = 0{,}2$ achieves the *same* peak at
-22.15 € — never optimize a single objective when there are two of them.
+!!! note "A single price for all vehicles"
+    In the linear model every vehicle has its own marginal kWh; in the QP the
+    multipliers coincide, because the penalty links the vehicles through the total
+    draw.
 
-!!! warning "An instructive bug (which really happened)"
-    In the constraint `quicksum(x) + base[t] <= C` Gurobi moves the constant into the
-    right-hand side: the stored RHS is `C - base[t]`. Whoever writes `v.RHS = newC`
-    is relaxing the wrong constraint. When a sensitivity analysis changes nothing,
-    suspect your own code before suspecting the model.
+![Spend-jitter frontier](img/cap10_frontiera_qp.png)
 
+!!! tip "Management take-away"
+    The frontier is steep at first: with €1.15 more per night ($\gamma = 0.0005$) the
+    sum of the squared jumps falls from 7,268 to 1,563. Beyond $\gamma = 0.1$ every
+    further smoothing costs a lot.
 
 ## Code
 
-The complete script of the chapter — data, model, solution, sensitivity and figures —
-is [`python/lab10_ev_charging.py`](https://github.com/fabiofurini/nlp-modelling/blob/main/python/lab10_ev_charging.py)
-(reproducible with `python3 python/lab10_ev_charging.py` from the `python/` folder).
+The full script of the chapter is
+[`python/lab10_ev_charging_quadratic.py`](https://github.com/fabiofurini/nlp-modelling/blob/main/python/lab10_ev_charging_quadratic.py)
+(reproducible with `python3 lab10_ev_charging_quadratic.py` from the `python/`
+folder); the same code is in the notebook that opens in Colab from the badge at the
+top of the page.
 
-The same code is also available as a notebook — [`notebooks/lab10_ev_charging.ipynb`](https://github.com/fabiofurini/nlp-modelling/blob/main/notebooks/lab10_ev_charging.ipynb) — which opens in Colab from the badge at the top of the page and runs in the browser, with nothing to install.
-
-??? example "Show the full script — `lab10_ev_charging.py`"
+??? example "Show the full script — `lab10_ev_charging_quadratic.py`"
 
     ```python
-    """Chapter 10 — Smart charging of electric vehicles (LP / convex QP).
+    """Chapter 10 — Electric vehicle charging with a smooth profile (convex QP).
 
-    Case study: a company depot with 6 electric vans to be charged overnight;
-    hourly energy prices; base load of the building.
+    Case study: the same as the linear charging model (LP Modelling): a company
+    depot with 6 electric vans to be charged overnight, hourly energy prices,
+    base load of the building. Here a quadratic penalty on the changes of the
+    total power draw is added to the objective.
 
     Contents:
-      1. Minimum-cost LP: charging chases the cheap hours
-      2. Peak shaving: minimise the peak withdrawal (minimax)
-      3. Smooth profile (QP) and multi-objective cost-peak comparison
-      4. Shadow prices: grid capacity and energy requirement
+      1. Data (the same as in the linear case)
+      2. Worked example: one vehicle, two hours
+      3. The QP on the case study for three values of gamma
+      4. Energy-requirement multipliers in the QP and check by perturbation
+      5. Sensitivity: the cost-jitter frontier as gamma varies
     """
     import gurobipy as gp
     import numpy as np
     import pandas as pd
     from gurobipy import GRB
 
-    from stile import (ARANCIO, GRIGIO, ROSSO, TEAL, intestazione, plt, salva_dat, salva_dati,
-                       salva_figura)
+    from stile import (ARANCIO, GRIGIO, ROSSO, TEAL, VERDE, intestazione, plt, salva_dat,
+                       salva_dati, salva_figura)
 
     # ----------------------------------------------------------------------
-    # 1. DATA
+    # 1. DATA (the same as in the linear case)
     # ----------------------------------------------------------------------
+    # The data are those of the linear case in LP Modelling: they are written here (same seed),
+    # so that the script also runs in Colab; the CSV files live in the LP Modelling repository.
     ore = list(range(24))                      # hour t = [t, t+1)
-    # price €/kWh: high during the day and in the evening peak, low at night
     prezzo = np.array([0.09, 0.08, 0.07, 0.07, 0.08, 0.10, 0.14, 0.18, 0.20, 0.19,
                        0.17, 0.16, 0.15, 0.15, 0.16, 0.18, 0.21, 0.24, 0.26, 0.24,
                        0.20, 0.15, 0.12, 0.10])
-    # base load of the building (kW)
     base = np.array([22, 20, 19, 19, 20, 24, 35, 48, 60, 63, 65, 64,
                      62, 61, 62, 64, 66, 68, 62, 55, 45, 36, 30, 25], dtype=float)
-
     veicoli = [f"V{k}" for k in range(1, 7)]
     # (arrival hour, departure hour, required energy kWh, max power kW)
     flotta = {
@@ -182,136 +148,147 @@ The same code is also available as a notebook — [`notebooks/lab10_ev_charging.
     }
     eta = 0.95            # charging efficiency
     C_rete = 120.0        # maximum power that can be drawn from the meter (kW)
-
     disp = {(v, t): 1 if (flotta[v][0] <= t or t < flotta[v][1]) else 0
             for v in veicoli for t in ore}      # windows that straddle midnight
 
-    salva_dati(pd.DataFrame({"hour": ore, "price": prezzo, "base_load": base}), "ev_prezzi_base")
-    salva_dati(pd.DataFrame([(v, *flotta[v]) for v in veicoli],
-                            columns=["vehicle", "arrival", "departure", "energy_kWh", "pmax_kW"]),
-               "ev_flotta")
 
 
-    def costruisci():
-        m = gp.Model("ev_charging")
+    def costruisci_qp(gamma, energia=None):
+        """QP: energy spend + gamma * sum of the squared jumps of the total draw."""
+        energia = energia or {v: flotta[v][2] for v in veicoli}
+        m = gp.Model("ev_charging_qp")
         m.Params.OutputFlag = 0
         x = m.addVars(veicoli, ore, name="x")       # charging power (kW)
         for v in veicoli:
             for t in ore:
                 x[v, t].UB = flotta[v][3] * disp[v, t]     # 0 if not plugged in
-        v_ene = m.addConstrs((eta * gp.quicksum(x[v, t] for t in ore) >= flotta[v][2]
+        v_ene = m.addConstrs((eta * gp.quicksum(x[v, t] for t in ore) >= energia[v]
                               for v in veicoli), name="energy")
-        v_rete = m.addConstrs((gp.quicksum(x[v, t] for v in veicoli) + base[t] <= C_rete
-                               for t in ore), name="grid")
-        return m, x, v_ene, v_rete
+        m.addConstrs((gp.quicksum(x[v, t] for v in veicoli) + base[t] <= C_rete for t in ore),
+                     name="grid")
+        z = {t: gp.quicksum(x[v, t] for v in veicoli) + base[t] for t in ore}
+        spesa = gp.quicksum(prezzo[t] * x[v, t] for v in veicoli for t in ore)
+        salti = gp.quicksum((z[t] - z[t - 1]) * (z[t] - z[t - 1]) for t in ore[1:])
+        m.setObjective(spesa + gamma * salti, GRB.MINIMIZE)
+        return m, x, v_ene
 
 
-    def profilo(x):
-        return np.array([sum(x[v, t].X for v in veicoli) for t in ore])
+    def leggi(x):
+        carica = np.array([sum(x[v, t].X for v in veicoli) for t in ore])
+        z = carica + base
+        salti = np.diff(z)
+        spesa = float(prezzo @ carica)
+        return spesa, z, salti, float((salti ** 2).sum())
 
 
     # ----------------------------------------------------------------------
-    # 2. MINIMUM-COST LP
+    # 2. WORKED EXAMPLE: ONE VEHICLE, TWO HOURS
     # ----------------------------------------------------------------------
-    intestazione("LP: minimum energy cost")
-    m, x, v_ene, v_rete = costruisci()
-    m.setObjective(gp.quicksum(prezzo[t] * x[v, t] for v in veicoli for t in ore), GRB.MINIMIZE)
-    m.optimize()
-    assert m.Status == GRB.OPTIMAL
-    prof_costo = profilo(x)
-    costo_min = m.ObjVal
-    picco_costo = (prof_costo + base).max()
-    print(f"Charging cost: {costo_min:.2f} €   peak withdrawal: {picco_costo:.1f} kW "
-          f"(limit {C_rete:.0f})")
-    print("\nShadow prices of the energy requirement (marginal cost of 1 more kWh per vehicle):")
+    intestazione("Worked example: one vehicle, two hours (e = 10, prices 0.10 and 0.20, p_max = 12)")
+    for g in (0.0, 0.01, 0.1):
+        me = gp.Model("example")
+        me.Params.OutputFlag = 0
+        x1 = me.addVar(ub=12, name="x1")
+        x2 = me.addVar(ub=12, name="x2")
+        ce = me.addConstr(x1 + x2 >= 10, name="energy")
+        me.setObjective(0.10 * x1 + 0.20 * x2 + g * (x2 - x1) * (x2 - x1), GRB.MINIMIZE)
+        me.optimize()
+        print(f"  gamma = {g:4.2f}: x1 = {x1.X:6.3f}  x2 = {x2.X:6.3f}  spend = "
+              f"{0.10 * x1.X + 0.20 * x2.X:6.4f}  objective = {me.ObjVal:6.4f}  Pi = {ce.Pi:.4f}")
+    print(f"  formula: x1 = 5 + 1/(80 gamma); with gamma = 0.01: x1 = {5 + 1 / (80 * 0.01):.2f}")
+
+    # ----------------------------------------------------------------------
+    # 3. THE QP ON THE CASE STUDY
+    # ----------------------------------------------------------------------
+    intestazione("QP on the case study: three values of gamma")
+    GAMMA = [0.0, 0.001, 0.01]
+    ris = {}
+    for g in GAMMA:
+        m, x, v_ene = costruisci_qp(g)
+        m.optimize()
+        assert m.Status == GRB.OPTIMAL
+        spesa, z, salti, sq = leggi(x)
+        ris[g] = dict(obj=m.ObjVal, spesa=spesa, z=z, salti=salti, sq=sq,
+                      pi={v: v_ene[v].Pi for v in veicoli})
+        print(f"gamma = {g:5.3f}: objective {m.ObjVal:7.2f} €  spend {spesa:6.2f} €  "
+              f"peak {z.max():6.1f} kW  largest jump {np.abs(salti).max():5.1f} kW  "
+              f"sum of jumps^2 {sq:8.1f}")
+    print(f"\nCost of smoothness (gamma = 0.01): "
+          f"{ris[0.01]['spesa'] - ris[0.0]['spesa']:.2f} € per night")
+
+    # ----------------------------------------------------------------------
+    # 4. ENERGY-REQUIREMENT MULTIPLIERS IN THE QP
+    # ----------------------------------------------------------------------
+    intestazione("Energy-requirement multipliers (€/kWh)")
     for v in veicoli:
-        print(f"  {v}: {v_ene[v].Pi:.4f} €/kWh")
+        print(f"  {v}: gamma=0 {ris[0.0]['pi'][v]:.4f}   gamma=0.001 {ris[0.001]['pi'][v]:.4f}   "
+              f"gamma=0.01 {ris[0.01]['pi'][v]:.4f}")
+    base_obj = ris[0.01]["obj"]
+    for eps in (1.0, 0.01):
+        en = {v: flotta[v][2] for v in veicoli}
+        en["V1"] += eps
+        m2, _, _ = costruisci_qp(0.01, en)
+        m2.optimize()
+        print(f"Check (gamma = 0.01): e_1 + {eps:g} kWh -> objective from {base_obj:.4f} to "
+              f"{m2.ObjVal:.4f} (difference quotient {(m2.ObjVal - base_obj) / eps:.4f}; "
+              f"Pi = {ris[0.01]['pi']['V1']:.4f})")
 
     # ----------------------------------------------------------------------
-    # 3. PEAK SHAVING (minimax) and SMOOTH PROFILE (QP)
+    # 5. SENSITIVITY: COST-JITTER FRONTIER
     # ----------------------------------------------------------------------
-    intestazione("Peak shaving: minimise the peak withdrawal")
-    mp, xp, _, _ = costruisci()
-    z = mp.addVar(name="peak")
-    mp.addConstrs((gp.quicksum(xp[v, t] for v in veicoli) + base[t] <= z for t in ore),
-                  name="peak_def")
-    mp.setObjective(z, GRB.MINIMIZE)
-    mp.optimize()
-    prof_picco = profilo(xp)
-    costo_picco = sum(prezzo[t] * prof_picco[t] for t in ore)
-    print(f"Lowest achievable peak: {mp.ObjVal:.1f} kW   cost: {costo_picco:.2f} € "
-          f"(+{costo_picco - costo_min:.2f} € with respect to the minimum cost)")
-
-    intestazione("Trade-off: cost + rho · peak")
-    compromessi = []
-    for rho in [0, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0]:
-        mc, xc, _, _ = costruisci()
-        zc = mc.addVar(name="peak")
-        mc.addConstrs((gp.quicksum(xc[v, t] for v in veicoli) + base[t] <= zc for t in ore))
-        mc.setObjective(gp.quicksum(prezzo[t] * xc[v, t] for v in veicoli for t in ore)
-                        + rho * zc, GRB.MINIMIZE)
-        mc.optimize()
-        cc = sum(prezzo[t] * xc[v, t].X for v in veicoli for t in ore)
-        compromessi.append((rho, cc, zc.X))
-        print(f"  rho = {rho:4.2f}: cost {cc:6.2f} €, peak {zc.X:6.1f} kW")
-    salva_dati(pd.DataFrame(compromessi, columns=["rho", "cost", "peak"]), "ev_compromessi")
+    intestazione("Cost-jitter frontier as gamma varies")
+    griglia = [0.0, 0.0005, 0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.5]
+    front = []
+    for g in griglia:
+        m, x, _ = costruisci_qp(g)
+        m.optimize()
+        spesa, z, salti, sq = leggi(x)
+        front.append((g, spesa, sq, float(np.abs(salti).max()), float(z.max())))
+        print(f"  gamma = {g:6.4f}: spend {spesa:6.2f} €  sum of jumps^2 {sq:8.1f}  "
+              f"largest jump {np.abs(salti).max():5.1f} kW  peak {z.max():6.1f} kW")
+    front = pd.DataFrame(front, columns=["gamma", "spend", "squared_jumps", "largest_jump", "peak"])
+    salva_dati(front, "ev_frontiera_regolarita")
 
     # ----------------------------------------------------------------------
-    # 4. SENSITIVITY: capacity of the meter
+    # 6. FIGURES (pgfplots data + matplotlib preview)
     # ----------------------------------------------------------------------
-    intestazione("Sensitivity: capacity of the grid connection")
-    # careful: in the constraint "sum x + base[t] <= C" Gurobi moves the constant base[t]
-    # into the right-hand side; the stored RHS is C - base[t], so it must be updated like this:
-    for CC in [60, 65, 70, 80, 90, 120]:
-        ms, xs_, _, vr = costruisci()
-        for t in ore:
-            vr[t].RHS = CC - base[t]
-        ms.setObjective(gp.quicksum(prezzo[t] * xs_[v, t] for v in veicoli for t in ore),
-                        GRB.MINIMIZE)
-        ms.optimize()
-        esito = f"cost {ms.ObjVal:6.2f} €" if ms.Status == GRB.OPTIMAL else "INFEASIBLE"
-        print(f"  C_grid = {CC:3d} kW: {esito}")
+    salva_dat(pd.DataFrame({"ora": ore, "prezzo_cent": prezzo * 100, "base": base,
+                            "gzero": ris[0.0]["z"], "gpiccolo": ris[0.001]["z"],
+                            "ggrande": ris[0.01]["z"]}), "cap10_profili_qp")
+    salva_dat(front[front["gamma"] > 0], "cap10_frontiera_qp")
 
-    # ----------------------------------------------------------------------
-    # 5. FIGURES (pgfplots data + matplotlib preview)
-    # ----------------------------------------------------------------------
-    salva_dat(pd.DataFrame({"hour": ore, "price_cent": prezzo * 100, "base": base,
-                            "totcost": base + prof_costo, "totpeak": base + prof_picco}),
-              "cap10_profili")
-    salva_dat(pd.DataFrame(compromessi, columns=["rho", "cost", "peak"]), "cap10_frontiera")
+    fig, ax = plt.subplots(figsize=(8.2, 4.2))
+    ax.plot(ore, base, color=GRIGIO, ls="--", label="base load")
+    for g, c in zip(GAMMA, [TEAL, ARANCIO, VERDE]):
+        ax.plot(ore, ris[g]["z"], color=c, lw=2, drawstyle="steps-mid",
+                label=f"$\\gamma$ = {g} (spend {ris[g]['spesa']:.2f} €)")
+    ax.axhline(C_rete, color=ROSSO, ls=":", label=f"grid limit {C_rete:.0f} kW")
+    ax.set_xlabel("hour of the day"); ax.set_ylabel("total draw (kW)")
+    ax.set_title("The quadratic term smooths the draw profile")
+    ax.legend(fontsize=8, ncol=2)
+    salva_figura(fig, "cap10_profili_qp")
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8.2, 6.4), sharex=True)
-    ax1.bar(ore, prezzo * 100, color=GRIGIO, alpha=0.6)
-    ax1.set_ylabel("price (c€/kWh)")
-    ax1.set_title("Hourly energy price")
-    ax2.plot(ore, base, color=GRIGIO, ls="--", label="base load")
-    ax2.plot(ore, base + prof_costo, color=TEAL, lw=2, drawstyle="steps-mid",
-             label="minimum cost")
-    ax2.plot(ore, base + prof_picco, color=ARANCIO, lw=2, drawstyle="steps-mid",
-             label="peak shaving")
-    ax2.axhline(C_rete, color=ROSSO, ls=":", label=f"grid limit {C_rete:.0f} kW")
-    ax2.set_xlabel("hour of the day"); ax2.set_ylabel("total withdrawal (kW)")
-    ax2.set_title("Withdrawal profile: chasing prices creates a night-time peak")
-    ax2.legend(fontsize=8, ncol=2)
-    salva_figura(fig, "cap10_profili")
-
-    comp = pd.DataFrame(compromessi, columns=["rho", "cost", "peak"])
+    f2 = front[front["gamma"] > 0]
     fig, ax = plt.subplots()
-    ax.plot(comp["peak"], comp["cost"], "-o", color=TEAL)
-    for _, r in comp.iterrows():
-        ax.annotate(f"  $\\rho$={r['rho']:.2f}", (r["peak"], r["cost"]), fontsize=8)
-    ax.set_xlabel("peak withdrawal (kW)")
-    ax.set_ylabel("charging cost (€)")
-    ax.set_title("Cost-peak frontier: cutting the peak is cheap at first")
-    salva_figura(fig, "cap10_frontiera")
+    ax.plot(f2["squared_jumps"], f2["spend"], "-o", color=TEAL)
+    ax.axhline(ris[0.0]["spesa"], color=ARANCIO, ls="--", label="spend of the LP plan")
+    ax.set_xscale("log")
+    ax.set_xlabel("sum of the squared jumps (kW²)")
+    ax.set_ylabel("charging spend (€)")
+    ax.set_title("Cost-jitter frontier")
+    ax.legend()
+    salva_figura(fig, "cap10_frontiera_qp")
 
     print("\nDone: chapter 10.")
     ```
 
 ## Exercises
 
-1. $e_1: 46 \to 47$ kWh: cost $+0{,}0947 = 0{,}09/0{,}95$ (verified).
-2. V3 arrives at 23: how do cost and peak change?
-3. Smooth profile QP with $\gamma \sum_t (z_t - z_{t-1})^2$.
-4. Cost-emissions frontier with an hourly carbon intensity $g_t$.
-5. Minimum feasible capacity by bisection: $\tilde k = 68$ kW.
+1. **By hand** — in the example set $\gamma = 0.05$: compute $x_1$, $x_2$, spend,
+   optimal value and multiplier.
+2. **Check** — with $\gamma = 0.001$ verify by perturbation the energy multiplier of V3.
+3. **Charging only** — penalize the jumps of $\sum_v x_{vt}$ instead of $z_t$, with
+   $\gamma = 0.01$.
+4. **Penalty on power** — replace the penalty with $\gamma \sum_t z_t^2$,
+   $\gamma = 0.001$: what shape does the night draw take?
+5. **Meter** — with $\gamma = 0.001$ reduce the meter to $k = 70$ kW.
