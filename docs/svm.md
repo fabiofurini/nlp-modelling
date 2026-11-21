@@ -1,6 +1,6 @@
 # Support Vector Machine: optimization for machine learning
 
-[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-12-svm.pdf)
+[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-12-svm.pdf) · [:material-gesture-tap: App: SVM: margin and support vectors](lab/svm-margin.md)
 
 **Class:** convex QP · **Script:** `python/lab12_svm.py`
 

@@ -1,6 +1,6 @@
 # The Markowitz portfolio
 
-[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-06-markowitz.pdf)
+[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-06-markowitz.pdf) · [:material-gesture-tap: App: Markowitz: optimal portfolio and frontier](lab/markowitz-frontier.md)
 
 **Class:** convex QP · **Script:** `python/lab06_markowitz.py`
 

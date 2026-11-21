@@ -1,6 +1,6 @@
 # Least-squares regression
 
-[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-13-least-squares.pdf) · [:material-pencil: Exercises](#exercises)
+[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-13-least-squares.pdf) · [:material-pencil: Exercises](#exercises) · [:material-gesture-tap: App: Least squares versus least absolute deviations](lab/least-squares-vs-lp.md)
 
 **Class:** convex QP · **Script:** `python/lab13_least_squares.py`
 

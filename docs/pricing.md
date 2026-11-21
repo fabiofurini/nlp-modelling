@@ -1,6 +1,6 @@
 # Pricing and revenue management
 
-[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-07-pricing.pdf)
+[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-07-pricing.pdf) · [:material-gesture-tap: App: Optimal price with capacity](lab/optimal-price.md)
 
 **Class:** concave / non-convex NLP · **Script:** `python/lab07_pricing.py`
 

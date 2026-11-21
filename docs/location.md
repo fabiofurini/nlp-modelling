@@ -1,6 +1,6 @@
 # Continuous location of a service
 
-[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-09-location.pdf)
+[:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-09-location.pdf) · [:material-gesture-tap: App: Location: efficiency versus equity](lab/location.md)
 
 **Class:** convex NLP · **Script:** `python/lab09_location.py`
 

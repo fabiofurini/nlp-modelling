@@ -30,6 +30,7 @@ with Python/Gurobi code and reproducible case studies.
 Prerequisites: [LP Modelling](https://fabiofurini.github.io/lp-modelling/) and [Convex Optimization](https://fabiofurini.github.io/convex-optimization/).
 
 [Start :material-arrow-right:](tools.md){ .md-button .md-button--primary }
+[:material-gesture-tap: Lab](lab/index.md){ .md-button }
 [:material-clipboard-check-outline: Quiz](self-assessment.md){ .md-button }
 [:material-download: Downloads](downloads.md){ .md-button }
 
@@ -38,13 +39,11 @@ Prerequisites: [LP Modelling](https://fabiofurini.github.io/lp-modelling/) and [
 <!-- collana-app -->
 ## Try it now
 
-Markowitz's efficient frontier: every point is an optimal portfolio for a level of risk. Open the notebook in Colab, change the data and solve it again with Gurobi, with nothing to install.
+Three nonlinear models of the course solved to optimality in the browser: the Markowitz portfolio, the optimal price with capacity and the location of a service. Choose the model at the top right, change the required return or the other data with the sliders and watch the optimal solution being recomputed, with its position on the efficient frontier.
 
-[![](img/cap06_frontiera.png)](markowitz.md)
+<div class="gi" data-grafico="pnl-modelli"></div>
 
-[:simple-googlecolab: Open the notebook in Colab](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab06_markowitz.ipynb){ .md-button .md-button--primary }
-[:material-book-open-variant: The chapter](markowitz.md){ .md-button }
-[:material-language-python: All the notebooks](notebooks.md){ .md-button }
+[:material-gesture-tap: More apps in the lab](lab/index.md){ .md-button }
 <!-- /collana-app -->
 
 ## The parts of the course
@@ -92,6 +91,14 @@ Markowitz's efficient frontier: every point is an optimal portfolio for a level 
     A new mock exam at every start: 13 questions, 33 points, with the solution and the link to the notes. Downloads also has the full question bank.
 
     [:octicons-arrow-right-24: Test yourself](self-assessment.md)
+
+-   :material-gesture-tap: **Interactive lab**
+
+    ---
+
+    Apps running in the browser: move the parameters and watch the ideas of the course at work, one step at a time.
+
+    [:octicons-arrow-right-24: The lab](lab/index.md)
 
 -   :material-download: **Lecture notes in PDF**
 
