@@ -85,11 +85,11 @@ Three nonlinear models of the course solved to optimality in the browser: the Ma
 
 <div class="grid cards" markdown>
 
--   :material-pencil-box-multiple: **Exercises with solutions**
+-   :material-pencil-box-multiple: **Exercises**
 
     ---
 
-    Exercises for every chapter, each with its worked solution that opens with a click.
+    Modelling exercises for every chapter, at exam level, on the case studies of the course.
 
     [:octicons-arrow-right-24: The exercises](exercises/index.md)
 
