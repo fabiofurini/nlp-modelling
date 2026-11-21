@@ -6,7 +6,7 @@
   <a href="https://fabiofurini.github.io/">personal website</a>
 </p>
 
-# Operations Research Lab
+# NLP Modelling
 
 > **The author.** Since September 2021 Fabio Furini has been an associate
 > professor at DIAG, Sapienza University of Rome. Ph.D. in Control Engineering
@@ -18,73 +18,62 @@
 > researcher at IASI-CNR in Rome.
 > Personal website: <https://fabiofurini.github.io/>
 
-Continuous optimization models — the course lecture
-notes in online form, with Python/Gurobi code, data and case studies.
+Nonlinear programming models — the online version of the course lecture notes, with
+Python/Gurobi code and reproducible case studies. Prerequisites:
+[LP Modelling](https://fabiofurini.github.io/lp-modelling/) and
+[Convex Optimization](https://fabiofurini.github.io/convex-optimization/).
 
 **📖 Online lecture notes: [fabiofurini.github.io/nlp-modelling](https://fabiofurini.github.io/nlp-modelling/)**
 
-**▶️ Runnable notebooks in Colab: [the list of chapters](https://fabiofurini.github.io/nlp-modelling/notebooks/)** — they run in the browser, with nothing to install.
+**▶️ Notebooks runnable in Colab: [the list of chapters](https://fabiofurini.github.io/nlp-modelling/notebooks/)** — they run in the browser, with nothing to install.
 
 ## Download as PDF
 
-- [Full lecture notes](https://fabiofurini.github.io/nlp-modelling/pdf/nlp-modelling-notes.pdf) (127 pages)
+- [Full lecture notes](https://fabiofurini.github.io/nlp-modelling/pdf/nlp-modelling-notes.pdf)
 - [Lecture slides](https://fabiofurini.github.io/nlp-modelling/downloads/), one deck per chapter, on the downloads page
 
 ## Contents
 
 **Tools**
 
-- [Theory: linear programming](https://fabiofurini.github.io/nlp-modelling/theory-lp/) — duality, complementary slackness, shadow prices and sensitivity
 - [Theory: nonlinear optimization](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/) — convexity, QP, KKT conditions
-- [Solver: linear models](https://fabiofurini.github.io/nlp-modelling/solver-lp/) — building the model, running it, reading and interpreting the solution
-- [Solver: nonlinear models](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/) — function constraints, bilinear terms, tolerances
+- [Solver: nonlinear models](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/) — quadratic objectives, functional and bilinear constraints, multipliers
 
 **Deterministic models**
 
-- [Multi-period production and inventory](https://fabiofurini.github.io/nlp-modelling/production/) — LP/QP
-- [Supply chain with congestion and CO₂](https://fabiofurini.github.io/nlp-modelling/supplychain/) — LP/NLP
-- [Markowitz portfolio](https://fabiofurini.github.io/nlp-modelling/markowitz/) — QP
+- [Production with quadratic smoothing](https://fabiofurini.github.io/nlp-modelling/production-quadratic/) — convex QP
+- [Supply chain with congestion and CO₂](https://fabiofurini.github.io/nlp-modelling/supplychain/) — convex NLP
+- [Markowitz portfolio](https://fabiofurini.github.io/nlp-modelling/markowitz/) — convex QP
 - [Pricing and revenue management](https://fabiofurini.github.io/nlp-modelling/pricing/) — NLP
 - [Advertising budget](https://fabiofurini.github.io/nlp-modelling/budget/) — convex NLP
 - [Continuous location](https://fabiofurini.github.io/nlp-modelling/location/) — convex NLP
-- [Electric vehicle charging](https://fabiofurini.github.io/nlp-modelling/ev-charging/) — LP/QP
+- [Electric vehicle charging with a smooth profile](https://fabiofurini.github.io/nlp-modelling/ev-charging-quadratic/) — convex QP
 - [Queues and service capacity](https://fabiofurini.github.io/nlp-modelling/queues/) — convex NLP
-- [Data Envelopment Analysis](https://fabiofurini.github.io/nlp-modelling/dea/) — LP, relative efficiency and the dual
-
-**Decisions under uncertainty**
-
-- [The newsvendor and its variants](https://fabiofurini.github.io/nlp-modelling/newsvendor/) — stochastic LP
-- [VaR and CVaR](https://fabiofurini.github.io/nlp-modelling/var-cvar/) — scenario LP
-- [Arbitrage and pricing](https://fabiofurini.github.io/nlp-modelling/arbitrage/) — LP, the duality that prices
 
 **Optimization and machine learning**
 
-- [Support Vector Machine](https://fabiofurini.github.io/nlp-modelling/svm/) — QP
-- [Robust and quantile regression](https://fabiofurini.github.io/nlp-modelling/regression/) — LP, estimating the parameters
+- [Support Vector Machine](https://fabiofurini.github.io/nlp-modelling/svm/) — convex QP
+- [Least-squares regression](https://fabiofurini.github.io/nlp-modelling/least-squares/) — convex QP
 
 **The course**
 
-- [Lab organization](https://fabiofurini.github.io/nlp-modelling/organization/) — lab sessions, deliverables, assessment
+- [Organization of the course](https://fabiofurini.github.io/nlp-modelling/organization/) — sessions and mistakes to avoid
 
 ## Running the models
 
-Every chapter has its own script in [`python/`](python/) (`lab04`–`lab17`), with the
-data in [`data/`](data/):
+Every chapter has its script in [`python/`](python/) (`lab04`–`lab13`):
 
 ```bash
-python3 -m pip install gurobipy matplotlib pandas scipy
-python3 python/run_all.py     # all models: data, results and figures
+python3 -m pip install gurobipy matplotlib pandas
+python3 python/run_all.py          # all the models: results, figures and notebooks
 ```
 
-With nothing to install, every chapter has its own notebook in
-[`notebooks/`](notebooks/): it opens in Colab from the badge at the top of the
-chapter page (the full list is [on the website](https://fabiofurini.github.io/nlp-modelling/notebooks/))
-and runs in the browser. The notebooks are generated from the scripts —
-`python3 python/make_notebooks.py` — so the course code stays in one place.
-
-The `gurobipy` licence bundled with the pip package is enough for every model in
-the course; the free academic licence can be activated at
-[portal.gurobi.com](https://portal.gurobi.com).
+With nothing to install, every chapter has its notebook in [`notebooks/`](notebooks/): it opens in
+Colab from the badge at the top of the chapter page and runs in the browser. The notebooks are
+generated from the scripts (`python3 python/make_notebooks.py`), so the course code stays one. The
+data of the cases taken from LP Modelling (production, EV charging, bakery) live in the
+[LP Modelling](https://github.com/fabiofurini/lp-modelling) repository: the scripts here write them
+again with the same values.
 
 ## Licence
 
@@ -99,12 +88,13 @@ published: they are distributed in class.
 
 ## Versione italiana
 
-The whole lab is also available in Italian:
+The whole course is also available in Italian:
 **[fabiofurini.github.io/modellazione-pnl](https://fabiofurini.github.io/modellazione-pnl/)**
 ([repository](https://github.com/fabiofurini/modellazione-pnl)).
 
 ## Same series
 
+- [LP Modelling](https://fabiofurini.github.io/lp-modelling/)
 - [MIP Modelling](https://fabiofurini.github.io/mip-modelling/)
 - [Mathematical Analysis 1](https://fabiofurini.github.io/mathematical-analysis-1/)
 - [Linear Algebra](https://fabiofurini.github.io/linear-algebra/)
