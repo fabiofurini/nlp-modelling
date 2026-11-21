@@ -19,6 +19,22 @@ to `1e-9`; reformulate to avoid tiny quantities (e.g. `q·p^eps ≤ A` instead o
 `q ≤ A·p^(-eps)`).
 
 
+## Quadratic objectives
+
+**Quadratic** objectives (Markowitz, SVM, smoothing, least squares) are written in the
+natural way, as products of variables or of linear expressions:
+
+```python
+m.setObjective(x @ Q @ x, GRB.MINIMIZE)                  # matrix form (numpy)
+m.setObjective(gp.quicksum(q[i,j]*x[i]*x[j] for i in I for j in I), GRB.MINIMIZE)
+m.Params.NonConvex = 2      # only for non-convex QPs (e.g. pricing p*q)
+```
+
+If $\boldsymbol Q \succeq 0$ the QP is convex and no parameter is needed; with
+`NonConvex = 2` Gurobi solves non-convex QPs to global optimality as well. If `Pi` is not
+available (quadratic or functional constraints) use `m.Params.QCPDual = 1` for quadratic
+constraints, otherwise the check by perturbation.
+
 ## How they are written
 
 ```python
