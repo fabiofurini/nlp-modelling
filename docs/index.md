@@ -164,13 +164,17 @@ All the courses of the series are built the same way: lecture notes online and i
 
     performance guarantees, approximation schemes and limits of approximation for combinatorial problems
 
--   :material-vector-polygon: **[MIP Modelling](https://fabiofurini.github.io/mip-modelling/)**
+-   :material-chart-line: **[LP Modelling](https://fabiofurini.github.io/lp-modelling/)**
 
-    integer linear programming models, from the formulation to the solution with solvers
+    linear programming models of managerial problems, solved with Python and Gurobi
 
 -   :material-chart-bell-curve-cumulative: **NLP Modelling** · *this course*
 
     nonlinear programming models, from portfolios to machine learning, with Python and Gurobi
+
+-   :material-vector-polygon: **[MIP Modelling](https://fabiofurini.github.io/mip-modelling/)**
+
+    integer linear programming models, from the formulation to the solution with solvers
 
 </div>
 <!-- /collana -->
