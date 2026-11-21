@@ -9300,6 +9300,786 @@
     ],
     "spiegazione": "`Pi` is the KKT multiplier: the marginal change of the optimal value per unit of right-hand side (here exact only at the margin)."
    }
+  },
+  {
+   "id": "nlpm-f-311",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 2,
+   "it": {
+    "testo": "Da che cosa parte ogni capitolo applicativo di Modellazione PNL?",
+    "opzioni": [
+     "Da un teorema da dimostrare",
+     "Da un algoritmo da programmare",
+     "Da un problema gestionale concreto",
+     "Da un esercizio d'esame"
+    ],
+    "spiegazione": "Ogni capitolo parte da un problema gestionale concreto, lo trasforma in un modello non lineare, lo risolve con Gurobi e lo interroga."
+   },
+   "en": {
+    "testo": "What does every application chapter of NLP Modelling start from?",
+    "opzioni": [
+     "From a theorem to be proved",
+     "From an algorithm to be coded",
+     "From a concrete managerial problem",
+     "From a past exam exercise"
+    ],
+    "spiegazione": "Every chapter starts from a concrete managerial problem, turns it into a nonlinear model, solves it with Gurobi and queries it."
+   }
+  },
+  {
+   "id": "nlpm-f-312",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "Come si eseguono i modelli del corso senza installare niente?",
+    "opzioni": [
+     "Con il notebook Colab del capitolo",
+     "Solo sui computer del laboratorio",
+     "Con un foglio di calcolo",
+     "Non si può: serve sempre Gurobi in locale"
+    ],
+    "spiegazione": "Ogni capitolo ha il suo notebook che si apre in Colab e gira nel browser, senza installare niente."
+   },
+   "en": {
+    "testo": "How are the models of the course run with nothing to install?",
+    "opzioni": [
+     "With the Colab notebook of the chapter",
+     "Only on the lab computers",
+     "With a spreadsheet",
+     "They cannot: Gurobi is always needed locally"
+    ],
+    "spiegazione": "Every chapter has its own notebook that opens in Colab and runs in the browser, with nothing to install."
+   }
+  },
+  {
+   "id": "nlpm-f-313",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 3,
+   "it": {
+    "testo": "In quale parte del corso si trova il capitolo sulla Support Vector Machine?",
+    "opzioni": [
+     "Strumenti, con la teoria e il solver",
+     "Modelli deterministici",
+     "Il corso, con l'organizzazione",
+     "Ottimizzazione e machine learning"
+    ],
+    "spiegazione": "Le parti sono Strumenti, Modelli deterministici e Ottimizzazione e machine learning; la SVM e i minimi quadrati stanno nella terza."
+   },
+   "en": {
+    "testo": "In which part of the course is the chapter on the Support Vector Machine?",
+    "opzioni": [
+     "Tools, with the theory and the solver",
+     "Deterministic models",
+     "The course, with the organization",
+     "Optimization and machine learning"
+    ],
+    "spiegazione": "The parts are Tools, Deterministic models and Optimization and machine learning; the SVM and least squares are in the third one."
+   }
+  },
+  {
+   "id": "nlpm-f-314",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "Nel programma del corso, che tipo di modello è la localizzazione continua di un servizio?",
+    "opzioni": [
+     "Un LP",
+     "Un NLP convesso",
+     "Un NLP non convesso",
+     "Un problema a variabili intere"
+    ],
+    "spiegazione": "La localizzazione di Weber ha vincoli conici $d_x^2 + d_y^2 \\le d^2$: è un NLP convesso, risolto all'ottimo globale."
+   },
+   "en": {
+    "testo": "In the syllabus of the course, what kind of model is the continuous location of a service?",
+    "opzioni": [
+     "An LP",
+     "A convex NLP",
+     "A non-convex NLP",
+     "An integer programming problem"
+    ],
+    "spiegazione": "Weber location has conic constraints $d_x^2 + d_y^2 \\le d^2$: it is a convex NLP, solved to global optimality."
+   }
+  },
+  {
+   "id": "nlpm-f-315",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/"
+   },
+   "corretta": 2,
+   "it": {
+    "testo": "Quanti capitoli applicativi e quanti capitoli di strumenti ha Modellazione PNL?",
+    "opzioni": [
+     "5 applicativi e 5 di strumenti",
+     "13 applicativi e nessuno di strumenti",
+     "10 applicativi e 3 di strumenti",
+     "8 applicativi e 2 di strumenti"
+    ],
+    "spiegazione": "Il corso ha 10 capitoli applicativi (dalla produzione ai minimi quadrati) e 3 di strumenti (introduzione, teoria, solver)."
+   },
+   "en": {
+    "testo": "How many application chapters and how many tool chapters does NLP Modelling have?",
+    "opzioni": [
+     "5 application and 5 tool chapters",
+     "13 application and no tool chapters",
+     "10 application and 3 tool chapters",
+     "8 application and 2 tool chapters"
+    ],
+    "spiegazione": "The course has 10 application chapters (from production to least squares) and 3 tool chapters (introduction, theory, solver)."
+   }
+  },
+  {
+   "id": "nlpm-f-316",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "Quale di questi elementi fa di un modello del corso un NLP e non un QP?",
+    "opzioni": [
+     "Un termine $\\log(1 + k\\,x)$, come nel budget",
+     "Un obiettivo $\\sum_i r_i^2$ con vincoli lineari",
+     "Un vincolo lineare di bilancio dei flussi",
+     "Una variabile libera, senza limiti di segno"
+    ],
+    "spiegazione": "Un QP ha obiettivo quadratico e vincoli lineari; una funzione come il logaritmo della risposta al budget porta il modello fra gli NLP."
+   },
+   "en": {
+    "testo": "Which of these elements makes a model of the course an NLP rather than a QP?",
+    "opzioni": [
+     "A term $\\log(1 + k\\,x)$, as in the budget",
+     "An objective $\\sum_i r_i^2$ with linear constraints",
+     "A linear flow-balance constraint",
+     "A free variable, with no sign restriction"
+    ],
+    "spiegazione": "A QP has a quadratic objective and linear constraints; a function such as the logarithm of the budget response makes the model an NLP."
+   }
+  },
+  {
+   "id": "nlpm-f-317",
+   "livello": "facile",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "Quale corso della collana tratta insiemi e funzioni convesse, richiamati in Modellazione PNL?",
+    "opzioni": [
+     "Programmazione dinamica",
+     "Ottimizzazione convessa",
+     "Algoritmi di approssimazione",
+     "Ottimizzazione su reti"
+    ],
+    "spiegazione": "I prerequisiti sono Modellazione PL e Ottimizzazione convessa; quest'ultimo tratta insiemi e funzioni convesse."
+   },
+   "en": {
+    "testo": "Which course of the series covers convex sets and functions, recalled in NLP Modelling?",
+    "opzioni": [
+     "Dynamic Programming",
+     "Convex Optimization",
+     "Approximation Algorithms",
+     "Network Optimization"
+    ],
+    "spiegazione": "The prerequisites are LP Modelling and Convex Optimization; the latter covers convex sets and functions."
+   }
+  },
+  {
+   "id": "nlpm-f-318",
+   "livello": "facile",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/#percorso-essenziale-in-quattro-laboratori",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/#essential-path-in-four-sessions"
+   },
+   "corretta": 3,
+   "it": {
+    "testo": "Quali sono gli obiettivi di apprendimento del primo laboratorio (Markowitz)?",
+    "opzioni": [
+     "Scrivere un LP multiperiodale e leggerne i prezzi ombra",
+     "Usare variabili binarie per scegliere quali titoli tenere",
+     "Addestrare una SVM con il kernel RBF e scegliere $C$",
+     "Costruire un QP convesso, tracciare la frontiera, discutere le stime"
+    ],
+    "spiegazione": "Il primo laboratorio costruisce il QP convesso di Markowitz, ne traccia la frontiera e discute quanto le stime dei rendimenti siano fragili."
+   },
+   "en": {
+    "testo": "What are the learning objectives of the first session (Markowitz)?",
+    "opzioni": [
+     "Writing a multi-period LP and reading its shadow prices",
+     "Using binary variables to choose which assets to keep",
+     "Training an SVM with the RBF kernel and choosing $C$",
+     "Building a convex QP, tracing the frontier, discussing the estimates"
+    ],
+    "spiegazione": "The first session builds the convex Markowitz QP, traces its frontier and discusses how fragile the return estimates are."
+   }
+  },
+  {
+   "id": "nlpm-f-319",
+   "livello": "facile",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/#gli-errori-piu-comuni",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/#the-most-common-mistakes"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "Una voce della checklist degli errori è dimenticare `lb=-GRB.INFINITY` sulle variabili libere. In quali modelli del corso capita?",
+    "opzioni": [
+     "Per $b$ della SVM e per i residui dei minimi quadrati",
+     "Per le quantità prodotte nel piano di produzione",
+     "Per i pesi del portafoglio senza vendite allo scoperto",
+     "Per i prezzi del modello di pricing"
+    ],
+    "spiegazione": "In gurobipy il limite inferiore predefinito è 0: l'intercetta $b$ della SVM e i residui dei minimi quadrati devono poter essere negativi."
+   },
+   "en": {
+    "testo": "One item of the checklist of mistakes is forgetting `lb=-GRB.INFINITY` on free variables. In which models of the course does it happen?",
+    "opzioni": [
+     "For $b$ of the SVM and for the least-squares residuals",
+     "For the quantities produced in the production plan",
+     "For the portfolio weights without short selling",
+     "For the prices of the pricing model"
+    ],
+    "spiegazione": "In gurobipy the default lower bound is 0: the intercept $b$ of the SVM and the least-squares residuals must be allowed to be negative."
+   }
+  },
+  {
+   "id": "nlpm-f-320",
+   "livello": "facile",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/#gli-errori-piu-comuni",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/#the-most-common-mistakes"
+   },
+   "corretta": 2,
+   "it": {
+    "testo": "Quale parametro di Gurobi si dimentica spesso nei modelli con termini bilineari come $p \\cdot q$?",
+    "opzioni": [
+     "`MIPGap = 0`",
+     "`QCPDual = 1`",
+     "`NonConvex = 2`",
+     "`FuncNonlinear = 0`"
+    ],
+    "spiegazione": "Con termini bilineari il modello non è convesso: serve `NonConvex = 2` perché Gurobi lo risolva all'ottimo globale."
+   },
+   "en": {
+    "testo": "Which Gurobi parameter is often forgotten in models with bilinear terms such as $p \\cdot q$?",
+    "opzioni": [
+     "`MIPGap = 0`",
+     "`QCPDual = 1`",
+     "`NonConvex = 2`",
+     "`FuncNonlinear = 0`"
+    ],
+    "spiegazione": "With bilinear terms the model is not convex: `NonConvex = 2` is needed for Gurobi to solve it to global optimality."
+   }
+  },
+  {
+   "id": "nlpm-f-321",
+   "livello": "facile",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/#gli-errori-piu-comuni",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/#the-most-common-mistakes"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "Perché è un errore leggere `.X` o `.Pi` subito dopo `m.optimize()`, senza guardare `m.Status`?",
+    "opzioni": [
+     "Perché `.X` si legge solo prima di chiamare `m.optimize()`",
+     "Perché il modello può non avere un ottimo da leggere",
+     "Perché leggere `m.Status` cambia i valori delle variabili",
+     "Perché `.Pi` esiste soltanto nei modelli a variabili intere"
+    ],
+    "spiegazione": "Prima si controlla che lo stato sia ottimo: se il modello è inammissibile, illimitato o interrotto non c'è una soluzione ottima da leggere."
+   },
+   "en": {
+    "testo": "Why is it a mistake to read `.X` or `.Pi` right after `m.optimize()`, without looking at `m.Status`?",
+    "opzioni": [
+     "Because `.X` is read only before calling `m.optimize()`",
+     "Because the model may have no optimum to read",
+     "Because reading `m.Status` changes the values of the variables",
+     "Because `.Pi` exists only in models with integer variables"
+    ],
+    "spiegazione": "First check that the status is optimal: if the model is infeasible, unbounded or interrupted there is no optimal solution to read."
+   }
+  },
+  {
+   "id": "nlpm-f-322",
+   "livello": "facile",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "Come vengono distribuite le soluzioni degli esercizi di Modellazione PNL?",
+    "opzioni": [
+     "A lezione",
+     "Nel notebook di ogni capitolo",
+     "In fondo a ogni pagina del sito",
+     "Nel quiz di autovalutazione"
+    ],
+    "spiegazione": "La pagina dell'organizzazione lo dice esplicitamente: le soluzioni degli esercizi vengono distribuite a lezione."
+   },
+   "en": {
+    "testo": "How are the solutions of the exercises of NLP Modelling distributed?",
+    "opzioni": [
+     "In class",
+     "In the notebook of each chapter",
+     "At the bottom of each page of the website",
+     "In the self-assessment quiz"
+    ],
+    "spiegazione": "The organization page says it explicitly: the solutions of the exercises are distributed in class."
+   }
+  },
+  {
+   "id": "nlpm-f-323",
+   "livello": "facile",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/#gli-errori-piu-comuni",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/#the-most-common-mistakes"
+   },
+   "corretta": 3,
+   "it": {
+    "testo": "Un problema ha due obiettivi in conflitto (rischio e rendimento). Che cosa consiglia la checklist invece di ottimizzarne uno solo?",
+    "opzioni": [
+     "Sommarli con pesi uguali e riportare un solo ottimo",
+     "Tenere soltanto l'obiettivo con il valore più grande",
+     "Trasformare entrambi in vincoli di uguaglianza",
+     "Studiare il compromesso, tracciando la frontiera"
+    ],
+    "spiegazione": "Ottimizzare un solo obiettivo quando ce ne sono due è nella checklist degli errori: si studia il compromesso, come la frontiera di Markowitz."
+   },
+   "en": {
+    "testo": "A problem has two conflicting objectives (risk and return). What does the checklist recommend instead of optimizing only one?",
+    "opzioni": [
+     "Adding them with equal weights and reporting a single optimum",
+     "Keeping only the objective with the largest value",
+     "Turning both of them into equality constraints",
+     "Studying the trade-off, tracing the frontier"
+    ],
+    "spiegazione": "Optimizing a single objective when there are two is in the checklist of mistakes: one studies the trade-off, like the Markowitz frontier."
+   }
+  },
+  {
+   "id": "nlpm-f-324",
+   "livello": "teorema",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "Un QP ha obiettivo $\\tfrac12 \\mathbf x'\\mathbf Q\\mathbf x + \\mathbf c'\\mathbf x$ con $\\mathbf Q \\succeq 0$ e vincoli lineari. Che cosa si può dire di un punto che soddisfa le condizioni KKT?",
+    "opzioni": [
+     "È soltanto un punto stazionario, forse una sella",
+     "È un ottimo globale",
+     "È un ottimo locale ma non necessariamente globale",
+     "È ammissibile ma non ottimo"
+    ],
+    "spiegazione": "Con $\\mathbf Q \\succeq 0$ il QP è convesso: le KKT sono anche sufficienti e ogni punto KKT è un ottimo globale."
+   },
+   "en": {
+    "testo": "A QP has objective $\\tfrac12 \\mathbf x'\\mathbf Q\\mathbf x + \\mathbf c'\\mathbf x$ with $\\mathbf Q \\succeq 0$ and linear constraints. What can be said of a point satisfying the KKT conditions?",
+    "opzioni": [
+     "It is only a stationary point, perhaps a saddle",
+     "It is a global optimum",
+     "It is a local optimum but not necessarily global",
+     "It is feasible but not optimal"
+    ],
+    "spiegazione": "With $\\mathbf Q \\succeq 0$ the QP is convex: the KKT conditions are also sufficient and every KKT point is a global optimum."
+   }
+  },
+  {
+   "id": "nlpm-f-325",
+   "livello": "teorema",
+   "capitolo": "background",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/teoria-non-lineare/#le-condizioni-di-ottimalita-non-lineari-le-kkt",
+    "en": "https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/#the-nonlinear-optimality-conditions-the-kkt-conditions"
+   },
+   "corretta": 2,
+   "it": {
+    "testo": "Nel QP $\\min\\ x_1^2 + 2x_2^2$ con $x_1 + x_2 \\ge d$ il valore ottimo è $\\tilde f(d) = \\tfrac23 d^2$. Quanto vale il moltiplicatore del vincolo in $d = 6$?",
+    "opzioni": [
+     "$24$",
+     "$4$",
+     "$8$",
+     "$\\tfrac23$"
+    ],
+    "spiegazione": "Il moltiplicatore è la derivata del valore ottimo rispetto al termine noto: $\\tilde f'(d) = \\tfrac43 d = 8$ in $d = 6$, come $\\lambda = 2\\tilde x_1 = 4\\tilde x_2$."
+   },
+   "en": {
+    "testo": "In the QP $\\min\\ x_1^2 + 2x_2^2$ with $x_1 + x_2 \\ge d$ the optimal value is $\\tilde f(d) = \\tfrac23 d^2$. What is the multiplier of the constraint at $d = 6$?",
+    "opzioni": [
+     "$24$",
+     "$4$",
+     "$8$",
+     "$\\tfrac23$"
+    ],
+    "spiegazione": "The multiplier is the derivative of the optimal value with respect to the right-hand side: $\\tilde f'(d) = \\tfrac43 d = 8$ at $d = 6$, as $\\lambda = 2\\tilde x_1 = 4\\tilde x_2$."
+   }
+  },
+  {
+   "id": "nlpm-f-326",
+   "livello": "teorema",
+   "capitolo": "solver",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/solver-non-lineare/#i-moltiplicatori-nei-qp-convessi",
+    "en": "https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/#multipliers-in-convex-qps"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "In un QP convesso con vincoli lineari `Pi` è il moltiplicatore KKT del vincolo. Per quali incrementi del termine noto la stima $\\Delta f \\approx \\pi\\,\\Delta$ è esatta?",
+    "opzioni": [
+     "Solo al margine, per incrementi piccoli",
+     "Per ogni incremento, come succede negli LP",
+     "Dentro l'intervallo `SARHSLow`–`SARHSUp`",
+     "Per nessuno: nei QP `Pi` non ha significato"
+    ],
+    "spiegazione": "A differenza degli LP, dove il valore ottimo è lineare a tratti, nei QP è curvo: il moltiplicatore è esatto solo al margine."
+   },
+   "en": {
+    "testo": "In a convex QP with linear constraints `Pi` is the KKT multiplier of the constraint. For which increments of the right-hand side is the estimate $\\Delta f \\approx \\pi\\,\\Delta$ exact?",
+    "opzioni": [
+     "Only at the margin, for small increments",
+     "For every increment, as happens in LPs",
+     "Within the `SARHSLow`–`SARHSUp` range",
+     "For none: in QPs `Pi` has no meaning"
+    ],
+    "spiegazione": "Unlike LPs, where the optimal value is piecewise linear, in QPs it is curved: the multiplier is exact only at the margin."
+   }
+  },
+  {
+   "id": "nlpm-f-327",
+   "livello": "teorema",
+   "capitolo": "svm",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/svm/#il-duale-e-i-support-vector",
+    "en": "https://fabiofurini.github.io/nlp-modelling/svm/#the-dual-and-the-support-vectors"
+   },
+   "corretta": 3,
+   "it": {
+    "testo": "Il duale della SVM soft margin ha obiettivo $\\sum_i \\alpha_i - \\tfrac12 \\sum_i\\sum_j \\alpha_i\\alpha_j y_i y_j\\, \\mathbf x_i'\\mathbf x_j$. In che modo dipende dai dati $\\mathbf x_i$?",
+    "opzioni": [
+     "Da ogni coordinata $x_{ij}$ presa separatamente",
+     "Solo dalla media di tutte le osservazioni",
+     "Solo dalle osservazioni con etichetta $y_i = +1$",
+     "Solo tramite i prodotti scalari $\\mathbf x_i'\\mathbf x_j$"
+    ],
+    "spiegazione": "Il duale dipende dai dati solo tramite i prodotti scalari: sostituendoli con un kernel si ottengono frontiere non lineari con lo stesso QP."
+   },
+   "en": {
+    "testo": "The dual of the soft-margin SVM has objective $\\sum_i \\alpha_i - \\tfrac12 \\sum_i\\sum_j \\alpha_i\\alpha_j y_i y_j\\, \\mathbf x_i'\\mathbf x_j$. How does it depend on the data $\\mathbf x_i$?",
+    "opzioni": [
+     "On each coordinate $x_{ij}$ taken separately",
+     "Only on the mean of all the observations",
+     "Only on the observations labelled $y_i = +1$",
+     "Only through the inner products $\\mathbf x_i'\\mathbf x_j$"
+    ],
+    "spiegazione": "The dual depends on the data only through the inner products: replacing them with a kernel gives nonlinear boundaries with the same QP."
+   }
+  },
+  {
+   "id": "nlpm-f-328",
+   "livello": "teorema",
+   "capitolo": "svm",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/svm/#soft-margin-e-il-ruolo-di-c",
+    "en": "https://fabiofurini.github.io/nlp-modelling/svm/#soft-margin-and-the-role-of-c"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "SVM soft margin: $\\min\\ \\tfrac12\\|\\mathbf w\\|^2 + C\\sum_i \\xi_i$. Su dati separabili, che cosa succede al crescere di $C$?",
+    "opzioni": [
+     "Il margine si allarga e crescono i punti nel margine",
+     "Ci si avvicina all'hard margin, con margine più stretto",
+     "La soluzione ottima resta la stessa per ogni valore",
+     "Il problema diventa non convesso e servono altri solver"
+    ],
+    "spiegazione": "Con $C$ grande le violazioni costano molto: il modello insegue ogni punto del training set (nel caso di studio zero errori, margine 0,359)."
+   },
+   "en": {
+    "testo": "Soft-margin SVM: $\\min\\ \\tfrac12\\|\\mathbf w\\|^2 + C\\sum_i \\xi_i$. On separable data, what happens as $C$ grows?",
+    "opzioni": [
+     "The margin widens and more points fall inside it",
+     "One approaches the hard margin, with a narrower margin",
+     "The optimal solution stays the same for every value",
+     "The problem becomes non-convex and needs other solvers"
+    ],
+    "spiegazione": "With a large $C$ violations are expensive: the model chases every training point (in the case study zero errors, margin 0.359)."
+   }
+  },
+  {
+   "id": "nlpm-f-329",
+   "livello": "teorema",
+   "capitolo": "least-squares",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/minimi-quadrati/#modello",
+    "en": "https://fabiofurini.github.io/nlp-modelling/least-squares/#model"
+   },
+   "corretta": 2,
+   "it": {
+    "testo": "QP dei minimi quadrati senza caratteristiche: $\\min \\sum_i r_i^2$ con $b + r_i = y_i$. Che cosa dà la stazionarietà rispetto a $b$?",
+    "opzioni": [
+     "$\\sum_i |r_i| = 0$: la stima è la mediana",
+     "$r_i = 0$ per ogni osservazione $i$",
+     "$\\sum_i r_i = 0$: la stima è la media",
+     "$b = \\max_i y_i$, il valore più alto"
+    ],
+    "spiegazione": "Con $\\pi_i = 2r_i$ la stazionarietà rispetto a $b$ dà $\\sum_i r_i = 0$: la stima $\\tilde b$ è la media dei dati (114,29 nelle sette vendite)."
+   },
+   "en": {
+    "testo": "Least-squares QP without features: $\\min \\sum_i r_i^2$ with $b + r_i = y_i$. What does stationarity with respect to $b$ give?",
+    "opzioni": [
+     "$\\sum_i |r_i| = 0$: the estimate is the median",
+     "$r_i = 0$ for every observation $i$",
+     "$\\sum_i r_i = 0$: the estimate is the mean",
+     "$b = \\max_i y_i$, the largest value"
+    ],
+    "spiegazione": "With $\\pi_i = 2r_i$ stationarity with respect to $b$ gives $\\sum_i r_i = 0$: the estimate $\\tilde b$ is the mean of the data (114.29 for the seven sales)."
+   }
+  },
+  {
+   "id": "nlpm-f-330",
+   "livello": "ipotesi",
+   "capitolo": "background",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/teoria-non-lineare/#convessita-e-programmazione-quadratica",
+    "en": "https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/#convexity-and-quadratic-programming"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "Un metodo trova un minimo locale di $\\min f(\\mathbf x)$ su un insieme ammissibile $X$. Quale ipotesi garantisce che sia anche globale?",
+    "opzioni": [
+     "Che $f$ sia derivabile ovunque",
+     "Che $f$ e $X$ siano convessi",
+     "Che $X$ sia chiuso e limitato",
+     "Che il minimo locale sia unico"
+    ],
+    "spiegazione": "In un problema convesso (obiettivo convesso da minimizzare su un insieme convesso) ogni minimo locale è globale."
+   },
+   "en": {
+    "testo": "A method finds a local minimum of $\\min f(\\mathbf x)$ over a feasible set $X$. Which assumption guarantees that it is also global?",
+    "opzioni": [
+     "That $f$ is differentiable everywhere",
+     "That $f$ and $X$ are convex",
+     "That $X$ is closed and bounded",
+     "That the local minimum is unique"
+    ],
+    "spiegazione": "In a convex problem (convex objective minimized over a convex set) every local minimum is global."
+   }
+  },
+  {
+   "id": "nlpm-f-331",
+   "livello": "ipotesi",
+   "capitolo": "background",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/teoria-non-lineare/#le-condizioni-di-ottimalita-non-lineari-le-kkt",
+    "en": "https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/#the-nonlinear-optimality-conditions-the-kkt-conditions"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "Si stima un moltiplicatore per perturbazione: $\\tilde f(d + \\varepsilon) \\approx \\tilde f(d) + \\lambda\\,\\varepsilon$. Sotto quale ipotesi l'approssimazione è buona in un QP?",
+    "opzioni": [
+     "$\\varepsilon$ piccolo: la curvatura è trascurabile",
+     "$\\varepsilon$ grande: gli errori numerici pesano meno",
+     "Il vincolo perturbato non è attivo all'ottimo",
+     "Il QP non è convesso, così la stima è lineare"
+    ],
+    "spiegazione": "Nel QP dell'esempio $\\tilde f(6 + \\varepsilon) = 24 + 8\\varepsilon + \\tfrac23\\varepsilon^2$: il termine quadratico è trascurabile solo per $\\varepsilon$ piccolo."
+   },
+   "en": {
+    "testo": "A multiplier is estimated by perturbation: $\\tilde f(d + \\varepsilon) \\approx \\tilde f(d) + \\lambda\\,\\varepsilon$. Under which assumption is the approximation good in a QP?",
+    "opzioni": [
+     "$\\varepsilon$ small: the curvature is negligible",
+     "$\\varepsilon$ large: numerical errors weigh less",
+     "The perturbed constraint is not active at the optimum",
+     "The QP is not convex, so the estimate is linear"
+    ],
+    "spiegazione": "In the example QP $\\tilde f(6 + \\varepsilon) = 24 + 8\\varepsilon + \\tfrac23\\varepsilon^2$: the quadratic term is negligible only for small $\\varepsilon$."
+   }
+  },
+  {
+   "id": "nlpm-f-332",
+   "livello": "ipotesi",
+   "capitolo": "introduction",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/programma/",
+    "en": "https://fabiofurini.github.io/nlp-modelling/syllabus/"
+   },
+   "corretta": 3,
+   "it": {
+    "testo": "Un vincolo di uguaglianza $h(\\mathbf x) = 0$ compare in un modello. Sotto quale ipotesi su $h$ l'insieme che definisce è sicuramente convesso?",
+    "opzioni": [
+     "$h$ convessa in tutte le variabili",
+     "$h$ derivabile con continuità",
+     "$h$ quadratica con matrice $\\succeq 0$",
+     "$h$ affine (lineare più una costante)"
+    ],
+    "spiegazione": "Una uguaglianza con una funzione non lineare, per esempio $x_1 x_2 = 1$, definisce in generale un insieme non convesso; con $h$ affine l'insieme è un iperpiano."
+   },
+   "en": {
+    "testo": "An equality constraint $h(\\mathbf x) = 0$ appears in a model. Under which assumption on $h$ is the set it defines surely convex?",
+    "opzioni": [
+     "$h$ convex in all the variables",
+     "$h$ continuously differentiable",
+     "$h$ quadratic with a matrix $\\succeq 0$",
+     "$h$ affine (linear plus a constant)"
+    ],
+    "spiegazione": "An equality with a nonlinear function, for instance $x_1 x_2 = 1$, defines in general a non-convex set; with $h$ affine the set is a hyperplane."
+   }
+  },
+  {
+   "id": "nlpm-f-333",
+   "livello": "ipotesi",
+   "capitolo": "solver",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/solver-non-lineare/#i-moltiplicatori-nei-qp-convessi",
+    "en": "https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/#multipliers-in-convex-qps"
+   },
+   "corretta": 2,
+   "it": {
+    "testo": "Si vuole il moltiplicatore di un vincolo *quadratico* (per esempio $d_x^2 + d_y^2 \\le d^2$). Che cosa serve perché Gurobi lo restituisca?",
+    "opzioni": [
+     "Niente: basta leggere l'attributo `Pi`",
+     "Impostare `NonConvex = 2` prima di ottimizzare",
+     "`QCPDual = 1`, poi l'attributo `QCPi`",
+     "Riscriverlo come vincolo funzionale `addGenConstrPow`"
+    ],
+    "spiegazione": "Per i vincoli quadratici i duali si chiedono con `QCPDual = 1` e si leggono in `QCPi`; altrimenti si stima il moltiplicatore per perturbazione."
+   },
+   "en": {
+    "testo": "One wants the multiplier of a *quadratic* constraint (for instance $d_x^2 + d_y^2 \\le d^2$). What is needed for Gurobi to return it?",
+    "opzioni": [
+     "Nothing: reading the `Pi` attribute is enough",
+     "Setting `NonConvex = 2` before optimizing",
+     "`QCPDual = 1`, then the `QCPi` attribute",
+     "Rewriting it as a functional constraint `addGenConstrPow`"
+    ],
+    "spiegazione": "For quadratic constraints the duals are requested with `QCPDual = 1` and read in `QCPi`; otherwise the multiplier is estimated by perturbation."
+   }
+  },
+  {
+   "id": "nlpm-f-334",
+   "livello": "ipotesi",
+   "capitolo": "solver",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/solver-non-lineare/#come-si-scrivono",
+    "en": "https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/#how-they-are-written"
+   },
+   "corretta": 1,
+   "it": {
+    "testo": "Un modello contiene $z = \\log(g)$ scritto con `addGenConstrLog`. Sotto quale impostazione Gurobi tratta la funzione in modo esatto, con ottimo globale?",
+    "opzioni": [
+     "`m.Params.MIPGap = 1`",
+     "`m.Params.FuncNonlinear = 1`",
+     "`m.Params.NonConvex = 0`",
+     "`m.Params.Method = 2`"
+    ],
+    "spiegazione": "Con `FuncNonlinear = 1` le funzioni dei vincoli funzionali sono trattate in modo esatto e l'ottimo resta globale certificato."
+   },
+   "en": {
+    "testo": "A model contains $z = \\log(g)$ written with `addGenConstrLog`. Under which setting does Gurobi handle the function exactly, with a global optimum?",
+    "opzioni": [
+     "`m.Params.MIPGap = 1`",
+     "`m.Params.FuncNonlinear = 1`",
+     "`m.Params.NonConvex = 0`",
+     "`m.Params.Method = 2`"
+    ],
+    "spiegazione": "With `FuncNonlinear = 1` the functions of functional constraints are handled exactly and the optimum stays certified global."
+   }
+  },
+  {
+   "id": "nlpm-f-335",
+   "livello": "ipotesi",
+   "capitolo": "least-squares",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/minimi-quadrati/#modello",
+    "en": "https://fabiofurini.github.io/nlp-modelling/least-squares/#model"
+   },
+   "corretta": 0,
+   "it": {
+    "testo": "Nel QP dei minimi quadrati i residui $r_i$ sono variabili libere. Che cosa succede se si lasciano con il limite inferiore predefinito di gurobipy ($r_i \\ge 0$)?",
+    "opzioni": [
+     "La retta deve stare sotto tutti i dati: stima distorta",
+     "Nulla cambia, perché il quadrato non distingue il segno",
+     "Il modello diventa non convesso e serve `NonConvex = 2`",
+     "Gurobi si ferma e segnala un errore di sintassi"
+    ],
+    "spiegazione": "Con $r_i \\ge 0$ ogni previsione deve essere al più il dato osservato: il modello cambia e la stima non è più quella dei minimi quadrati."
+   },
+   "en": {
+    "testo": "In the least-squares QP the residuals $r_i$ are free variables. What happens if they keep the default gurobipy lower bound ($r_i \\ge 0$)?",
+    "opzioni": [
+     "The line must lie below all the data: biased estimate",
+     "Nothing changes, because the square ignores the sign",
+     "The model becomes non-convex and needs `NonConvex = 2`",
+     "Gurobi stops and reports a syntax error"
+    ],
+    "spiegazione": "With $r_i \\ge 0$ every prediction must be at most the observed value: the model changes and the estimate is no longer the least-squares one."
+   }
+  },
+  {
+   "id": "nlpm-f-336",
+   "livello": "ipotesi",
+   "capitolo": "organization",
+   "link": {
+    "it": "https://fabiofurini.github.io/modellazione-pnl/organizzazione/#gli-errori-piu-comuni",
+    "en": "https://fabiofurini.github.io/nlp-modelling/organization/#the-most-common-mistakes"
+   },
+   "corretta": 3,
+   "it": {
+    "testo": "In gurobipy il vincolo `x + 5 <= 10` viene salvato come $x \\le 5$. Sotto quale condizione il valore assegnato a `c.RHS` è proprio il numero a destra del vincolo così come lo si è scritto?",
+    "opzioni": [
+     "Sempre: `RHS` è il numero scritto a destra del vincolo",
+     "Solo se il modello è convesso e senza termini bilineari",
+     "Solo dopo aver chiamato `m.update()` sul modello",
+     "Solo se il vincolo ha tutte le costanti a destra"
+    ],
+    "spiegazione": "Le costanti a sinistra vengono spostate nel termine noto: qui `RHS` vale 5, non 10, e porlo a 12 dà $x \\le 12$. È l'errore 5 della checklist."
+   },
+   "en": {
+    "testo": "In gurobipy the constraint `x + 5 <= 10` is stored as $x \\le 5$. Under which condition is the value assigned to `c.RHS` exactly the number on the right of the constraint as it was written?",
+    "opzioni": [
+     "Always: `RHS` is the number written on the right of the constraint",
+     "Only if the model is convex and has no bilinear terms",
+     "Only after calling `m.update()` on the model",
+     "Only if the constraint has all the constants on the right"
+    ],
+    "spiegazione": "Constants on the left are moved into the right-hand side: here `RHS` equals 5, not 10, and setting it to 12 gives $x \\le 12$. It is mistake 5 of the checklist."
+   }
   }
  ]
 }

@@ -4,6 +4,15 @@ hide:
   - toc
 ---
 
+<div class="cantiere" markdown style="text-align:center">
+
+![Under construction: the website and the course material are still being written](img/under-construction.svg){ width="560" }
+
+**Website under construction.** Some parts, such as the background on the KKT conditions, will be completed
+together with the [Convex Optimization](https://fabiofurini.github.io/convex-optimization/) course.
+
+</div>
+
 <div class="hero" markdown>
 
 # NLP Modelling
