@@ -33,10 +33,9 @@ PREPARAZIONE = f"""## Setup
 
 The cell below installs `gurobipy` and downloads `stile.py`, the shared plotting
 style of the course scripts. The licence bundled with the pip package is limited
-to **2000 variables and 2000 constraints**: every model of the lab fits — the
-largest one, the scenario newsvendor, uses 1803 and 1801 — but raising the number
-of scenarios can exceed it. In that case activate the free academic licence at
-[portal.gurobi.com](https://portal.gurobi.com).
+to **2000 variables and 2000 constraints**: every model of the course fits — the
+largest one, electric vehicle charging, uses 144 and 30. For larger models, activate
+the free academic licence from [portal.gurobi.com](https://portal.gurobi.com).
 """
 
 CODICE_PREPARAZIONE = f'''# Environment: the solver and the plotting style of the lab.
@@ -71,7 +70,7 @@ code [MIT](https://github.com/{REPO}/blob/main/LICENSE-CODE).
 """
 
 
-INDICE = """# The notebooks of the lab
+INDICE = """# The notebooks of the course
 
 Every chapter with a model has its own **notebook**: one click on the badge opens
 it in Google Colab, it installs the solver by itself and runs in the browser —
@@ -81,10 +80,9 @@ being written to a file.
 
 !!! tip "The pip licence is enough"
     The licence bundled with `gurobipy` is limited to 2000 variables and 2000
-    constraints, and every model of the lab fits: the largest one — the scenario
-    newsvendor — uses 1803 and 1801. Raising the number of scenarios can exceed it:
-    in that case activate the free academic licence at
-    [portal.gurobi.com](https://portal.gurobi.com).
+    constraints, and every model of the course fits easily: the largest one —
+    electric vehicle charging — uses 144 and 30. For larger models, activate the
+    free academic licence at [portal.gurobi.com](https://portal.gurobi.com).
 
 | Chapter | Class | Notebook |
 |---|---|---|

@@ -1,335 +1,244 @@
-"""Chapter 17 — Robust and quantile regression (LP).
+"""Chapter 13 — Least-squares regression (convex QP).
 
-Case study: the bakery of chapter 13. Sixty days of history (demand,
-temperature, price, weekend) plus five transport-strike days on which demand
-collapses.
+Case study: the same as robust and quantile regression (LP Modelling):
+sixty days of sales of a bakery (demand, temperature, price, weekend),
+five of them during two transport strikes.
 
 Contents:
-  1. With no features the model returns the empirical quantile (worked example)
-  2. Absolute deviations (LP) against least squares (QP): robustness to outliers
-  3. Dual reading: pi_i, complementary slackness, support points
-  4. Quantile regression: the newsvendor safety stock from the data
-  5. Feature selection with a budget on the coefficients
+  1. Without features the QP returns the mean (worked example)
+  2. Data (the same as in the linear case)
+  3. Least squares (QP) against absolute deviations (LP): robustness to outliers
+  4. Reading the KKT conditions: residuals, multipliers and normal equations
+  5. Forecast for the newsvendor: mean plus safety stock against quantile regression
+  6. Sensitivity: a single outlying day and ridge regression
 """
 import gurobipy as gp
 import numpy as np
 import pandas as pd
 from gurobipy import GRB
+from statistics import NormalDist
 
 from stile import (ARANCIO, BLU, GRIGIO, ROSSO, TEAL, VERDE, intestazione, plt,
                    salva_dat, salva_dati, salva_figura)
 
-TAU_NV = 9 / 13                                # critical fractile of chapter 13
+TAU_NV = 9 / 13                                # critical fractile of the bakery
 
 
 # ----------------------------------------------------------------------
-# MODEL: quantile regression as an LP
+# MODELS: least squares (QP) and, for comparison, quantile regression (LP)
 # ----------------------------------------------------------------------
-def quantile_regression(X, y, tau=0.5, budget=None):
-    """min sum_i [tau u_i + (1-tau) v_i]  with  X w + b + u - v = y.
-
-    With `budget` it adds sum_j z_j <= budget and -z_j <= w_j <= z_j
-    (feature selection: a budget on the coefficients)."""
-    n, p = X.shape
-    m = gp.Model("regression")
-    m.Params.OutputFlag = 0
-    w = m.addVars(p, lb=-GRB.INFINITY, name="w")
-    b = m.addVar(lb=-GRB.INFINITY, name="b")
-    u = m.addVars(n, name="u")                 # deviation above
-    v = m.addVars(n, name="v")                 # deviation below
-    residual = m.addConstrs(
-        (gp.quicksum(X[i, j] * w[j] for j in range(p)) + b + u[i] - v[i] == y[i]
-         for i in range(n)), name="residual")
-    budget_constr = None
-    if budget is not None:
-        z = m.addVars(p, name="z")
-        m.addConstrs((w[j] <= z[j] for j in range(p)), name="abs_up")
-        m.addConstrs((-w[j] <= z[j] for j in range(p)), name="abs_down")
-        budget_constr = m.addConstr(gp.quicksum(z[j] for j in range(p)) <= budget,
-                                    name="budget")
-    m.setObjective(gp.quicksum(tau * u[i] + (1 - tau) * v[i] for i in range(n)),
-                   GRB.MINIMIZE)
-    m.optimize()
-    assert m.Status == GRB.OPTIMAL
-    coef = np.array([w[j].X for j in range(p)])
-    duals = np.array([residual[i].Pi for i in range(n)])
-    return m, coef, b.X, duals, budget_constr
-
-
-def least_squares(X, y):
-    """min sum_i r_i^2  with  X w + b + r = y  (convex QP, same solver)."""
+def minimi_quadrati(X, y, lam=0.0):
+    """min sum_i r_i^2 + lam * sum_j w_j^2  s.t.  X w + b + r = y  (convex QP)."""
     n, p = X.shape
     m = gp.Model("least_squares")
     m.Params.OutputFlag = 0
     w = m.addVars(p, lb=-GRB.INFINITY, name="w")
     b = m.addVar(lb=-GRB.INFINITY, name="b")
     r = m.addVars(n, lb=-GRB.INFINITY, name="r")
-    m.addConstrs((gp.quicksum(X[i, j] * w[j] for j in range(p)) + b + r[i] == y[i]
+    residuo = m.addConstrs(
+        (gp.quicksum(X[i, j] * w[j] for j in range(p)) + b + r[i] == y[i] for i in range(n)),
+        name="residual")
+    m.setObjective(gp.quicksum(r[i] * r[i] for i in range(n))
+                   + lam * gp.quicksum(w[j] * w[j] for j in range(p)), GRB.MINIMIZE)
+    m.optimize()
+    assert m.Status == GRB.OPTIMAL
+    return (m, np.array([w[j].X for j in range(p)]), b.X,
+            np.array([r[i].X for i in range(n)]), np.array([residuo[i].Pi for i in range(n)]))
+
+
+def regressione_quantile(X, y, tau=0.5):
+    """min sum_i [tau u_i + (1-tau) v_i]  s.t.  X w + b + u - v = y  (LP)."""
+    n, p = X.shape
+    m = gp.Model("quantile")
+    m.Params.OutputFlag = 0
+    w = m.addVars(p, lb=-GRB.INFINITY, name="w")
+    b = m.addVar(lb=-GRB.INFINITY, name="b")
+    u = m.addVars(n, name="u")
+    v = m.addVars(n, name="v")
+    m.addConstrs((gp.quicksum(X[i, j] * w[j] for j in range(p)) + b + u[i] - v[i] == y[i]
                   for i in range(n)), name="residual")
-    m.setObjective(gp.quicksum(r[i] * r[i] for i in range(n)), GRB.MINIMIZE)
+    m.setObjective(gp.quicksum(tau * u[i] + (1 - tau) * v[i] for i in range(n)), GRB.MINIMIZE)
     m.optimize()
     assert m.Status == GRB.OPTIMAL
     return np.array([w[j].X for j in range(p)]), b.X
 
 
-def mean_deviation(X, y, coef, b):
+def scarto_medio(X, y, coef, b):
     return float(np.abs(y - (X @ coef + b)).mean())
 
 
 # ----------------------------------------------------------------------
-# 1. NO FEATURES: THE MODEL RETURNS THE EMPIRICAL QUANTILE
+# 1. WITHOUT FEATURES: THE QP RETURNS THE MEAN
 # ----------------------------------------------------------------------
-intestazione("No features: the empirical quantile (worked example)")
+intestazione("No features: the mean (worked example)")
 y7 = np.array([88.0, 96.0, 104.0, 112.0, 120.0, 132.0, 148.0])
-X0 = np.zeros((len(y7), 0))
-m0, _, b0, pi0, _ = quantile_regression(X0, y7, tau=TAU_NV)
+m0, _, b0, r0, pi0 = minimi_quadrati(np.zeros((7, 0)), y7)
 print(f"Seven days: {y7.astype(int)}")
-print(f"tau = alpha* = 9/13 = {TAU_NV:.4f}  (bakery of chapter 13: cu=9, co=4)")
-print(f"Optimal intercept b = {b0:.4f}  -> the 5th ordered value, the 69.23% quantile")
-print(f"Optimal value = {m0.ObjVal:.4f} = 680/13")
-print(f"Duals pi = {np.round(pi0, 4)}  (bounds: -(1-tau) = {-(1 - TAU_NV):.4f}, "
-      f"tau = {TAU_NV:.4f})")
-print(f"Check, sum of the duals = {pi0.sum():.6f}  (must be 0: dual of the intercept)")
-above = int((y7 > b0 + 1e-9).sum())
-below = int((y7 < b0 - 1e-9).sum())
-print(f"Observations: {below}/7 below the estimate, 1/7 on it, {above}/7 above")
-print(f"  {below}/7 = {below / 7:.4f}  <=  tau = {TAU_NV:.4f}  <=  "
-      f"{below + 1}/7 = {(below + 1) / 7:.4f}")
+print(f"Optimal intercept b = {b0:.4f}  (mean = {y7.mean():.4f} = 800/7)")
+print(f"Optimal value = {m0.ObjVal:.4f}")
+print(f"Residuals r = {np.round(r0, 4)}  sum = {r0.sum():.6f}")
+print(f"Duals  pi = {np.round(pi0, 4)}  (= 2 r_i)  sum = {pi0.sum():.6f}")
+_, bq_med = regressione_quantile(np.zeros((7, 0)), y7, tau=0.5)
+_, bq_nv = regressione_quantile(np.zeros((7, 0)), y7, tau=TAU_NV)
+print(f"Comparison: median (LP, tau = 1/2) = {bq_med:.1f}; 9/13 quantile (LP) = {bq_nv:.1f}")
+y7b = y7.copy(); y7b[-1] = 248.0
+_, _, b0b, _, _ = minimi_quadrati(np.zeros((7, 0)), y7b)
+_, bqb = regressione_quantile(np.zeros((7, 0)), y7b, tau=0.5)
+print(f"If the last value goes from 148 to 248: mean {b0b:.4f} (+{b0b - b0:.4f}), "
+      f"median {bqb:.1f} (unchanged)")
 
 # ----------------------------------------------------------------------
-# 2. DATA: SIXTY DAYS OF THE BAKERY
+# 2. DATA (the same as in the linear case: same generator, same seed)
 # ----------------------------------------------------------------------
 intestazione("The bakery history: 60 days")
 rng = np.random.default_rng(16)
 n = 60
-temperature = np.round(rng.uniform(10, 34, n), 1)
-price = rng.choice([2.20, 2.60, 3.00, 3.40], n)
+temperatura = np.round(rng.uniform(10, 34, n), 1)
+prezzo = rng.choice([2.20, 2.60, 3.00, 3.40], n)
 weekend = (rng.random(n) < 0.30).astype(float)
-demand = (258 - 3.7 * temperature - 19.0 * price + 33.0 * weekend
-          + rng.normal(0, 9, n))
-outlier = np.zeros(n)
-strike_days = [11, 22, 29, 41, 46]             # two transport strikes
-demand[strike_days] = rng.uniform(18, 32, len(strike_days))
-outlier[strike_days] = 1
-demand = np.round(demand).astype(float)
+domanda = (258 - 3.7 * temperatura - 19.0 * prezzo + 33.0 * weekend
+           + rng.normal(0, 9, n))
+anomalo = np.zeros(n)
+giorni_sciopero = [11, 22, 29, 41, 46]         # two transport strikes
+domanda[giorni_sciopero] = rng.uniform(18, 32, len(giorni_sciopero))
+anomalo[giorni_sciopero] = 1
+domanda = np.round(domanda).astype(float)
+follower = np.round(rng.uniform(8, 20, n), 1)
+pioggia = np.round(rng.uniform(0, 12, n), 1)
+borsa = np.round(rng.uniform(95, 115, n), 1)
+giorno_mese = rng.integers(1, 29, n).astype(float)
 
-# four features with no link to demand (for the selection)
-followers = np.round(rng.uniform(8, 20, n), 1)
-rain = np.round(rng.uniform(0, 12, n), 1)
-stock_index = np.round(rng.uniform(95, 115, n), 1)
-day_of_month = rng.integers(1, 29, n).astype(float)
-
-data = pd.DataFrame({
-    "giorno": np.arange(1, n + 1),
-    "domanda": demand.astype(int),
-    "temperatura": temperature,
-    "prezzo": price,
-    "weekend": weekend.astype(int),
-    "follower": followers,
-    "pioggia": rain,
-    "indice_borsa": stock_index,
-    "giorno_del_mese": day_of_month.astype(int),
-    "sciopero": outlier.astype(int),
+dati = pd.DataFrame({
+    "giorno": np.arange(1, n + 1), "domanda": domanda.astype(int),
+    "temperatura": temperatura, "prezzo": prezzo, "weekend": weekend.astype(int),
+    "follower": follower, "pioggia": pioggia, "indice_borsa": borsa,
+    "giorno_del_mese": giorno_mese.astype(int), "sciopero": anomalo.astype(int),
 })
-salva_dati(data, "panetteria_storico")
-print(f"Demand: min {demand.min():.0f}, mean {demand.mean():.1f}, "
-      f"max {demand.max():.0f}   strike days: {strike_days}")
+salva_dati(dati, "panetteria_storico")
+print(f"Demand: min {domanda.min():.0f}, mean {domanda.mean():.1f}, "
+      f"max {domanda.max():.0f}   strike days: {[g + 1 for g in giorni_sciopero]}")
 
 # ----------------------------------------------------------------------
-# 3. ABSOLUTE DEVIATIONS (LP) AGAINST LEAST SQUARES (QP)
+# 3. LEAST SQUARES (QP) AGAINST ABSOLUTE DEVIATIONS (LP)
 # ----------------------------------------------------------------------
-intestazione("Absolute deviations (LP) against least squares (QP)")
-Xt = temperature.reshape(-1, 1)
-m_lad, w_lad, b_lad, pi_lad, _ = quantile_regression(Xt, demand, tau=0.5)
-w_ols, b_ols = least_squares(Xt, demand)
-normal = outlier == 0
-print(f"LP  (median)      : demand = {b_lad:.2f} {w_lad[0]:+.2f} * temperature")
-print(f"QP  (least squares): demand = {b_ols:.2f} {w_ols[0]:+.2f} * temperature")
-print(f"Mean absolute deviation over the 55 normal days: "
-      f"LP {mean_deviation(Xt[normal], demand[normal], w_lad, b_lad):.2f} pieces, "
-      f"QP {mean_deviation(Xt[normal], demand[normal], w_ols, b_ols):.2f} pieces")
-w_clean, b_clean = least_squares(Xt[normal], demand[normal])
-print(f"QP without the 5 strike days: demand = {b_clean:.2f} "
-      f"{w_clean[0]:+.2f} * temperature  (the LP gets there removing nothing)")
-print(f"Distance from the 'clean' intercept {b_clean:.2f}: "
-      f"LP {abs(b_lad - b_clean):.2f} pieces, QP {abs(b_ols - b_clean):.2f} pieces")
-
-# ----------------------------------------------------------------------
-# 4. DUAL READING: SUPPORT POINTS AND THE QUANTILE PROPERTY
-# ----------------------------------------------------------------------
-intestazione("Dual reading of the LP")
-residual = demand - (Xt @ w_lad + b_lad)
-support = np.abs(residual) < 1e-6
-print(f"Observations above the line: {(residual > 1e-6).sum()}, "
-      f"below: {(residual < -1e-6).sum()}, interpolated: {int(support.sum())}")
-print(f"Duals: minimum {pi_lad.min():.4f}, maximum {pi_lad.max():.4f}  "
-      f"(bounds -0.5 and +0.5)")
-print(f"pi = +0.5 (point above the line): {(pi_lad > 0.5 - 1e-6).sum()} points")
-print(f"pi = -0.5 (point below the line): {(pi_lad < -0.5 + 1e-6).sum()} points")
-print(f"-0.5 < pi < +0.5 (support points): {int(support.sum())} points  -> p + 1 = 2")
-print(f"Sum of the duals = {pi_lad.sum():.6f} (dual of the intercept)")
-print(f"Sum of the duals times temperature = {(pi_lad * temperature).sum():.6f}")
-print(f"Dual value {float(pi_lad @ demand):.4f} = primal value "
-      f"{m_lad.ObjVal:.4f}  (strong duality)")
-print("Support days:", (np.where(support)[0] + 1).tolist(),
-      "-> temperatures", np.round(temperature[support], 1).tolist())
-
-# the anomalous days show up in the deviations of the three-feature model
-X3all = np.column_stack([temperature, price, weekend])
-_, w3, b3, _, _ = quantile_regression(X3all, demand, tau=0.5)
-res3 = demand - (X3all @ w3 + b3)
-suspect = np.abs(res3) > 40
-print(f"\nThree-feature model over all 60 days: "
-      f"demand = {b3:.2f} {w3[0]:+.2f}*temp {w3[1]:+.2f}*price {w3[2]:+.2f}*weekend")
-print(f"Absolute deviation: {np.abs(res3[outlier == 0]).max():.1f} pieces at most on "
-      f"normal days, {np.abs(res3[outlier == 1]).min():.1f} at least on anomalous ones")
-print(f"Days with a deviation above 40 pieces: {(np.where(suspect)[0] + 1).tolist()}")
-print(f"They are exactly the strike days: {bool((suspect == (outlier == 1)).all())}")
-clean = ~suspect
+intestazione("Least squares (QP) against absolute deviations (LP)")
+Xt = temperatura.reshape(-1, 1)
+buoni = anomalo == 0
+m_ls, w_ls, b_ls, r_ls, pi_ls = minimi_quadrati(Xt, domanda)
+w_lad, b_lad = regressione_quantile(Xt, domanda, tau=0.5)
+_, w_pul, b_pul, _, _ = minimi_quadrati(Xt[buoni], domanda[buoni])
+print(f"QP  (least squares)      : demand = {b_ls:.2f} {w_ls[0]:+.2f} * temperature")
+print(f"LP  (absolute deviations): demand = {b_lad:.2f} {w_lad[0]:+.2f} * temperature")
+print(f"QP without the 5 strike days: demand = {b_pul:.2f} {w_pul[0]:+.2f} * temperature")
+print(f"Sum of squares: {m_ls.ObjVal:.1f}   root mean squared error "
+      f"{np.sqrt(m_ls.ObjVal / n):.2f} items")
+print(f"Mean absolute deviation on the 55 normal days: QP {scarto_medio(Xt[buoni], domanda[buoni], w_ls, b_ls):.2f}, "
+      f"LP {scarto_medio(Xt[buoni], domanda[buoni], w_lad, b_lad):.2f}, "
+      f"clean QP {scarto_medio(Xt[buoni], domanda[buoni], w_pul, b_pul):.2f} items")
+quota = (r_ls[~buoni] ** 2).sum() / m_ls.ObjVal
+print(f"Share of the sum of squares due to the 5 strike days: {100 * quota:.1f}%")
 
 # ----------------------------------------------------------------------
-# 5. QUANTILE REGRESSION: THE SAFETY STOCK FROM THE DATA
+# 4. READING THE KKT: RESIDUALS, MULTIPLIERS, NORMAL EQUATIONS
 # ----------------------------------------------------------------------
-intestazione("Quantile regression and safety stock")
-X3 = np.column_stack([temperature, price, weekend])[clean]
-y3 = demand[clean]
-print(f"From here on: the {int(clean.sum())} normal days")
-rows = []
-for tau in (0.10, 0.50, TAU_NV, 0.90):
-    _, w_t, b_t, _, _ = quantile_regression(X3, y3, tau=tau)
-    below_t = float((y3 < X3 @ w_t + b_t - 1e-9).mean())
-    rows.append({"tau": tau, "intercetta": b_t, "temperatura": w_t[0],
-                 "prezzo": w_t[1], "weekend": w_t[2], "quota_sotto": below_t})
-    print(f"tau = {tau:.4f}: demand = {b_t:7.2f} {w_t[0]:+6.2f}*temp "
-          f"{w_t[1]:+7.2f}*price {w_t[2]:+6.2f}*weekend   "
-          f"| observations below the estimate {below_t:.3f}")
-tab_tau = pd.DataFrame(rows)
-salva_dati(tab_tau, "regressione_quantili")
-
-typical_day = np.array([28.0, 3.00, 1.0])       # hot, full price, weekend
-_, w_med, b_med, _, _ = quantile_regression(X3, y3, tau=0.5)
-_, w_nv, b_nv, _, _ = quantile_regression(X3, y3, tau=TAU_NV)
-pred_med = float(typical_day @ w_med + b_med)
-pred_nv = float(typical_day @ w_nv + b_nv)
-q_uncond = float(np.quantile(y3, TAU_NV))
-print(f"\nTypical day (28 degrees, price 3.00, weekend):")
-print(f"  median predicted demand        {pred_med:6.1f} pieces")
-print(f"  predicted {TAU_NV:.4f} quantile     {pred_nv:6.1f} pieces  <- quantity to bake")
-print(f"  safety stock                   {pred_nv - pred_med:6.1f} pieces")
-print(f"  {TAU_NV:.4f} quantile with no features {q_uncond:6.1f} pieces  "
-      f"(chapter 13: same rule, no features)")
+intestazione("KKT conditions of least squares")
+print(f"max |pi_i - 2 r_i| = {np.abs(pi_ls - 2 * r_ls).max():.2e}")
+print(f"sum of the residuals           = {r_ls.sum():.6f}  (stationarity in b)")
+print(f"sum of residuals * temperature = {(r_ls * temperatura).sum():.6f}  (in w)")
+A = np.column_stack([np.ones(n), temperatura])
+coef_ne = np.linalg.solve(A.T @ A, A.T @ domanda)
+print(f"Normal equations (A'A) c = A'y: b = {coef_ne[0]:.2f}, w = {coef_ne[1]:+.2f}  "
+      f"(the same as the QP)")
+print(f"Residuals of the strike days: {np.round(r_ls[~buoni], 1)}")
+print(f"Largest absolute residual among the normal days: {np.abs(r_ls[buoni]).max():.1f}")
 
 # ----------------------------------------------------------------------
-# 6. FEATURE SELECTION WITH A BUDGET ON THE COEFFICIENTS
+# 5. FORECAST FOR THE NEWSVENDOR: MEAN + SAFETY STOCK AGAINST QUANTILE
 # ----------------------------------------------------------------------
-intestazione("Feature selection: a budget on the coefficients")
-names = ["temperature", "price", "weekend", "followers", "rain",
-         "stock_index", "day_of_month"]
-# the CSV keeps the same column names as the Italian version: the two scripts
-# must produce byte-identical files
-columns = ["temperatura", "prezzo", "weekend", "follower", "pioggia",
-           "indice_borsa", "giorno_del_mese"]
-Xg = np.column_stack([temperature, price, weekend, followers, rain,
-                      stock_index, day_of_month])[clean]
-Xs = (Xg - Xg.mean(axis=0)) / Xg.std(axis=0)    # standardisation is mandatory
+intestazione("Three features on the 55 normal days: mean and quantile")
+X3 = np.column_stack([temperatura, prezzo, weekend])[buoni]
+y3 = domanda[buoni]
+_, w3, b3, r3, _ = minimi_quadrati(X3, y3)
+w3q, b3q = regressione_quantile(X3, y3, tau=TAU_NV)
+sigma = float(np.sqrt((r3 ** 2).sum() / (len(y3) - 4)))
+print(f"Least squares: demand = {b3:.2f} {w3[0]:+.2f}*temp {w3[1]:+.2f}*price "
+      f"{w3[2]:+.2f}*weekend   (sigma of the residuals {sigma:.2f})")
+print(f"9/13 quantile: demand = {b3q:.2f} {w3q[0]:+.2f}*temp {w3q[1]:+.2f}*price "
+      f"{w3q[2]:+.2f}*weekend")
+giorno_tipo = np.array([28.0, 3.00, 1.0])
+media_prev = float(giorno_tipo @ w3 + b3)
+z = NormalDist().inv_cdf(TAU_NV)
+print(f"Typical day (28 degrees, price 3.00, weekend):")
+print(f"  forecast mean (QP)                {media_prev:6.1f} items")
+print(f"  mean + z*sigma, z = {z:.4f}       {media_prev + z * sigma:6.1f} items")
+print(f"  forecast 9/13 quantile (LP)       {float(giorno_tipo @ w3q + b3q):6.1f} items")
+quota_sotto = float((y3 < X3 @ w3 + b3 + z * sigma - 1e-9).mean())
+print(f"  share of the 55 days below mean + z*sigma: {quota_sotto:.3f} (target {TAU_NV:.3f})")
 
-_, w_full, b_full, _, _ = quantile_regression(Xs, y3, tau=0.5)
-print("Without a budget (all the features):")
-for name, coeff in zip(names, w_full):
-    print(f"  {name:16s} {coeff:+8.2f}")
-print(f"  |coefficients| = {np.abs(w_full).sum():.2f}   mean absolute deviation "
-      f"{mean_deviation(Xs, y3, w_full, b_full):.2f} pieces")
+# ----------------------------------------------------------------------
+# 6. SENSITIVITY: ONE OUTLYING DAY AND RIDGE REGRESSION
+# ----------------------------------------------------------------------
+intestazione("Sensitivity: a single outlying day")
+k = int(np.argmax(temperatura[buoni]))          # the hottest normal day (high leverage)
+print(f"Day moved: the hottest normal day ({temperatura[buoni][k]:.1f} degrees, "
+      f"demand {domanda[buoni][k]:.0f})")
+righe = []
+for delta in (0, -50, -100, -150, -200):
+    yy = domanda[buoni].copy()
+    yy[k] += delta
+    _, wq, bq, _, _ = minimi_quadrati(Xt[buoni], yy)
+    wl, bl = regressione_quantile(Xt[buoni], yy, tau=0.5)
+    righe.append((delta, bq, wq[0], bl, wl[0]))
+    print(f"  demand moved by {delta:5d}: QP b = {bq:7.2f}, w = {wq[0]:+.3f}   "
+          f"LP b = {bl:7.2f}, w = {wl[0]:+.3f}")
+salva_dati(pd.DataFrame(righe, columns=["shift", "b_qp", "w_qp", "b_lp", "w_lp"]),
+           "minimi_quadrati_anomalo")
 
-THRESHOLD = 2.0                                 # relevance: 2 pieces per std. dev.
-grid_t = np.round(np.arange(0, 60.5, 1.0), 2)
-curve, entries = [], {}
-for t in grid_t:
-    mt, w_t, b_t, _, constr = quantile_regression(Xs, y3, tau=0.5, budget=t)
-    mad = mean_deviation(Xs, y3, w_t, b_t)
-    curve.append({"budget": t, "scarto_medio": mad, "prezzo_ombra": constr.Pi,
-                  **{col: w_t[j] for j, col in enumerate(columns)}})
-    for j, name in enumerate(names):
-        if abs(w_t[j]) > THRESHOLD and name not in entries:
-            entries[name] = t
-curve = pd.DataFrame(curve)
-salva_dati(curve, "regressione_budget")
-salva_dat(curve[["budget", "scarto_medio", "prezzo_ombra"]], "cap17_budget")
-
-print(f"\nOrder of entry (coefficient above {THRESHOLD:.0f} pieces per standard "
-      f"deviation):")
-for name, t in sorted(entries.items(), key=lambda kv: kv[1]):
-    print(f"  budget {t:5.1f} -> {name} enters")
-never = [name for name in names if name not in entries]
-print(f"  stay out: {', '.join(never) if never else '(none)'}")
-
-print("\nCoefficients as the budget grows:")
-print("  budget  " + "".join(f"{name[:9]:>11s}" for name in names))
-for t in (10.0, 20.0, 30.0, 45.0):
-    row = curve[curve["budget"] == t].iloc[0]
-    print(f"  {t:6.0f}  " + "".join(f"{row[col]:11.2f}" for col in columns))
-
-for t in (5.0, 10.0, 20.0, 30.0, 45.0):
-    row = curve[curve["budget"] == t].iloc[0]
-    print(f"budget {t:5.1f}: mean deviation {row['scarto_medio']:6.2f} pieces, "
-          f"shadow price {row['prezzo_ombra']:+7.3f} pieces per unit of budget")
+intestazione("Ridge regression: quadratic penalty on the coefficients")
+nomi = ["temperature", "price", "weekend", "followers", "rain", "stock_index", "day_of_month"]
+Xg = np.column_stack([temperatura, prezzo, weekend, follower, pioggia, borsa, giorno_mese])[buoni]
+Xs = (Xg - Xg.mean(axis=0)) / Xg.std(axis=0)    # standardization is mandatory
+percorso = []
+for lam in (0, 10, 30, 100, 300, 1000, 3000):
+    _, wr, br, rr, _ = minimi_quadrati(Xs, y3, lam=lam)
+    rmse = float(np.sqrt((rr ** 2).mean()))
+    percorso.append({"lambda": lam, "rmse": rmse, **{nm: wr[j] for j, nm in enumerate(nomi)}})
+    nulli = int((np.abs(wr) < 1e-6).sum())
+    print(f"  lambda = {lam:5d}: " + " ".join(f"{c:+7.2f}" for c in wr)
+          + f"   rmse {rmse:6.2f}   zero coefficients {nulli}")
+percorso = pd.DataFrame(percorso)
+salva_dati(percorso, "minimi_quadrati_ridge")
+print("  (order: " + ", ".join(nomi) + ")")
 
 # ----------------------------------------------------------------------
 # 7. FIGURES
 # ----------------------------------------------------------------------
-points = pd.DataFrame({"temperatura": temperature, "domanda": demand,
-                       "sciopero": outlier.astype(int),
-                       "appoggio": support.astype(int)})
-salva_dat(points, "cap17_panetteria")
+salva_dat(pd.DataFrame({"temperatura": temperatura, "domanda": domanda,
+                        "sciopero": anomalo.astype(int)}), "cap13_panetteria")
+salva_dat(percorso[percorso["lambda"] > 0].assign(loglam=np.log10(percorso["lambda"][1:])),
+          "cap13_ridge")
 
 fig, ax = plt.subplots()
-ax.scatter(temperature[normal], demand[normal], s=18, color=TEAL,
-           label="normal days")
-ax.scatter(temperature[~normal], demand[~normal], s=45, color=ROSSO, marker="X",
+ax.scatter(temperatura[buoni], domanda[buoni], s=18, color=TEAL, label="normal days")
+ax.scatter(temperatura[~buoni], domanda[~buoni], s=45, color=ROSSO, marker="X",
            label="strike days")
-ax.scatter(temperature[support], demand[support], s=95, facecolors="none",
-           edgecolors=VERDE, linewidths=1.6, label="support points")
 gr = np.linspace(9, 35, 2)
-ax.plot(gr, b_lad + w_lad[0] * gr, color=BLU, lw=2, label="absolute deviations (LP)")
-ax.plot(gr, b_ols + w_ols[0] * gr, color=ARANCIO, lw=2, ls="--",
-        label="least squares (QP)")
-ax.set_xlabel("maximum temperature (degrees)")
-ax.set_ylabel("demand (pieces)")
-ax.set_title("Five strike days move least squares, not the LP")
+ax.plot(gr, b_ls + w_ls[0] * gr, color=ARANCIO, lw=2, label="least squares (QP)")
+ax.plot(gr, b_lad + w_lad[0] * gr, color=BLU, lw=2, ls="--", label="absolute deviations (LP)")
+ax.plot(gr, b_pul + w_pul[0] * gr, color=VERDE, lw=1.5, ls=":", label="QP without strikes")
+ax.set_xlabel("maximum temperature (degrees)"); ax.set_ylabel("demand (items)")
+ax.set_title("Squares give a voice to the outliers")
 ax.legend(loc="upper right", fontsize=8)
-salva_figura(fig, "cap17_regressione_robusta")
-
-lines = []
-for tau in (0.10, 0.50, TAU_NV):
-    _, w_t, b_t, _, _ = quantile_regression(Xt[clean], demand[clean], tau=tau)
-    lines.append({"tau": tau, "intercetta": b_t, "pendenza": w_t[0]})
-lines = pd.DataFrame(lines)
-salva_dat(lines, "cap17_rette_quantili")
+salva_figura(fig, "cap13_minimi_quadrati")
 
 fig, ax = plt.subplots()
-ax.scatter(temperature[clean], demand[clean], s=16, color=GRIGIO, alpha=0.7,
-           label="55 normal days")
-colours = {0.10: ARANCIO, 0.50: BLU, TAU_NV: VERDE}
-for _, row in lines.iterrows():
-    label = ("tau = 9/13 (critical fractile)" if abs(row["tau"] - TAU_NV) < 1e-9
-             else f"tau = {row['tau']:.2f}")
-    ax.plot(gr, row["intercetta"] + row["pendenza"] * gr,
-            color=colours[row["tau"]], lw=2, label=label)
-ax.set_xlabel("maximum temperature (degrees)")
-ax.set_ylabel("demand (pieces)")
-ax.set_title("One line per quantile: the fan of demand")
-ax.legend(loc="upper right", fontsize=8)
-salva_figura(fig, "cap17_quantili")
+p2 = percorso[percorso["lambda"] > 0]
+for j, nm in enumerate(nomi):
+    ax.plot(p2["lambda"], p2[nm], "-o", ms=3, label=nm, color=[TEAL, ROSSO, VERDE, ARANCIO, BLU, GRIGIO, "#8E44AD"][j])
+ax.set_xscale("log")
+ax.set_xlabel("$\\lambda$"); ax.set_ylabel("coefficient (items per std. dev.)")
+ax.set_title("Ridge: the coefficients shrink, but none becomes zero")
+ax.legend(fontsize=7, ncol=2)
+salva_figura(fig, "cap13_ridge")
 
-fig, ax = plt.subplots()
-ax.plot(curve["budget"], curve["scarto_medio"], color=TEAL, lw=2)
-for name, t in sorted(entries.items(), key=lambda kv: kv[1]):
-    row = curve[curve["budget"] == t].iloc[0]
-    ax.plot([t], [row["scarto_medio"]], "o", color=ROSSO, ms=5)
-    ax.annotate(name, (t, row["scarto_medio"]), textcoords="offset points",
-                xytext=(6, 8), fontsize=8, color=ROSSO)
-ax.set_xlabel("budget on the coefficients")
-ax.set_ylabel("mean absolute deviation (pieces)")
-ax.set_title("The price of complexity: error against budget")
-salva_figura(fig, "cap17_budget")
-
-print("\nDone: chapter 17 (robust and quantile regression).")
+print("\nDone: chapter 13.")
