@@ -146,6 +146,7 @@ nav:
       - optimization-ml.md
       - Support Vector Machine: svm.md
       - Least-squares regression: least-squares.md
+  - Exercises: exercises/index.md
   - Quiz: self-assessment.md
   - Lab: lab/index.md
   - Downloads: downloads.md

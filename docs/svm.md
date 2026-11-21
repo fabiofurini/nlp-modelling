@@ -6,6 +6,26 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab12_svm.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From the module *Convex Optimization*, [Chapter 6 «Convex and concave optimization problems»](https://fabiofurini.github.io/convex-optimization/problems/06-convex-concave-problems/): convex optimization problems and their optimality conditions.
+
+    - From this module, [Chapter 3 «The solver for nonlinear models»](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/): quadratic objectives in `gurobipy`.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - formulate hard and soft margin classification as QPs;
+
+    - derive and solve the dual, identifying the support vectors;
+
+    - obtain non-linear boundaries with kernels while staying in the convex world;
+
+    - handle unbalanced classes with asymmetric costs and evaluate with the right metrics.
+
 The SVM connects convex optimization to machine learning: the classifier is obtained
 by solving a QP. Here **no ML libraries**: every model is a QP written and solved
 with Gurobi, in order to understand *what* a classifier optimizes. The labels
@@ -214,6 +234,18 @@ SVR line: demand = -10.86 * price + 220.32    (true: -11p + 220)
 Tube eps = 8: 14 points out of 40 outside the tube -> only they determine the line
 ```
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - Maximizing the margin is a convex QP; the soft margin pays the violations with a price $C$.
+
+    - In the dual only the support vectors have non-zero multipliers, and they alone determine the boundary.
+
+    - A kernel replaces the inner product in the dual: non-linear boundaries, still a convex QP; $C$ and $\gamma$ are chosen by cross-validation.
+
+    - With unbalanced classes two prices $C_-$ and $C_+$ reflect the decision costs; one evaluates with precision and recall.
 
 ## Code
 

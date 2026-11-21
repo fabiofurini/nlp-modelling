@@ -6,6 +6,24 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab07_pricing.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From this module, [Chapter 3 «The solver for nonlinear models»](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/): bilinear constraints and `NonConvex = 2`; shadow prices estimated by perturbation.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - model demand as a function of the price and understand when profit is concave;
+
+    - handle a non-convex bilinear objective;
+
+    - evaluate capacity correctly: an additional seat is not worth the full margin;
+
+    - recognize corner optima, where no derivative vanishes.
+
 Which price maximizes profit when demand decreases as the price grows? Here the price
 is a *variable*: demand becomes endogenous and the profit $p \cdot q$ introduces a
 bilinear term — the first encounter with non-convexity.
@@ -126,6 +144,18 @@ on its own: the model exploits substitution, keeping the stalls expensive in ord
 push demand towards the balcony. With substitute products prices must be decided
 **jointly**: optimizing them one at a time leaves money on the table.
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - With linear demand profit is concave; when capacity is active the price rises to fill it exactly.
+
+    - An additional seat is worth $p^* - c - k/b$, not the full margin: capacity has value only while it is active.
+
+    - Gurobi solves the bilinear model to global optimality with `NonConvex = 2`; without duals, the value of a seat is estimated by perturbation.
+
+    - With substitute products prices must be decided jointly; with non-concave profit: study the function, several starting points, a plot.
 
 ## Code
 

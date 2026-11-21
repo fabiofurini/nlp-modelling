@@ -6,6 +6,24 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab06_markowitz.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From the module *Convex Optimization*, [Chapter 4 «Quadratic functions»](https://fabiofurini.github.io/convex-optimization/preliminaries/04-quadratic-functions/): quadratic forms and covariance matrices as positive semidefinite matrices.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - formulate and solve a convex QP;
+
+    - build and read the efficient frontier;
+
+    - understand the effect of mandate constraints;
+
+    - be wary of the estimates of the expected returns.
+
 How much should we invest in each asset in order to balance expected return and
 risk? The result is not a number but an **efficient frontier**: the complete menu
 of trade-offs among which the decision maker chooses.
@@ -127,6 +145,18 @@ $\bar r = 12\%$).
     optimized portfolios chase the estimation errors. Remedies: the constraints
     $u_i$, shrinkage of the estimates, or optimizing risk only (minimum variance).
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - Markowitz minimizes the variance of the portfolio subject to a minimum expected return: a convex QP.
+
+    - Along the efficient frontier one moves from the defensive mix to the high-return assets; mandate constraints have a visible cost.
+
+    - Below the minimum-variance return the return constraint is inactive and its multiplier is zero; beyond it every point of return costs variance.
+
+    - The estimates of expected returns are fragile: caps, shrinkage and minimum variance are the remedies.
 
 ## Code
 

@@ -6,6 +6,26 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab09_location.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *Convex Optimization*, [Chapter 1 «Convex sets»](https://fabiofurini.github.io/convex-optimization/preliminaries/01-convex-sets/): convex sets, on which the geographic constraints are built.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From this module, [Chapter 3 «The solver for nonlinear models»](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/): functional constraints and tolerances in `gurobipy`.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - formulate three location objectives and understand when they coincide;
+
+    - write Euclidean distances with conic constraints and solve them with Gurobi from good starting points;
+
+    - handle convex geographic constraints;
+
+    - build an efficiency-equity frontier with the $\varepsilon$-constraint method.
+
 Where should a charging station, a micro-hub, a health-care post be placed in order
 to be "close" to demand? It depends on what close means: **mean** distance
 (efficiency), **maximum** (equity) or **squared** (centroid). Three objectives,
@@ -131,6 +151,18 @@ costs only 47 metres of mean distance — equity here is "almost free", a very s
 argument in a public discussion. The opposite case (a steep frontier) would signal
 a genuine efficiency-equity conflict.
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - Weber minimizes the weighted mean distance, minimax the maximum distance, the quadratic objective gives the centroid.
+
+    - Euclidean distances are written with convex conic constraints.
+
+    - The choice of the objective is the managerial decision; a feared constraint can be almost free.
+
+    - The efficiency-equity frontier measures how much equity costs.
 
 ## Code
 

@@ -6,6 +6,26 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab08_budget.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *Convex Optimization*, [Chapter 3 «Convex and concave functions»](https://fabiofurini.github.io/convex-optimization/preliminaries/03-convex-concave-functions/): concave functions and diminishing returns.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From this module, [Chapter 3 «The solver for nonlinear models»](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/): functional constraints for nonlinear functions in `gurobipy`.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - model diminishing returns with concave functions;
+
+    - solve convex NLPs with the function constraints of Gurobi;
+
+    - verify the KKT conditions numerically;
+
+    - build the budget value curve and use $\lambda$ to negotiate the budget.
+
 How should a campaign of 100.000 € be split among channels with diminishing
 marginal returns? Theory says something strong and verifiable: **at the optimum
 the marginal returns are equal to each other** — and this is exactly what the
@@ -120,6 +140,18 @@ budget stops being the scarce resource and $\lambda$ collapses to zero. The curv
 $\lambda$ is the quantitative argument for negotiating the budget: marketing is
 funded as long as $\lambda$ exceeds the value of one euro invested elsewhere.
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - Logarithmic responses are concave: maximizing their sum under a budget is a convex problem with a certified global optimum.
+
+    - Gurobi handles the logarithm with a functional constraint after the reformulation $z_i = \log(1 + k_i x_i)$.
+
+    - At the optimum the marginal returns of the channels below their caps coincide with $\lambda$, as the KKT conditions predict.
+
+    - The response grows with the budget in a concave way and $\lambda$ decreases: its curve is the tool for negotiating the budget.
 
 ## Code
 

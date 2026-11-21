@@ -2,6 +2,24 @@
 
 [:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-03-python-gurobi.pdf)
 
+!!! nota "Prerequisites"
+
+    - From the module *LP Modelling*, [Chapter 3 «The solver: building, solving, interpreting»](https://fabiofurini.github.io/lp-modelling/solver-lp/): the general `gurobipy` commands: building, solving, reading the solution.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex QPs and the KKT multipliers.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - write nonlinear functions with functional constraints $y = f(x)$ and ratios with bilinear constraints;
+
+    - choose tolerances and reformulations that give good scaling;
+
+    - read the multipliers of a convex QP with `Pi`;
+
+    - estimate a shadow price by perturbation when the solver gives no duals.
+
 The general `gurobipy` commands (building, running, reading the solution) are in
 [LP Modelling, "Implementation: linear models"](https://fabiofurini.github.io/lp-modelling/solver-lp/)
 and in the [solver guide](https://github.com/fabiofurini/lp-modelling/blob/main/GUROBI_GUIDE.md).
@@ -75,3 +93,15 @@ global** optimum even in non-convex problems: with a local solver every result
 would have to be accompanied by the question “is it only a local optimum?”.
 Convex problems with a purely quadratic or conic structure (constraints such as
 `dx² + dy² ≤ d²`) require nothing special.
+
+## In summary
+
+!!! chiave "In summary"
+
+    - Nonlinear functions enter through functional constraints $y = f(x)$; ratios through bilinear constraints with `NonConvex = 2`.
+
+    - Marginal analyses need tight tolerances; a good reformulation improves the scaling.
+
+    - In a convex QP the multipliers are read with `Pi`; without duals, shadow prices are estimated by perturbation.
+
+    - A single solver for every model: the same syntax, and a certified global optimum.

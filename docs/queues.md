@@ -6,6 +6,26 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab11_queues.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *Convex Optimization*, [Chapter 3 «Convex and concave functions»](https://fabiofurini.github.io/convex-optimization/preliminaries/03-convex-concave-functions/): convex functions of one variable and their minimization.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From this module, [Chapter 3 «The solver for nonlinear models»](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/): functional constraints and the estimate of shadow prices by perturbation.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - use the M/M/1 formulas inside an optimization problem;
+
+    - derive the optimum analytically and confirm it numerically;
+
+    - put a price on a service promise;
+
+    - protect the sizing against uncertainty about demand.
+
 How much capacity should be assigned to a call centre, a service desk, a cloud
 service? More capacity costs money; too little capacity makes the waiting times
 explode. The central message, counter-intuitive for anyone who reasons "by
@@ -123,6 +143,18 @@ queue diverges (infinite cost). Minimizing the cost of the worst case gives
 $\mu_{\text{rob}} = 52{,}90$ with a worst-case cost of 173.39 €/h: an insurance
 premium of about 13% is paid in order to be protected from a disaster.
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - The total cost $c\mu + h\lambda/(\mu-\lambda)$ is convex, with optimum $\mu^* = \lambda + \sqrt{h\lambda/c}$: demand plus a safety margin.
+
+    - The optimal utilization is not 100\%: close to saturation the waiting time explodes.
+
+    - A promise $w \le w_{\max}$ becomes $\mu \ge \lambda + 1/w_{\max}$, and its shadow price explodes for ambitious promises.
+
+    - Sizing on the mean demand can make the queue unstable: the robust solution costs more and protects from disaster.
 
 ## Code
 

@@ -2,6 +2,26 @@
 
 [:material-file-pdf-box: Lecture notes (PDF)](pdf/nlp-modelling-notes.pdf) · [:material-presentation: Chapter slides (PDF)](pdf/slides-02-background.pdf)
 
+!!! nota "Prerequisites"
+
+    - From the module *Convex Optimization*, [Chapter 3 «Convex and concave functions»](https://fabiofurini.github.io/convex-optimization/preliminaries/03-convex-concave-functions/): convex and concave functions and their second-order characterisation.
+
+    - From the module *Convex Optimization*, [Chapter 4 «Quadratic functions»](https://fabiofurini.github.io/convex-optimization/preliminaries/04-quadratic-functions/): quadratic functions and positive semidefinite matrices.
+
+    - From the module *LP Modelling*, [Chapter 2 «Background: linear programming and sensitivity analysis»](https://fabiofurini.github.io/lp-modelling/theory-lp/): LP duality, complementary slackness and shadow prices.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - recognise a convex problem and use the fact that every local minimum is global;
+
+    - decide whether a QP is convex from the matrix $\boldsymbol Q$;
+
+    - write the KKT conditions of a problem and use them to check a solution;
+
+    - read the multipliers as shadow prices and estimate them by perturbation.
+
 The theory background of the course: convexity, quadratic programming and KKT
 conditions — the nonlinear extension of LP theory, recalled in
 [LP Modelling](https://fabiofurini.github.io/lp-modelling/theory-lp/) together with the
@@ -76,3 +96,15 @@ the right-hand side by $\varepsilon$, re-optimize, incremental ratio).
     with the general procedure. With right-hand side $6 + \varepsilon$ the optimal
     value grows by $\approx 8\varepsilon$ (exactly: $\tilde f(d) = \tfrac{2}{3}d^2$,
     hence $24 + 8\varepsilon + \tfrac{2}{3}\varepsilon^2$).
+
+## In summary
+
+!!! chiave "In summary"
+
+    - In a convex problem every local minimum is global; a QP is convex if and only if $\boldsymbol Q \succeq 0$.
+
+    - The KKT conditions are stationarity of the Lagrangian, feasibility and complementarity; in convex problems they are sufficient.
+
+    - In the linear case the KKT conditions reduce to complementary slackness.
+
+    - The multipliers are shadow prices, and they can also be estimated by perturbation.

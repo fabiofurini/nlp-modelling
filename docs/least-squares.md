@@ -6,6 +6,26 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab13_least_squares.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *LP Modelling*, [Chapter 10 «Robust and quantile regression: estimating parameters with an LP»](https://fabiofurini.github.io/lp-modelling/regression/): regression with absolute deviations and quantiles as an LP, on the same data.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From the module *Linear Algebra*, [Chapter 6 «System of linear equations»](https://fabiofurini.github.io/linear-algebra/systems/01-linear-systems/): linear systems, which give the normal equations.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - write least squares as a QP;
+
+    - read the KKT conditions as the normal equations;
+
+    - compare least squares, absolute deviations and quantiles on the same data;
+
+    - shrink the coefficients with a quadratic penalty (ridge).
+
 The case, the data and the linear model are those of
 [LP Modelling, "Robust and quantile regression"](https://fabiofurini.github.io/lp-modelling/regression/):
 sixty days of sales of a bakery, five of them during two strikes. There the sum of
@@ -95,6 +115,18 @@ the coefficients shrink, but none becomes zero; the budget on the absolute value
 LP Modelling, instead, leaves out the useless features.
 
 ![Ridge coefficients](img/cap13_ridge.png)
+
+## In summary
+
+!!! chiave "In summary"
+
+    - Least squares is a convex QP, and its KKT conditions are the normal equations.
+
+    - It estimates the mean: excellent with symmetric errors, fragile with outliers, where absolute deviations hold better.
+
+    - For the newsvendor one uses the mean plus a stock, or the quantile directly.
+
+    - Ridge stabilizes the coefficients; a linear budget on them selects the features.
 
 ## Code
 

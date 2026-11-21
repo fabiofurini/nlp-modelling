@@ -6,6 +6,24 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab04_production_quadratic.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *LP Modelling*, [Chapter 4 «Multi-period production and inventory»](https://fabiofurini.github.io/lp-modelling/production/): the linear production and inventory model, with its data.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+    - From this module, [Chapter 3 «The solver for nonlinear models»](https://fabiofurini.github.io/nlp-modelling/solver-nonlinear/): quadratic objectives and the multipliers of a QP in `gurobipy`.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - add a convex quadratic term to a linear model;
+
+    - read the multipliers of a QP and verify them by perturbation;
+
+    - trace the cost-smoothness frontier as the weight varies.
+
 The case, the data and the linear model are those of
 [LP Modelling, "Production and inventory"](https://fabiofurini.github.io/lp-modelling/production/).
 The minimum-cost plan changes pace abruptly: total production goes from 219.5 to
@@ -93,6 +111,18 @@ Check: +0.01 hours in month 6 -> difference quotient -3.133
     The first steps towards smoothness cost very little: with $\gamma = 0.01$ the sum
     of the squared jumps falls from 13,699 to 2,075 for €48. An almost flat plan
     costs about €112 out of 33,000.
+
+## In summary
+
+!!! chiave "In summary"
+
+    - A convex quadratic term added to an LP gives a convex QP.
+
+    - The weight $\gamma$ traces the cost-smoothness frontier: the first steps cost little.
+
+    - QP multipliers are read with `Pi`, but they hold at the margin.
+
+    - A new term can change the structure of the solution.
 
 ## Code
 

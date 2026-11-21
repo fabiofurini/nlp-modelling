@@ -6,6 +6,24 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab05_supplychain.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *LP Modelling*, [Chapter 2 «Background: linear programming and sensitivity analysis»](https://fabiofurini.github.io/lp-modelling/theory-lp/): shadow prices, reduced costs and their ranges.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - formulate a minimum-cost flow problem with conservation constraints;
+
+    - model congestion with convex quadratic terms;
+
+    - draw a cost-emissions frontier with an internal CO$_2$ price;
+
+    - understand why the solutions of LPs jump from one vertex to another.
+
 Products cross a network of plants, hubs and markets. Every leg has a
 cost, a capacity and a CO₂ footprint. How should the flows be routed at minimum cost? What
 changes if we penalize congestion? How much must CO₂ be worth for the
@@ -129,6 +147,18 @@ being strictly convex, would instead move continuously.
     The "pure" minimax ($\min z$) accepts any routing with utilization
     $\le \tilde z$, even an extremely expensive one: always combine it with the cost.
 
+
+## In summary
+
+!!! chiave "In summary"
+
+    - The shadow prices of demand are the marginal costs of serving the markets; the reduced costs of unused arcs are convenience thresholds.
+
+    - Congestion modelled with quadratic terms lowers the maximum utilization at a higher cost.
+
+    - Varying the CO$_2$ price $\tau$ traces the cost-emissions frontier: in an LP the optimum jumps between vertices, a strictly convex model moves continuously.
+
+    - Pure minimax is degenerate: it must be combined with the cost.
 
 ## Code
 

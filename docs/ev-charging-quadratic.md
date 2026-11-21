@@ -6,6 +6,22 @@
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fabiofurini/nlp-modelling/blob/main/notebooks/lab10_ev_charging_quadratic.ipynb)
 
+!!! nota "Prerequisites"
+
+    - From the module *LP Modelling*, [Chapter 5 «Smart charging of electric vehicles»](https://fabiofurini.github.io/lp-modelling/ev-charging/): the linear charging model, with its data.
+
+    - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
+
+!!! chiave "Objectives"
+
+    At the end of this chapter you will be able to:
+
+    - penalize the changes of an aggregate quantity with a quadratic term;
+
+    - read the energy-requirement multiplier in a QP;
+
+    - trace the frontier between spend and jitter of the draw.
+
 The case, the data and the linear model are those of
 [LP Modelling, "Smart charging of electric vehicles"](https://fabiofurini.github.io/lp-modelling/ev-charging/).
 Minimum-cost charging chases the cheap hours: the total draw rises to 103.4 kW and
@@ -95,6 +111,18 @@ Check (g = 0.01): e_1 + 1 kWh -> 0.0917;  e_1 + 0.01 kWh -> 0.0916
     The frontier is steep at first: with €1.15 more per night ($\gamma = 0.0005$) the
     sum of the squared jumps falls from 7,268 to 1,563. Beyond $\gamma = 0.1$ every
     further smoothing costs a lot.
+
+## In summary
+
+!!! chiave "In summary"
+
+    - The quadratic term penalizes every change of the draw, not only the peak.
+
+    - The marginal kWh is split between hours: in the example it costs the average price.
+
+    - In the QP the multipliers of the vehicles coincide.
+
+    - The frontier is steep at first: the first smoothing steps cost little.
 
 ## Code
 
