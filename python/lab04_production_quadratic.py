@@ -22,6 +22,8 @@ from stile import ARANCIO, TEAL, intestazione, plt, salva_dat, salva_dati, salva
 # ----------------------------------------------------------------------
 # 1. DATA (the same as in the linear case)
 # ----------------------------------------------------------------------
+# The data are those of the linear case in LP Modelling: they are written here (same seed),
+# so that the script also runs in Colab; the CSV files live in the LP Modelling repository.
 prodotti = ["1", "2", "3"]
 mesi = list(range(1, 7))
 domanda = {
@@ -35,14 +37,6 @@ ore_unit = {"1": 0.9, "2": 1.4, "3": 2.1}        # machine hours per unit
 capacita = {1: 420, 2: 420, 3: 460, 4: 460, 5: 460, 6: 420}  # hours/month
 scorta_iniziale = {"1": 30, "2": 20, "3": 10}
 
-df = pd.DataFrame(
-    [(i, t, domanda[i, t], costo_prod[i], costo_giac[i], ore_unit[i], scorta_iniziale[i])
-     for i in prodotti for t in mesi],
-    columns=["product", "month", "demand", "production_cost", "holding_cost", "hours_unit",
-             "initial_stock"])
-salva_dati(df, "produzione_domanda")
-salva_dati(pd.DataFrame({"month": mesi, "capacity_hours": [capacita[t] for t in mesi]}),
-           "produzione_capacita")
 
 
 def costruisci_qp(gamma, cap=None):

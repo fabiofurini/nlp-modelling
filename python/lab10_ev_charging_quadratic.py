@@ -23,6 +23,8 @@ from stile import (ARANCIO, GRIGIO, ROSSO, TEAL, VERDE, intestazione, plt, salva
 # ----------------------------------------------------------------------
 # 1. DATA (the same as in the linear case)
 # ----------------------------------------------------------------------
+# The data are those of the linear case in LP Modelling: they are written here (same seed),
+# so that the script also runs in Colab; the CSV files live in the LP Modelling repository.
 ore = list(range(24))                      # hour t = [t, t+1)
 prezzo = np.array([0.09, 0.08, 0.07, 0.07, 0.08, 0.10, 0.14, 0.18, 0.20, 0.19,
                    0.17, 0.16, 0.15, 0.15, 0.16, 0.18, 0.21, 0.24, 0.26, 0.24,
@@ -40,10 +42,6 @@ C_rete = 120.0        # maximum power that can be drawn from the meter (kW)
 disp = {(v, t): 1 if (flotta[v][0] <= t or t < flotta[v][1]) else 0
         for v in veicoli for t in ore}      # windows that straddle midnight
 
-salva_dati(pd.DataFrame({"hour": ore, "price": prezzo, "base_load": base}), "ev_prezzi_base")
-salva_dati(pd.DataFrame([(v, *flotta[v]) for v in veicoli],
-                        columns=["vehicle", "arrival", "departure", "energy_kWh", "pmax_kW"]),
-           "ev_flotta")
 
 
 def costruisci_qp(gamma, energia=None):

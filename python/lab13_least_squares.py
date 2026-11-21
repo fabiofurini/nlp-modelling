@@ -90,6 +90,8 @@ print(f"If the last value goes from 148 to 248: mean {b0b:.4f} (+{b0b - b0:.4f})
 # ----------------------------------------------------------------------
 # 2. DATA (the same as in the linear case: same generator, same seed)
 # ----------------------------------------------------------------------
+# The data are those of the linear case in LP Modelling: they are written here (same seed),
+# so that the script also runs in Colab; the CSV files live in the LP Modelling repository.
 intestazione("The bakery history: 60 days")
 rng = np.random.default_rng(16)
 n = 60
@@ -108,13 +110,6 @@ pioggia = np.round(rng.uniform(0, 12, n), 1)
 borsa = np.round(rng.uniform(95, 115, n), 1)
 giorno_mese = rng.integers(1, 29, n).astype(float)
 
-dati = pd.DataFrame({
-    "giorno": np.arange(1, n + 1), "domanda": domanda.astype(int),
-    "temperatura": temperatura, "prezzo": prezzo, "weekend": weekend.astype(int),
-    "follower": follower, "pioggia": pioggia, "indice_borsa": borsa,
-    "giorno_del_mese": giorno_mese.astype(int), "sciopero": anomalo.astype(int),
-})
-salva_dati(dati, "panetteria_storico")
 print(f"Demand: min {domanda.min():.0f}, mean {domanda.mean():.1f}, "
       f"max {domanda.max():.0f}   strike days: {[g + 1 for g in giorni_sciopero]}")
 
