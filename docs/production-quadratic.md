@@ -8,7 +8,7 @@
 
 !!! nota "Prerequisites"
 
-    - From the module *LP Modelling*, [Chapter 4 «Multi-period production and inventory»](https://fabiofurini.github.io/lp-modelling/production/): the linear production and inventory model, with its data.
+    - From the module *LP Modelling*, [Chapter 5 «Multi-period production and inventory»](https://fabiofurini.github.io/lp-modelling/production/): the linear production and inventory model, with its data.
 
     - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
 

@@ -8,7 +8,7 @@
 
 !!! nota "Prerequisites"
 
-    - From the module *LP Modelling*, [Chapter 5 «Smart charging of electric vehicles»](https://fabiofurini.github.io/lp-modelling/ev-charging/): the linear charging model, with its data.
+    - From the module *LP Modelling*, [Chapter 6 «Smart charging of electric vehicles»](https://fabiofurini.github.io/lp-modelling/ev-charging/): the linear charging model, with its data.
 
     - From this module, [Chapter 2 «Background: convexity, quadratic programming and KKT conditions»](https://fabiofurini.github.io/nlp-modelling/theory-nonlinear/): convex quadratic programs, the KKT conditions and the multipliers as shadow prices.
 

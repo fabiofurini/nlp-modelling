@@ -21,7 +21,7 @@
     - estimate a shadow price by perturbation when the solver gives no duals.
 
 The general `gurobipy` commands (building, running, reading the solution) are in
-[LP Modelling, "Implementation: linear models"](https://fabiofurini.github.io/lp-modelling/solver-lp/)
+[LP Modelling, «The solver: building, solving, interpreting»](https://fabiofurini.github.io/lp-modelling/solver-lp/)
 and in the [solver guide](https://github.com/fabiofurini/lp-modelling/blob/main/GUROBI_GUIDE.md).
 Here only what is specific to nonlinear models.
 
