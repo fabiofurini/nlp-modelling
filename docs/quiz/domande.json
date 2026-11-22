@@ -8621,24 +8621,24 @@
    },
    "corretta": 0,
    "it": {
-    "testo": "Che cosa fa lo script che esegue tutti gli script del corso (`esegui_tutti.py`, in inglese `run_all.py`)?",
+    "testo": "Che cosa fa uno script di capitolo di Modellazione PNL, per esempio `lab06_markowitz.py`, lanciato da solo?",
     "opzioni": [
      "Esegue gli script e rigenera risultati, figure e notebook",
      "Compila la dispensa e le slide in PDF",
      "Pubblica il sito del corso su GitHub Pages",
      "Scarica i dati dal repository di Modellazione PL"
     ],
-    "spiegazione": "Lo script esegue in sequenza gli script dei capitoli (risultati e figure) e poi rigenera i notebook di Colab."
+    "spiegazione": "Ogni script si esegue da solo: risolve i modelli del capitolo e ne rifà risultati e figure; lo stesso codice gira nel notebook su Colab."
    },
    "en": {
-    "testo": "What does the script that runs all the scripts of the course (`run_all.py`, in Italian `esegui_tutti.py`) do?",
+    "testo": "What does a chapter script of NLP Modelling, for instance `lab06_markowitz.py`, do when run on its own?",
     "opzioni": [
      "It runs the scripts and regenerates results, figures and notebooks",
      "It compiles the lecture notes and the slides into PDF",
      "It publishes the course website on GitHub Pages",
      "It downloads the data from the LP Modelling repository"
     ],
-    "spiegazione": "The script runs the chapter scripts in sequence (results and figures) and then regenerates the Colab notebooks."
+    "spiegazione": "Every script runs on its own: it solves the models of the chapter and redoes its results and figures; the same code runs in the notebook on Colab."
    }
   },
   {

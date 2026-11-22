@@ -36,3 +36,6 @@ __pycache__/
 
 # i PDF pubblicati sul sito vanno invece versionati
 !docs/pdf/*.pdf
+# pipeline private (Fabio, 21/11/2026): generano notebook e materiali, non servono agli studenti
+python/make_notebooks.py
+python/run_all.py

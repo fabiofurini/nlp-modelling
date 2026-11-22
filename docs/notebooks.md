@@ -27,15 +27,9 @@ being written to a file.
 
 ## How they are made
 
-The notebooks are not written by hand: they are generated from the scripts with
-
-```bash
-python3 python/make_notebooks.py
-```
-
-The chapter script remains the single source of the code — the notebook takes its
-docstring, sections and comments from it — and whoever prefers the command line
-keeps running, from the `python/` folder:
+Every notebook contains the same code as the chapter script, with the same
+sections and comments. Whoever prefers the command line runs the script, which
+works on its own, from the `python/` folder:
 
 ```bash
 python3 lab06_markowitz.py
@@ -67,11 +61,11 @@ import gurobipy as gp
 print(gp.gurobi.version())        # e.g. (13, 0, 3)
 ```
 
-## Regenerating everything
+## Running the scripts locally
 
 ```bash
 python3 -m pip install gurobipy matplotlib pandas scipy   # scipy: statistical functions only
-python3 python/run_all.py             # regenerates data, results and figures
+python3 python/lab06_markowitz.py   # every script runs on its own
 ```
 
 The [repository](https://github.com/fabiofurini/nlp-modelling)

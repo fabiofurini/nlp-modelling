@@ -65,12 +65,12 @@ Every chapter has its script in [`python/`](python/) (`lab04`–`lab13`):
 
 ```bash
 python3 -m pip install gurobipy matplotlib pandas
-python3 python/run_all.py          # all the models: results, figures and notebooks
+python3 python/lab06_markowitz.py   # every script runs on its own
 ```
 
 With nothing to install, every chapter has its notebook in [`notebooks/`](notebooks/): it opens in
-Colab from the badge at the top of the chapter page and runs in the browser. The notebooks are
-generated from the scripts (`python3 python/make_notebooks.py`), so the course code stays one. The
+Colab from the badge at the top of the chapter page and runs in the browser; it contains the same
+code as the script. The
 data of the cases taken from LP Modelling (production, EV charging, bakery) live in the
 [LP Modelling](https://github.com/fabiofurini/lp-modelling) repository: the scripts here write them
 again with the same values.

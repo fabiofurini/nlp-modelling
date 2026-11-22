@@ -44,7 +44,7 @@ Nothing to install: every chapter has its
 
 ```bash
 python3 -m pip install gurobipy matplotlib pandas
-python3 python/run_all.py            # regenerates results, figures and notebooks
+python3 python/lab06_markowitz.py    # every script runs on its own
 ```
 
 The solutions of the exercises are handed out in class.
