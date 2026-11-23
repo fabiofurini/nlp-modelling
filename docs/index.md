@@ -24,8 +24,10 @@ together with the [Convex Optimization](https://fabiofurini.github.io/convex-opt
 Teaching material designed and developed by **[Fabio Furini](https://fabiofurini.github.io/)**, associate
 professor at [DIAG](https://www.diag.uniroma1.it/), Sapienza University of Rome.
 
-**Nonlinear programming models** — the online version of the course lecture notes,
-with Python/Gurobi code and reproducible case studies.
+The course presents modelling with nonlinear programming: theory recalls, solvers for nonlinear models,
+and models of production with quadratic smoothing, supply chain and CO2, the Markowitz portfolio,
+pricing, advertising budget, continuous location, queues, support vector machines and least squares,
+with Python/Gurobi code.
 
 Prerequisites: [LP Modelling](https://fabiofurini.github.io/lp-modelling/) and [Convex Optimization](https://fabiofurini.github.io/convex-optimization/).
 
