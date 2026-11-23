@@ -15,7 +15,7 @@ theme:
   name: material
   language: en
   icon:
-    logo: material/chart-timeline-variant
+    logo: material/chart-bell-curve-cumulative
   font:
     text: Source Sans 3
     code: JetBrains Mono
