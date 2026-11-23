@@ -6,7 +6,7 @@ Text, figures and data are released under
 scripts under the
 [MIT](https://github.com/fabiofurini/nlp-modelling/blob/main/LICENSE-CODE) license.
 
-## The lecture notes
+## Lecture notes
 
 <div class="grid cards" markdown>
 
@@ -19,6 +19,41 @@ scripts under the
 
     [:octicons-download-24: nlp-modelling-notes.pdf](pdf/nlp-modelling-notes.pdf)
 
+</div>
+
+<!-- slide:inizio -->
+## Slides
+
+The lecture slides, one deck per chapter of the notes (PDF).
+
+### Tools
+
+- :material-presentation: [Introduction to the course](pdf/slides-01-introduction.pdf)
+- :material-presentation: [Background: convexity, QP and KKT](pdf/slides-02-background.pdf)
+- :material-presentation: [The solver for nonlinear models](pdf/slides-03-python-gurobi.pdf)
+
+### Deterministic models
+
+- :material-presentation: [Production with quadratic smoothing](pdf/slides-04-production-quadratic.pdf)
+- :material-presentation: [Supply chain with congestion and sustainability](pdf/slides-05-supply-chain.pdf)
+- :material-presentation: [The Markowitz portfolio](pdf/slides-06-markowitz.pdf)
+- :material-presentation: [Pricing and revenue management](pdf/slides-07-pricing.pdf)
+- :material-presentation: [Advertising budget allocation](pdf/slides-08-budget.pdf)
+- :material-presentation: [Continuous location of a service](pdf/slides-09-location.pdf)
+- :material-presentation: [EV charging with a smooth profile](pdf/slides-10-ev-charging-quadratic.pdf)
+- :material-presentation: [Service capacity and waiting times](pdf/slides-11-queues.pdf)
+
+### Optimization and machine learning
+
+- :material-presentation: [Support Vector Machine](pdf/slides-12-svm.pdf)
+- :material-presentation: [Least-squares regression](pdf/slides-13-least-squares.pdf)
+
+<!-- slide:fine -->
+
+## Other documents
+
+<div class="grid cards" markdown>
+
 -   :material-language-python: **The code**
 
     ---
@@ -29,45 +64,6 @@ scripts under the
     [:octicons-mark-github-16: nlp-modelling](https://github.com/fabiofurini/nlp-modelling)
 
 </div>
-
-<!-- slide:inizio -->
-## Slides
-
-The lecture slides, one deck per chapter of the notes (PDF).
-
-<div class="grid cards" markdown>
-
--   :material-presentation: **Tools**
-
-    ---
-
-    - [Introduction to the course](pdf/slides-01-introduction.pdf)
-    - [Background: convexity, QP and KKT](pdf/slides-02-background.pdf)
-    - [The solver for nonlinear models](pdf/slides-03-python-gurobi.pdf)
-
--   :material-presentation: **Deterministic models**
-
-    ---
-
-    - [Production with quadratic smoothing](pdf/slides-04-production-quadratic.pdf)
-    - [Supply chain with congestion and sustainability](pdf/slides-05-supply-chain.pdf)
-    - [The Markowitz portfolio](pdf/slides-06-markowitz.pdf)
-    - [Pricing and revenue management](pdf/slides-07-pricing.pdf)
-    - [Advertising budget allocation](pdf/slides-08-budget.pdf)
-    - [Continuous location of a service](pdf/slides-09-location.pdf)
-    - [EV charging with a smooth profile](pdf/slides-10-ev-charging-quadratic.pdf)
-    - [Service capacity and waiting times](pdf/slides-11-queues.pdf)
-
--   :material-presentation: **Optimization and machine learning**
-
-    ---
-
-    - [Support Vector Machine](pdf/slides-12-svm.pdf)
-    - [Least-squares regression](pdf/slides-13-least-squares.pdf)
-
-</div>
-
-<!-- slide:fine -->
 
 <!-- banca-domande -->
 ## Quiz question bank
