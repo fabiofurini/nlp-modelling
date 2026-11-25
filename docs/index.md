@@ -42,9 +42,9 @@ Prerequisites: [LP Modelling](https://fabiofurini.github.io/lp-modelling/) and [
 <!-- collana-app -->
 ## Try it now
 
-Three nonlinear models of the course solved to optimality in the browser: the Markowitz portfolio, the optimal price with capacity and the location of a service. Choose the model at the top right, change the required return or the other data with the sliders and watch the optimal solution being recomputed, with its position on the efficient frontier.
+The minimum-variance Markowitz portfolio, solved to optimality in the browser: move the required return, the bound per asset and the expected return of one asset and watch the optimal portfolio slide along the efficient frontier.
 
-<div class="gi" data-grafico="pnl-modelli"></div>
+<div class="gi" data-grafico="pnl-markowitz"></div>
 
 [:material-gesture-tap: More apps in the lab](lab/index.md){ .md-button }
 <!-- /collana-app -->
