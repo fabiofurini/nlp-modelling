@@ -56,3 +56,87 @@
 .md-typeset .admonition.nota, .md-typeset details.nota { border-color: var(--c-nota); background: color-mix(in srgb, var(--c-nota) 5%, transparent); }
 .md-typeset .nota > .admonition-title, .md-typeset .nota > summary { background: color-mix(in srgb, var(--c-nota) 12%, transparent); }
 .md-typeset .nota > .admonition-title::before, .md-typeset .nota > summary::before { background-color: var(--c-nota); -webkit-mask-image: var(--md-admonition-icon--note); mask-image: var(--md-admonition-icon--note); }
+
+/* ---------------- app: riquadri standard, come in Modellazione PL e MIP (RIQ in gi-pnl-app.js; Fabio, 26/11/2026)
+   Il problema, Dati, Modello (richiudibile: variabili e modello simbolico), figura; a destra cursori, Soluzione ottima,
+   Prova tu (richiudibile); in fondo il modello numerico, chiuso. Stessi nomi di classi delle altre due collane. */
+.gi[data-grafico^="pnl-"] .gi-domanda { display: none !important; }
+.gi[data-grafico^="pnl-"] .gi-formula:empty { display: none; }
+.md-typeset .gi .plm { font-size: .78rem; line-height: 1.45; }
+.md-typeset .plm-box { margin: .2em 0 .6em; padding: .4em .7em .3em; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--gi-line) 90%, transparent); }
+.md-typeset .plm-box p { margin: 0 0 .2em; }
+.md-typeset .plm-box > .plm-box-tit, .md-typeset .plm-dati > .plm-dati-tit { margin: 0 0 .15em; font-size: .76rem; font-weight: 700; }
+.md-typeset .plm-box-mod .plm-sim { padding: 0; }
+.plm-sim { overflow-x: auto; overflow-y: hidden; text-align: center; font-size: .95em; padding: .2em 0 .3em; }
+/* riquadro «Dati»: significato dei simboli in una riga, valori solo nelle tabelle */
+.md-typeset .plm-dati { margin: .2em 0 .6em; font-size: .72rem; line-height: 1.4; overflow-x: auto;
+  padding: .4em .7em .25em; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--gi-line) 90%, transparent); }
+.md-typeset .plm-dati .plm-dati-sig { margin: 0 0 .2em; font-size: .8rem; }
+.plm-dati-tabs { display: flex; flex-wrap: wrap; gap: .2em 1.6em; align-items: flex-start; }
+.md-typeset .gi .plm-dati table.gi-tabella { width: auto; margin: 0 0 .2em; }
+.md-typeset .gi .plm-dati table.gi-tabella td, .md-typeset .gi .plm-dati table.gi-tabella th { min-width: 2.2em; padding: .05em .4em; }
+.md-typeset .gi .plm-dati table.gi-tabella td:first-child, .md-typeset .gi .plm-dati table.gi-tabella th:first-child { text-align: left; }
+.md-typeset .plm-sol-t > p { margin: .1em 0 0; font-weight: 600; }
+/* tabelle senza colonna di etichette (una riga di valori): colonne centrate */
+.md-typeset .gi .plm-t-num table.gi-tabella td, .md-typeset .gi .plm-t-num table.gi-tabella th { text-align: center !important; }
+/* scatole che si aprono (Fabio, 26/11/2026): stesso CSS di Modellazione MIP (details.plm-box > summary.plm-box-tit) */
+.md-typeset details.plm-box { display: block; overflow: visible; box-shadow: none; font-size: inherit; background: transparent;
+  border: 1px solid color-mix(in srgb, var(--gi-line) 90%, transparent); border-radius: 8px; }
+.md-typeset details.plm-box > summary.plm-box-tit { margin: 0; padding: 0; font-size: .76rem; font-weight: 700; cursor: pointer; color: inherit;
+  list-style: none; display: flex; align-items: center; gap: .35em; background: none; border: 0; min-height: 0; }
+.md-typeset details.plm-box > summary.plm-box-tit::-webkit-details-marker { display: none; }
+.md-typeset details.plm-box > summary.plm-box-tit::before { content: ""; position: static; width: .45em; height: .45em; flex: 0 0 auto;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); transition: transform .15s;
+  background: none; -webkit-mask: none; mask: none; margin-right: .1em; }
+.md-typeset details.plm-box[open] > summary.plm-box-tit::before { transform: rotate(45deg); }
+.md-typeset details.plm-box > summary.plm-box-tit::after { display: none; }
+.md-typeset details.plm-box > .plm-box-corpo { margin-top: .2em; }
+.md-typeset details.plm-box > .plm-box-corpo > p { margin: 0 0 .2em; }
+.md-typeset .plm-mod-var { font-size: .78rem; line-height: 1.45; }
+.md-typeset details.plm-box-prova { margin: .6em 0 0; border-left: 4px solid #0E7490; background: color-mix(in srgb, #0E7490 7%, transparent); line-height: 1.4; }
+.md-typeset details.plm-box-prova p { font-size: .8rem; }
+/* scatola dentro un riquadro (tabelle grandi dei dati) */
+.md-typeset details.plm-piu { margin: .2em 0 .1em; padding: 0; border: 0; box-shadow: none; background: transparent; font-size: inherit; }
+.md-typeset details.plm-piu > summary { display: inline-block; position: relative; padding: 0 1.3em 0 0; margin: 0; min-height: 0; background: transparent; border: 0;
+  font-weight: 600; cursor: pointer; color: var(--md-typeset-a-color); }
+.md-typeset details.plm-piu > summary::before { display: none; }
+.md-typeset details.plm-piu > summary::after { top: .1em; right: 0; width: .95em; height: .95em; background-color: currentColor; }
+.plm-piu-corpo { max-height: 16em; overflow: auto; margin-top: .2em; }
+/* la riga «Il modello è spiegato nel capitolo …» in fondo al riquadro, dopo la figura (come in MIP) */
+.md-typeset .plm-cap-fondo { margin: .4em 0 0; font-size: .76rem; }
+.md-typeset .plm-cap-fondo .plm-cap { margin: 0; text-align: center; }
+/* «Soluzione ottima»: prima i valori delle variabili, sotto il valore ottimo */
+.md-typeset .plm-sol { margin: .6em 0 0; padding: .45em .7em .3em; font-size: .76rem; line-height: 1.5; overflow-x: auto; border-radius: 8px; }
+.md-typeset .gi .plm-sol.plm-box { margin: .6em 0 0; background: color-mix(in srgb, var(--gi-line) 40%, transparent); }
+.md-typeset .plm-sol-tit { margin: 0 0 .15em; font-weight: 700; }
+.md-typeset .plm-sol-val { margin: .3em 0 .25em; }
+.plm-sol-tabs { display: flex; flex-wrap: wrap; gap: .2em 1.8em; align-items: flex-start; }
+.md-typeset .gi .plm-sol table.gi-tabella { width: auto; margin: 0 0 .3em; }
+.md-typeset .gi .plm-sol table.gi-tabella td, .md-typeset .gi .plm-sol table.gi-tabella th { min-width: 2em; padding: .1em .3em; }
+.md-typeset .gi .plm-sol table.gi-tabella td:first-child, .md-typeset .gi .plm-sol table.gi-tabella th:first-child { text-align: left; }
+.md-typeset .plm-sol-nota { margin: .1em 0 .2em; opacity: .85; }
+/* il modello numerico in fondo al riquadro, largo quanto l'app */
+.plm-fondo { padding: 0 1em .8em; }
+.md-typeset .plm-fondo details.plm-num { margin: .3em 0 0; font-size: .82rem; }
+.md-typeset details.plm-num > summary { font-weight: 600; }
+.plm-num-corpo { padding: .2em 0 .4em; }
+.plm-riga { text-align: center; margin: .1em 0 .5em; white-space: nowrap; overflow-x: auto; overflow-y: hidden; }
+.plm-riga.plm-lungo { max-height: 28em; overflow-y: auto; }
+.md-typeset .plm-tit { margin: .6em 0 .1em; font-weight: 600; font-size: .95em; }
+.md-typeset .plm-num-corpo > .plm-tit:first-child { margin-top: .2em; }
+.md-typeset .plm-nota { margin: .4em 0 0; font-size: .95em; opacity: .85; white-space: normal; }
+/* pagine del laboratorio: con i riquadri sopra, il grafico ha un'altezza fissa e la pagina scorre */
+@media (min-width: 860px) {
+  .gi.gi-app-intera:has(.plm) { height: auto; }
+  .gi-app-intera:has(.plm) .gi-board { flex: 0 0 auto; height: 520px !important; }
+  .gi-app-intera:has(.plm) .gi-corpo > div:last-child { overflow: visible; }
+}
+/* home (data-vetrina, messo da gi-pnl-app.js): l'app sta in una schermata 1440x900, il riquadro «Dati» sopra i cursori */
+.gi[data-vetrina] .gi-board { aspect-ratio: 11 / 4; }
+.gi[data-vetrina] .gi-corpo { padding-top: .8em; padding-bottom: .6em; }
+.gi[data-vetrina] .plm-box { margin-bottom: .45em; }
+.gi[data-vetrina] .gi .plm-sol.plm-box, .md-typeset .gi[data-vetrina] .plm-sol.plm-box { margin-top: .4em; }
+.gi[data-vetrina] .gi-btn { margin-top: .1em; }
+.gi[data-vetrina] .plm-dati { margin: 0 0 .4em; }
+.gi[data-vetrina] .gi-ctrl { padding: .3em 0 .35em; }
+.gi[data-vetrina] .gi-legenda { margin-top: .3em; }

@@ -9,20 +9,6 @@ The models of the course solved to optimality in the browser: change the data wi
 dragging the points, and a solver written in JavaScript recomputes the solution, with the same
 numbers as the Python scripts and the lecture notes. Pick an app: it opens full page.
 
-## Models side by side
-
-<div class="grid cards" markdown>
-
--   :material-chart-bell-curve-cumulative: **Three nonlinear models solved to optimality**
-
-    ---
-
-    The Markowitz portfolio, the optimal price of a ticket and the location of a service: pick the model, change the data with the sliders and the solver, in the browser, recomputes the optimal solution.
-
-    [Open the app →](three-nlp-models.md)
-
-</div>
-
 ## Deterministic models
 
 <div class="grid cards" markdown>
@@ -31,7 +17,7 @@ numbers as the Python scripts and the lecture notes. Pick an app: it opens full 
 
     ---
 
-    The minimum-variance QP with a target return: move the required return, the limit per asset and the expected return of one asset, and watch the optimal portfolio slide along the efficient frontier.
+    The minimum-variance QP with a required return: move the required return and the limit per asset and watch the optimal portfolio slide along the efficient frontier.
 
     [Open the app →](markowitz-frontier.md)
 
