@@ -42,7 +42,7 @@ Prerequisites: [LP Modelling](https://fabiofurini.github.io/lp-modelling/) and [
 <!-- collana-app -->
 ## Try it now
 
-The minimum-variance Markowitz portfolio, solved to optimality in the browser: move the required return, the bound per asset and the expected return of one asset and watch the optimal portfolio slide along the efficient frontier.
+The app solves a nonlinear programming model to optimality in the browser: the data, the symbolic model, the numerical model of the instance and the optimal solution with its graph. The sliders change the data and the solution is recomputed.
 
 <div class="gi" data-grafico="pnl-markowitz"></div>
 
