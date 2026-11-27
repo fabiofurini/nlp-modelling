@@ -152,3 +152,6 @@ body:has(.gi-app-intera) .gi-app-intera { margin-top: .4em; }
    allarga per le formule lunghe o le tabelle (scorrono dentro il loro riquadro) */
 @media (max-width: 860px) { .gi-corpo { grid-template-columns: minmax(0, 1fr); } }
 .gi-letture { overflow-x: auto; }
+/* ◂ ▸: un passo alla volta (Fabio, 27/11/2026) */
+.gi-play.gi-passo { padding: .1em .25em; }
+.gi-play.gi-passo + .gi-val { margin-left: .3em; }
