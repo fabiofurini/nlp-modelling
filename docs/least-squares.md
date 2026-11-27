@@ -59,7 +59,7 @@ Description of the objective function and of the constraints:
 
 !!! example "Worked example (without features: the mean comes back)"
     Seven sales: 88, 96, 104, 112, 120, 132, 148. The solver gives
-    $\tilde b = 800/7 = 114.2857$, $\tilde z = 2619.4286$ and multipliers
+    $\tilde b = 800/7 = 114.2857$, $z(\text{NLP}) = 2619.4286$ and multipliers
     $\tilde\pi_i = 2\tilde r_i$. Stationarity in $b$ gives $\sum_i r_i = 0$: the
     estimate is the **mean**. On the same numbers robust regression gives the median
     112 and quantile regression ($\tau = 9/13$) gives 120. If the last value becomes

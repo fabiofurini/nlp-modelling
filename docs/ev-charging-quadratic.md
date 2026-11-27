@@ -69,7 +69,7 @@ soften the ramps of the building.
 !!! example "Worked example (1 vehicle, 2 hours)"
     $e = 10$ kWh, $\eta = 1$, prices $0.10$ and $0.20$ €/kWh, $\bar p = 12$ kW. The
     linear model charges everything in the cheap hour. With $\gamma = 0.01$ the solver
-    gives $\tilde x = (6.25;\ 3.75)$, $\tilde z = 1.4375$ and energy multiplier
+    gives $\tilde x = (6.25;\ 3.75)$, $z(\text{NLP}) = 1.4375$ and energy multiplier
     $0.15$. With $x_1 = 5 + d$ the objective is $1.5 - 0.1d + 4\gamma d^2$, with
     minimum at $d = 1/(80\gamma)$ (for $\gamma \ge 1/400$). Stationarity gives
     $\lambda = (0.10 + 0.20)/2 = 0.15$: the marginal kWh costs the **average** of the

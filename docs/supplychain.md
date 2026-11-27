@@ -145,7 +145,7 @@ being strictly convex, would instead move continuously.
 
 !!! warning "Degenerate minimax"
     The "pure" minimax ($\min z$) accepts any routing with utilization
-    $\le \tilde z$, even an extremely expensive one: always combine it with the cost.
+    $\le z(\text{NLP})$, even an extremely expensive one: always combine it with the cost.
 
 
 ## In summary

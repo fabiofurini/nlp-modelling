@@ -67,7 +67,7 @@ and the constraints are linear. With $\gamma = 0$ we recover the linear model.
 !!! example "Worked example (1 product, 2 months)"
     $d = (60, 100)$, $c = 10$, $h = 1$, ample capacity; the linear model produces to
     demand, cost $1600$. With $\gamma = 0.5$ the solver gives
-    $\tilde x = (79.75;\ 80.25)$, $\tilde s_1 = 19.75$, $\tilde z = 1619.875$ and
+    $\tilde x = (79.75;\ 80.25)$, $\tilde s_1 = 19.75$, $z(\text{NLP}) = 1619.875$ and
     balance multipliers $(9.5;\ 10.5)$. From the balances the jump is $40 - 2s_1$ and
     the objective $f(s_1) = 1600 + s_1 + \gamma(40 - 2s_1)^2$: $f'(s_1) = 0$ gives
     $s_1 = 20 - 1/(8\gamma)$. For $\gamma \le 1/160$ it pays to keep no stock. With

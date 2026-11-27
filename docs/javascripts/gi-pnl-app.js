@@ -191,7 +191,7 @@
       let sol;
       if (R.port.stato !== "ottimo") sol = M.tinta(C.rosso, T("Nessun portafoglio ammissibile: ", "No feasible portfolio: ")) +
         T(`con \\(u = ${n(R.u * 100, 0)}\\%\\) il rendimento massimo è ${pc(R.rmax || 0, 2)}.`, `with \\(u = ${n(R.u * 100, 0)}\\%\\) the maximum return is ${pc(R.rmax || 0, 2)}.`);
-      else sol = RIQ.sol(`${T("Varianza minima", "Minimum variance")} \\(\\tilde z\\) = <b>${nt(R.port.varianza, 5)}</b> (${T("volatilità", "volatility")} ${pc(R.port.vol, 2)})`,
+      else sol = RIQ.sol(`${T("Varianza minima", "Minimum variance")} \\(z(\\text{NLP})\\) = <b>${nt(R.port.varianza, 5)}</b> (${T("volatilità", "volatility")} ${pc(R.port.vol, 2)})`,
         [RIQ.tab("", ["%", ...intest.slice(1)], [[tx("\\tilde x_i"), ...R.port.x.map((q) => z(100 * q, 1))]], true)]);
       RIQ.mostra(st, {
         problema: T("Un investitore divide il capitale fra alcuni titoli. Sceglie le quote con la varianza minima del rendimento, " +
@@ -274,7 +274,7 @@
         : `\\dfrac{${n(P.M, 0)}}{1 + e^{-${n(P.alfa, 0)} + ${n(P.beta, 3)}\\, p}}`;
       const num = `<p class="plm-tit">${T("Il modello dell'istanza: 2 variabili, 2 vincoli.", "The model of the instance: 2 variables, 2 constraints.")}</p>` +
         `<div class="plm-riga">\\(\\displaystyle \\begin{aligned} \\max ~~ (p - ${n(v[1], 0)})\\, q & \\\\ ${SA()} \\quad q &\\le ${dnum}, \\\\ q &\\le ${n(v[0], 0)}, \\\\ p,\\ q &\\ge 0. \\end{aligned}\\)</div>`;
-      const sol = RIQ.sol(`${T("Profitto ottimo", "Optimal profit")} \\(\\tilde z\\) = <b>${euro(R.profitto)}</b>`,
+      const sol = RIQ.sol(`${T("Profitto ottimo", "Optimal profit")} \\(z(\\text{NLP})\\) = <b>${euro(R.profitto)}</b>`,
         [RIQ.tab("", [tx("\\tilde p") + " (€)", tx("\\tilde q") + T(" (biglietti)", " (tickets)")], [[nt(R.p, 2), nt(R.q, 0)]])],
         R.vincolata ? T("Il teatro è pieno: \\(\\tilde q = k\\).", "The theatre is full: \\(\\tilde q = k\\).") : T("Il teatro non è pieno: \\(\\tilde q < k\\).", "The theatre is not full: \\(\\tilde q < k\\)."));
       RIQ.mostra(st, {
@@ -340,7 +340,7 @@
         T(`Il tetto più basso possibile è ${nt(R.mm.max, 3)} km.`, `The lowest possible cap is ${nt(R.mm.max, 3)} km.`);
       else {
         const s = R.sol;
-        sol = RIQ.sol(`${T("Distanza totale pesata", "Total weighted distance")} \\(\\tilde z\\) = <b>${nt(s.costo, 1)}</b> (${T("media", "mean")} ${nt(s.media, 3)} km)`,
+        sol = RIQ.sol(`${T("Distanza totale pesata", "Total weighted distance")} \\(z(\\text{NLP})\\) = <b>${nt(s.costo, 1)}</b> (${T("media", "mean")} ${nt(s.media, 3)} km)`,
           [RIQ.tab("", [tx("\\tilde x") + " (km)", tx("\\tilde y") + " (km)", T("distanza massima (km)", "maximum distance (km)")], [[nt(s.x, 2), nt(s.y, 2), nt(s.max, 3)]])],
           s.max >= v[0] - 1e-3 ? T("Il tetto \\(D\\) è attivo.", "The cap \\(D\\) is active.") : T("Il tetto \\(D\\) non è attivo: l'ottimo è il punto di Weber.", "The cap \\(D\\) is not active: the optimum is the Weber point."));
       }
@@ -449,7 +449,7 @@
       const vin = RIQ.righe(c.X.map((q, i) => `${dati.y[i] > 0 ? "" : "-"}(${n(q[0], 2)}\\, w_1 ${sg(q[1])} ${n(Math.abs(q[1]), 2)}\\, w_2 + b) \\ge 1 - \\xi_{${i + 1}}`), 3, ", \\quad ");
       const num = `<p class="plm-tit">${T(`Il QP dell'istanza: ${nn + 3} variabili, ${nn} vincoli (più \\(\\xi_i \\ge 0\\)).`, `The QP of the instance: ${nn + 3} variables, ${nn} constraints (plus \\(\\xi_i \\ge 0\\)).`)}</p>` +
         `<div class="plm-riga plm-lungo">\\(\\displaystyle \\begin{aligned} \\min ~~ & \\tfrac12 (w_1^2 + w_2^2) + ${n(c.C, 3)}\\, (\\xi_1 + \\xi_2 + \\dots + \\xi_{${nn}}) \\\\[1ex] ${SA()} ~~ & ${vin.join(", \\\\ & ")}, \\\\ & \\xi_i \\ge 0, \\quad ${PER("i", nn)}. \\end{aligned}\\)</div>`;
-      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(\\tilde z\\) = <b>${nt(c.obj, 3)}</b>`,
+      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(z(\\text{NLP})\\) = <b>${nt(c.obj, 3)}</b>`,
         [RIQ.tab("", [tx("\\tilde w_1"), tx("\\tilde w_2"), tx("\\tilde b"), tx("\\sum_i \\tilde\\xi_i"), T("margine \\(2/\\|\\tilde w\\|\\)", "margin \\(2/\\|\\tilde w\\|\\)")],
           [[nt(c.w[0], 3), nt(c.w[1], 3), nt(c.b, 3), nt(xi.reduce((s, v) => s + v, 0), 3), nt(2 / Math.hypot(c.w[0], c.w[1]), 3)]])],
         T(`Vettori di supporto (sul margine o dentro): ${sv}; classificati male: ${err}.`, `Support vectors (on the margin or inside it): ${sv}; misclassified: ${err}.`));
@@ -509,7 +509,7 @@
         `${SA()} ~~ & ${vin.join(", \\\\ & ")}. \\end{aligned}\\)</div>` +
         `<p class="plm-nota">${T("Nel modello LP \\(|r_i|\\) si scrive con \\(r_i = r_i^+ - r_i^-\\), \\(r_i^+, r_i^- \\ge 0\\), e si minimizza \\(\\sum_i (r_i^+ + r_i^-)\\).",
           "In the LP model \\(|r_i|\\) is written with \\(r_i = r_i^+ - r_i^-\\), \\(r_i^+, r_i^- \\ge 0\\), and \\(\\sum_i (r_i^+ + r_i^-)\\) is minimized.")}</p>`;
-      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(\\tilde z(\\text{QP})\\) = <b>${mig(ss)}</b><br>${T("Valore ottimo", "Optimal value")} \\(\\tilde z(\\text{LP})\\) = <b>${mig(sa, 1)}</b>`,
+      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(z(\\text{QP})\\) = <b>${mig(ss)}</b><br>${T("Valore ottimo", "Optimal value")} \\(z(\\text{LP})\\) = <b>${mig(sa, 1)}</b>`,
         [RIQ.tab("", ["", tx("\\tilde w"), tx("\\tilde b")], [
           [M.tinta(C.a, T("minimi quadrati (QP)", "least squares (QP)")), nt(ls.w, 3), nt(ls.b, 2)],
           [M.tinta(C.blu, T("scarti assoluti (LP)", "least abs. deviations (LP)")), nt(lad.w, 3), nt(lad.b, 2)]])]);
