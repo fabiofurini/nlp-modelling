@@ -140,3 +140,8 @@
 .gi[data-vetrina] .plm-dati { margin: 0 0 .4em; }
 .gi[data-vetrina] .gi-ctrl { padding: .3em 0 .35em; }
 .gi[data-vetrina] .gi-legenda { margin-top: .3em; }
+/* home: «Dati» più compatto (con dimensioni, scalari e insiemi degli indici l'app deve restare in una schermata) */
+.gi[data-vetrina] .plm-dati { line-height: 1.3; }
+.md-typeset .gi[data-vetrina] .plm-dati .plm-dati-sig { font-size: .74rem; }
+.md-typeset .gi[data-vetrina] .plm-dati .plm-sol-t > p { margin: 0; }
+.md-typeset .gi[data-vetrina] .plm-dati table.gi-tabella td, .md-typeset .gi[data-vetrina] .plm-dati table.gi-tabella th { padding-top: 0; padding-bottom: 0; }

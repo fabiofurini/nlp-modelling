@@ -136,7 +136,7 @@ extra_javascript:
   - javascripts/gi-ott.js?v=4e022c9162
   - javascripts/gi-pnl-dati.js?v=5c5208094f
   - javascripts/gi-pnl-modelli.js?v=40ee92ee69
-  - javascripts/gi-pnl-app.js?v=5e5e7af72e
+  - javascripts/gi-pnl-app.js?v=d93a2aed07
   - javascripts/quiz.js?v=be7fae2b85
 
 # the single app pages are not in the menu: the lab is one entry

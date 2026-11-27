@@ -165,12 +165,16 @@
     formula(R, v, st) {
       const C = M.COL(st), tit = R.st.titoli, nn = tit.length, col = TITOLO(C);
       const intest = ["", ...tit.map((t, i) => `<span style="color:${col[i]}">${t}</span>`)];
-      const sig = T("\\(\\mu_i\\): rendimento atteso del titolo \\(i\\); \\(q_{ij}\\): covarianza fra i titoli \\(i\\) e \\(j\\); \\(\\bar r\\): rendimento richiesto; \\(u\\): quota massima per titolo.",
-        "\\(\\mu_i\\): expected return of asset \\(i\\); \\(q_{ij}\\): covariance between assets \\(i\\) and \\(j\\); \\(\\bar r\\): required return; \\(u\\): maximum share per asset.");
-      const tab = RIQ.tab(T("Rendimenti attesi \\(\\mu_i\\) e volatilità \\(\\sqrt{q_{ii}}\\) (%, annui)", "Expected returns \\(\\mu_i\\) and volatilities \\(\\sqrt{q_{ii}}\\) (%, annual)"), intest, [
+      const sig = T("\\(n\\): numero di titoli; \\(\\mu_i\\): rendimento atteso del titolo \\(i\\); \\(q_{ij}\\): covarianza fra \\(i\\) e \\(j\\); \\(\\bar r\\): rendimento richiesto; \\(u\\): quota massima; con \\(i \\in \\{1, \\dots, n\\}\\) e \\(j \\in \\{1, \\dots, n\\}\\).",
+        "\\(n\\): number of assets; \\(\\mu_i\\): expected return of asset \\(i\\); \\(q_{ij}\\): covariance of \\(i\\) and \\(j\\); \\(\\bar r\\): required return; \\(u\\): maximum share; with \\(i \\in \\{1, \\dots, n\\}\\) and \\(j \\in \\{1, \\dots, n\\}\\).");
+      const dim = RIQ.tab(T("Dimensioni", "Sizes"), [tx("n")], [[String(nn)]]);
+      const sca = RIQ.tab(T("Scalari (%)", "Scalars (%)"), [tx("\\bar r"), tx("u")], [[nt(v[0], 1), nt(v[1], 0)]]);
+      // senza titolo (la home sta in una schermata): l'unità nella casella d'angolo
+      const tab = RIQ.tab("", [T("% annui", "% annual"), ...intest.slice(1)], [
         [tx("\\mu_i"), ...R.st.mu.map((m) => nt(100 * m, 1))],
-        [tx("\\sqrt{q_{ii}}"), ...R.st.Q.map((r, i) => nt(100 * Math.sqrt(r[i]), 1))]]);
-      const piu = RIQ.apri(T("Matrice di covarianza \\(Q = (q_{ij})\\)", "Covariance matrix \\(Q = (q_{ij})\\)"),
+        [tx("\\sqrt{q_{ii}}"), ...R.st.Q.map((r, i) => nt(100 * Math.sqrt(r[i]), 1))]], true);
+      // la matrice di covarianza, richiudibile, sulla stessa riga delle due tabelline (la home sta in una schermata)
+      const piu = RIQ.apri(T("Covarianze \\(q_{ij}\\)", "Covariances \\(q_{ij}\\)"),
         M.tab(["", ...tit], R.st.Q.map((r, i) => [tit[i], ...r.map((x) => nt(x, 4))])));
       const modello = `\\min ~~ \\sum\\nolimits_{i=1}^{n} \\sum\\nolimits_{j=1}^{n} q_{ij}\\, x_i\\, x_j & & \\\\
         ${SA()} \\quad \\sum\\nolimits_{i=1}^{n} \\mu_i\\, x_i &\\ge ${st.col("a", "\\bar r")}, & \\\\
@@ -187,15 +191,16 @@
       let sol;
       if (R.port.stato !== "ottimo") sol = M.tinta(C.rosso, T("Nessun portafoglio ammissibile: ", "No feasible portfolio: ")) +
         T(`con \\(u = ${n(R.u * 100, 0)}\\%\\) il rendimento massimo è ${pc(R.rmax || 0, 2)}.`, `with \\(u = ${n(R.u * 100, 0)}\\%\\) the maximum return is ${pc(R.rmax || 0, 2)}.`);
-      else sol = RIQ.sol(`${T("Varianza minima", "Minimum variance")}: <b>${nt(R.port.varianza, 5)}</b> (${T("volatilità", "volatility")} ${pc(R.port.vol, 2)})`,
+      else sol = RIQ.sol(`${T("Varianza minima", "Minimum variance")} \\(\\tilde z\\) = <b>${nt(R.port.varianza, 5)}</b> (${T("volatilità", "volatility")} ${pc(R.port.vol, 2)})`,
         [RIQ.tab("", ["%", ...intest.slice(1)], [[tx("\\tilde x_i"), ...R.port.x.map((q) => z(100 * q, 1))]], true)]);
       RIQ.mostra(st, {
         problema: T("Un investitore divide il capitale fra alcuni titoli. Sceglie le quote con la varianza minima del rendimento, " +
           "un rendimento atteso almeno pari a quello richiesto e una quota massima per titolo.",
           "An investor splits the capital among some assets. The shares have the minimum variance of the return, " +
           "an expected return at least equal to the required one and a maximum share per asset."),
-        variabili: T("\\(x_i\\): quota del capitale investita nel titolo \\(i\\).", "\\(x_i\\): share of the capital invested in asset \\(i\\)."),
-        sig, tabelle: [tab], piu, modello, cap: 6, num, sol,
+        variabili: T("\\(x_i \\ge 0\\): quota del capitale investita nel titolo \\(i\\), con \\(i \\in \\{1, \\dots, n\\}\\).",
+          "\\(x_i \\ge 0\\): share of the capital invested in asset \\(i\\), with \\(i \\in \\{1, \\dots, n\\}\\)."),
+        sig, tabelle: [dim, sca, piu, tab], modello, cap: 6, num, sol,
         prova: T("Porta \\(\\bar r\\) a 18%: MAT sale al 29,8%, la volatilità al 13,36%. Con \\(\\bar r = 15\\%\\), porta \\(u\\) a 25%: entrano FIN e IND.",
           "Set \\(\\bar r\\) to 18%: MAT rises to 29.8%, the volatility to 13.36%. With \\(\\bar r = 15\\%\\), set \\(u\\) to 25%: FIN and IND enter too."),
       });
@@ -260,7 +265,7 @@
           : T("\\(m, \\alpha, \\beta\\): parametri della domanda", "\\(m, \\alpha, \\beta\\): demand parameters");
       const sig = T(`\\(${DOMANDE[tipo][1]}\\): biglietti richiesti al prezzo \\(p\\); ${sigDom}; \\(c\\): costo per spettatore (€); \\(k\\): capienza (posti).`,
         `\\(${DOMANDE[tipo][1]}\\): tickets demanded at price \\(p\\); ${sigDom}; \\(c\\): cost per spectator (€); \\(k\\): capacity (seats).`);
-      const tab = RIQ.tab("", [...par.map((q) => tx(q[0])), tx("c"), tx("k")], [[...par.map((q) => mig(q[1], q[2])), mig(v[1]), mig(v[0])]]);
+      const tab = RIQ.tab(T("Parametri", "Parameters"), [...par.map((q) => tx(q[0])), tx("c"), tx("k")], [[...par.map((q) => mig(q[1], q[2])), mig(v[1]), mig(v[0])]]);
       const modello = `\\max ~~ (p - ${st.col("b", "c")})\\, q & & \\\\
         ${SA()} \\quad q &\\le d(p), & \\\\
         q &\\le ${st.col("a", "k")}, & \\\\
@@ -269,7 +274,7 @@
         : `\\dfrac{${n(P.M, 0)}}{1 + e^{-${n(P.alfa, 0)} + ${n(P.beta, 3)}\\, p}}`;
       const num = `<p class="plm-tit">${T("Il modello dell'istanza: 2 variabili, 2 vincoli.", "The model of the instance: 2 variables, 2 constraints.")}</p>` +
         `<div class="plm-riga">\\(\\displaystyle \\begin{aligned} \\max ~~ (p - ${n(v[1], 0)})\\, q & \\\\ ${SA()} \\quad q &\\le ${dnum}, \\\\ q &\\le ${n(v[0], 0)}, \\\\ p,\\ q &\\ge 0. \\end{aligned}\\)</div>`;
-      const sol = RIQ.sol(`${T("Profitto ottimo", "Optimal profit")}: <b>${euro(R.profitto)}</b>`,
+      const sol = RIQ.sol(`${T("Profitto ottimo", "Optimal profit")} \\(\\tilde z\\) = <b>${euro(R.profitto)}</b>`,
         [RIQ.tab("", [tx("\\tilde p") + " (€)", tx("\\tilde q") + T(" (biglietti)", " (tickets)")], [[nt(R.p, 2), nt(R.q, 0)]])],
         R.vincolata ? T("Il teatro è pieno: \\(\\tilde q = k\\).", "The theatre is full: \\(\\tilde q = k\\).") : T("Il teatro non è pieno: \\(\\tilde q < k\\).", "The theatre is not full: \\(\\tilde q < k\\)."));
       RIQ.mostra(st, {
@@ -292,7 +297,8 @@
       curva(1, { strokeColor: C.b, strokeWidth: 3 });
       M.linea(crea, P.X(R.p), P.Y(0), P.X(R.p), P.Y(R.profitto / 1000), { strokeColor: C.blu, strokeWidth: 1.5, dash: 2 });
       M.pallino(crea, P.X(R.p), P.Y(R.profitto / 1000), { size: 6, fillColor: C.blu, strokeColor: "#ffffff", strokeWidth: 1.5 });
-      M.scritta(crea, P.X(R.p) + 8, P.Y(R.profitto / 1000) + 8, `p̃ = ${euro(R.p, 2)}`, { anchorX: "left", anchorY: "bottom", fontSize: 13, strokeColor: C.blu, cssStyle: "font-weight:700" });
+      // il valore in una posizione fissa (angolo in alto a destra del pannello): non salta quando si muove un cursore
+      M.scritta(crea, m.X1 - 8, S.H - m.alto - 8, `p̃ = ${euro(R.p, 2)}`, { anchorX: "right", anchorY: "top", fontSize: 13, strokeColor: C.blu, cssStyle: "font-weight:700" });
     },
     legenda: (C) => [[C.b, T("profitto con la capienza \\(k\\)", "profit with capacity \\(k\\)"), ""], [C.grigio, T("profitto senza capienza", "profit without capacity"), "dashed"],
       [C.blu, T("prezzo ottimo", "optimal price"), "punto"]],
@@ -316,10 +322,12 @@
     },
     formula(R, v, st) {
       const L = DD().localizzazione, nn = L.coord.length;
-      const sig = T("\\(n\\) quartieri; \\((a_i, b_i)\\): coordinate del quartiere \\(i\\) (km); \\(w_i\\): abitanti del quartiere \\(i\\) (migliaia); \\(D\\): tetto sulla distanza (km).",
-        "\\(n\\) districts; \\((a_i, b_i)\\): coordinates of district \\(i\\) (km); \\(w_i\\): inhabitants of district \\(i\\) (thousands); \\(D\\): cap on the distance (km).");
-      const tab = RIQ.tab("", ["", ...L.coord.map((q, i) => String(i + 1))], [
-        [tx("a_i"), ...L.coord.map((q) => nt(q[0], 1))], [tx("b_i"), ...L.coord.map((q) => nt(q[1], 1))], [tx("w_i"), ...R.pesi.map((w) => nt(w, 0))]]);
+      const sig = T("\\(n\\): numero di quartieri; \\((a_i, b_i)\\): coordinate del quartiere \\(i\\) (km); \\(w_i\\): abitanti del quartiere \\(i\\) (migliaia); \\(D\\): tetto sulla distanza (km); con \\(i \\in \\{1, \\dots, n\\}\\).",
+        "\\(n\\): number of districts; \\((a_i, b_i)\\): coordinates of district \\(i\\) (km); \\(w_i\\): inhabitants of district \\(i\\) (thousands); \\(D\\): cap on the distance (km); with \\(i \\in \\{1, \\dots, n\\}\\).");
+      const dim = RIQ.tab(T("Dimensioni", "Sizes"), [tx("n")], [[String(nn)]]);
+      const sca = RIQ.tab(T("Tetto (km)", "Cap (km)"), [tx("D")], [[nt(v[0], 2)]]);
+      const tab = RIQ.tab(T("Quartieri", "Districts"), [tx("i"), ...L.coord.map((q, i) => String(i + 1))], [
+        [tx("a_i"), ...L.coord.map((q) => nt(q[0], 1))], [tx("b_i"), ...L.coord.map((q) => nt(q[1], 1))], [tx("w_i"), ...R.pesi.map((w) => nt(w, 0))]], true);
       const modello = `\\min ~~ \\sum\\nolimits_{i=1}^{n} ${st.col("b", "w_i")} \\sqrt{(x - a_i)^2 + (y - b_i)^2} & & \\\\
         ${SA()} \\quad \\sqrt{(x - a_i)^2 + (y - b_i)^2} &\\le ${st.col("a", "D")}, & ${PER("i", "n")}.`;
       const sq = (i) => `\\sqrt{(x - ${n(L.coord[i][0], 1)})^2 + (y - ${n(L.coord[i][1], 1)})^2}`;
@@ -332,7 +340,7 @@
         T(`Il tetto più basso possibile è ${nt(R.mm.max, 3)} km.`, `The lowest possible cap is ${nt(R.mm.max, 3)} km.`);
       else {
         const s = R.sol;
-        sol = RIQ.sol(`${T("Distanza totale pesata", "Total weighted distance")} \\(\\sum_i w_i d_i\\): <b>${nt(s.costo, 1)}</b> (${T("media", "mean")} ${nt(s.media, 3)} km)`,
+        sol = RIQ.sol(`${T("Distanza totale pesata", "Total weighted distance")} \\(\\tilde z\\) = <b>${nt(s.costo, 1)}</b> (${T("media", "mean")} ${nt(s.media, 3)} km)`,
           [RIQ.tab("", [tx("\\tilde x") + " (km)", tx("\\tilde y") + " (km)", T("distanza massima (km)", "maximum distance (km)")], [[nt(s.x, 2), nt(s.y, 2), nt(s.max, 3)]])],
           s.max >= v[0] - 1e-3 ? T("Il tetto \\(D\\) è attivo.", "The cap \\(D\\) is active.") : T("Il tetto \\(D\\) non è attivo: l'ottimo è il punto di Weber.", "The cap \\(D\\) is not active: the optimum is the Weber point."));
       }
@@ -342,7 +350,7 @@
           "A town chooses where to put a charging station. The chosen point minimizes the total distance from the districts, weighted by the inhabitants, " +
           "and no district is farther than a given cap."),
         variabili: T("\\((x, y)\\): coordinate della stazione (km), libere.", "\\((x, y)\\): coordinates of the station (km), free."),
-        sig, tabelle: [tab], modello, cap: 9, num, sol,
+        sig, tabelle: [dim, sca, tab], modello, cap: 9, num, sol,
         prova: T("Porta \\(D\\) a 6,4 km: il tetto non conta più e l'ottimo è il punto di Weber (4,89; 5,31). Con \\(D = 6\\) km, porta \\(w_9\\) a 60: la stazione si avvicina al quartiere 9, in (5,25; 4,82).",
           "Set \\(D\\) to 6.4 km: the cap no longer matters and the optimum is the Weber point (4.89, 5.31). With \\(D = 6\\) km, set \\(w_9\\) to 60: the station moves towards district 9, to (5.25, 4.82)."),
       });
@@ -428,9 +436,10 @@
       const nn = dati.y.length, pos = dati.y.filter((y) => y > 0).length;
       const sv = c.marg.filter((f) => f < 1 + 1e-6).length, err = c.marg.filter((f) => f < 0).length;
       const xi = c.marg.map((f) => Math.max(0, 1 - f));
-      const sig = T("\\(n\\) clienti; \\((x_{i1}, x_{i2})\\): solidità e puntualità del cliente \\(i\\) (indicatori standardizzati); \\(y_i = +1\\) affidabile, \\(y_i = -1\\) insolvente; \\(C\\): peso delle violazioni.",
-        "\\(n\\) customers; \\((x_{i1}, x_{i2})\\): solidity and punctuality of customer \\(i\\) (standardized indicators); \\(y_i = +1\\) reliable, \\(y_i = -1\\) defaulting; \\(C\\): weight of the violations.");
-      const tab = RIQ.tab("", [tx("n"), T("con \\(y_i = +1\\)", "with \\(y_i = +1\\)"), T("con \\(y_i = -1\\)", "with \\(y_i = -1\\)"), tx("C")], [[String(nn), String(pos), String(nn - pos), nt(c.C, 3)]]);
+      const sig = T("\\(n\\): numero di clienti; \\((x_{i1}, x_{i2})\\): solidità e puntualità del cliente \\(i\\) (indicatori standardizzati); \\(y_i = +1\\) affidabile, \\(y_i = -1\\) insolvente; \\(C\\): peso delle violazioni; con \\(i \\in \\{1, \\dots, n\\}\\).",
+        "\\(n\\): number of customers; \\((x_{i1}, x_{i2})\\): solidity and punctuality of customer \\(i\\) (standardized indicators); \\(y_i = +1\\) reliable, \\(y_i = -1\\) defaulting; \\(C\\): weight of the violations; with \\(i \\in \\{1, \\dots, n\\}\\).");
+      const tab = RIQ.tab(T("Dimensioni", "Sizes"), [tx("n"), T("con \\(y_i = +1\\)", "with \\(y_i = +1\\)"), T("con \\(y_i = -1\\)", "with \\(y_i = -1\\)")], [[String(nn), String(pos), String(nn - pos)]]);
+      const sca = RIQ.tab(T("Peso", "Weight"), [tx("C")], [[nt(c.C, 3)]]);
       const piu = RIQ.apri(T(`I ${nn} clienti (posizioni attuali)`, `The ${nn} customers (current positions)`),
         M.tab([tx("i"), tx("x_{i1}"), tx("x_{i2}"), tx("y_i")], c.X.map((q, i) => [String(i + 1), nt(q[0], 2), nt(q[1], 2), dati.y[i] > 0 ? "+1" : "−1"])));
       const modello = `\\min ~~ \\tfrac12 \\bigl(w_1^2 + w_2^2\\bigr) + ${st.col("a", "C")} \\sum\\nolimits_{i=1}^{n} \\xi_i & & \\\\
@@ -440,7 +449,7 @@
       const vin = RIQ.righe(c.X.map((q, i) => `${dati.y[i] > 0 ? "" : "-"}(${n(q[0], 2)}\\, w_1 ${sg(q[1])} ${n(Math.abs(q[1]), 2)}\\, w_2 + b) \\ge 1 - \\xi_{${i + 1}}`), 3, ", \\quad ");
       const num = `<p class="plm-tit">${T(`Il QP dell'istanza: ${nn + 3} variabili, ${nn} vincoli (più \\(\\xi_i \\ge 0\\)).`, `The QP of the instance: ${nn + 3} variables, ${nn} constraints (plus \\(\\xi_i \\ge 0\\)).`)}</p>` +
         `<div class="plm-riga plm-lungo">\\(\\displaystyle \\begin{aligned} \\min ~~ & \\tfrac12 (w_1^2 + w_2^2) + ${n(c.C, 3)}\\, (\\xi_1 + \\xi_2 + \\dots + \\xi_{${nn}}) \\\\[1ex] ${SA()} ~~ & ${vin.join(", \\\\ & ")}, \\\\ & \\xi_i \\ge 0, \\quad ${PER("i", nn)}. \\end{aligned}\\)</div>`;
-      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")}: <b>${nt(c.obj, 3)}</b>`,
+      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(\\tilde z\\) = <b>${nt(c.obj, 3)}</b>`,
         [RIQ.tab("", [tx("\\tilde w_1"), tx("\\tilde w_2"), tx("\\tilde b"), tx("\\sum_i \\tilde\\xi_i"), T("margine \\(2/\\|\\tilde w\\|\\)", "margin \\(2/\\|\\tilde w\\|\\)")],
           [[nt(c.w[0], 3), nt(c.w[1], 3), nt(c.b, 3), nt(xi.reduce((s, v) => s + v, 0), 3), nt(2 / Math.hypot(c.w[0], c.w[1]), 3)]])],
         T(`Vettori di supporto (sul margine o dentro): ${sv}; classificati male: ${err}.`, `Support vectors (on the margin or inside it): ${sv}; misclassified: ${err}.`));
@@ -449,9 +458,9 @@
           "pagando con il peso \\(C\\) i punti che violano il margine.",
           "A bank classifies customers as reliable or defaulting from two indicators. It looks for the line that separates the two classes with the widest margin, " +
           "paying with the weight \\(C\\) for the points that violate the margin."),
-        variabili: T("\\(w_1, w_2, b\\): coefficienti e intercetta della retta \\(w_1 x_1 + w_2 x_2 + b = 0\\), liberi; \\(\\xi_i \\ge 0\\): violazione del margine del cliente \\(i\\).",
-          "\\(w_1, w_2, b\\): coefficients and intercept of the line \\(w_1 x_1 + w_2 x_2 + b = 0\\), free; \\(\\xi_i \\ge 0\\): margin violation of customer \\(i\\)."),
-        sig, tabelle: [tab], piu, modello, cap: 12, num, sol,
+        variabili: T("\\(w_1, w_2, b\\): coefficienti e intercetta della retta \\(w_1 x_1 + w_2 x_2 + b = 0\\), liberi; \\(\\xi_i \\ge 0\\): violazione del margine del cliente \\(i\\), con \\(i \\in \\{1, \\dots, n\\}\\).",
+          "\\(w_1, w_2, b\\): coefficients and intercept of the line \\(w_1 x_1 + w_2 x_2 + b = 0\\), free; \\(\\xi_i \\ge 0\\): margin violation of customer \\(i\\), with \\(i \\in \\{1, \\dots, n\\}\\)."),
+        sig, tabelle: [tab, sca], piu, modello, cap: 12, num, sol,
         prova: T("Porta \\(\\log_{10} C\\) a 1: il margine si stringe a 0,41 e nessun cliente è classificato male. Trascina un punto lontano dal margine: la retta non si muove.",
           "Set \\(\\log_{10} C\\) to 1: the margin shrinks to 0.41 and no customer is misclassified. Drag a point far from the margin: the line does not move."),
       });
@@ -486,9 +495,10 @@
       const [ls, lad] = rette, nn = dati.t.length, sc = dati.info.sciopero.filter(Boolean).length;
       const ss = dati.y.reduce((s, v, i) => s + (v - ls.w * dati.t[i] - ls.b) ** 2, 0);
       const sa = dati.y.reduce((s, v, i) => s + Math.abs(v - lad.w * dati.t[i] - lad.b), 0);
-      const sig = T("\\(n\\) giorni; \\(t_i\\): temperatura del giorno \\(i\\) (°C); \\(y_i\\): pezzi venduti il giorno \\(i\\); \\(\\delta\\): spostamento della domanda del giorno normale più caldo.",
-        "\\(n\\) days; \\(t_i\\): temperature of day \\(i\\) (°C); \\(y_i\\): pieces sold on day \\(i\\); \\(\\delta\\): shift of the demand of the hottest normal day.");
-      const tab = RIQ.tab("", [tx("n"), T("di sciopero", "strike days"), tx("\\delta")], [[String(nn), String(sc), nt(p.delta, 0)]]);
+      const sig = T("\\(n\\): numero di giorni; \\(t_i\\): temperatura del giorno \\(i\\) (°C); \\(y_i\\): pezzi venduti il giorno \\(i\\); \\(\\delta\\): spostamento della domanda del giorno normale più caldo; con \\(i \\in \\{1, \\dots, n\\}\\).",
+        "\\(n\\): number of days; \\(t_i\\): temperature of day \\(i\\) (°C); \\(y_i\\): pieces sold on day \\(i\\); \\(\\delta\\): shift of the demand of the hottest normal day; with \\(i \\in \\{1, \\dots, n\\}\\).");
+      const tab = RIQ.tab(T("Dimensioni", "Sizes"), [tx("n"), T("di sciopero", "strike days")], [[String(nn), String(sc)]]);
+      const sca = RIQ.tab(T("Spostamento", "Shift"), [tx("\\delta")], [[nt(p.delta, 0)]]);
       const piu = RIQ.apri(T(`I ${nn} giorni (valori attuali)`, `The ${nn} days (current values)`),
         M.tab([tx("i"), tx("t_i"), tx("y_i"), T("sciopero", "strike")], dati.t.map((t, i) => [String(i + 1), nt(t, 1), nt(dati.y[i], 0), dati.info.sciopero[i] ? T("sì", "yes") : ""])));
       const modello = `\\min ~~ \\sum\\nolimits_{i=1}^{n} r_i^2 ~~ (\\text{QP}) \\quad \\text{${T("oppure", "or")}} \\quad \\min ~~ \\sum\\nolimits_{i=1}^{n} |r_i| ~~ (\\text{LP}) & & \\\\
@@ -499,7 +509,7 @@
         `${SA()} ~~ & ${vin.join(", \\\\ & ")}. \\end{aligned}\\)</div>` +
         `<p class="plm-nota">${T("Nel modello LP \\(|r_i|\\) si scrive con \\(r_i = r_i^+ - r_i^-\\), \\(r_i^+, r_i^- \\ge 0\\), e si minimizza \\(\\sum_i (r_i^+ + r_i^-)\\).",
           "In the LP model \\(|r_i|\\) is written with \\(r_i = r_i^+ - r_i^-\\), \\(r_i^+, r_i^- \\ge 0\\), and \\(\\sum_i (r_i^+ + r_i^-)\\) is minimized.")}</p>`;
-      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} QP: \\(\\sum_i \\tilde r_i^2\\) = <b>${mig(ss)}</b><br>${T("Valore ottimo", "Optimal value")} LP: \\(\\sum_i |\\tilde r_i|\\) = <b>${mig(sa, 1)}</b>`,
+      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(\\tilde z(\\text{QP})\\) = <b>${mig(ss)}</b><br>${T("Valore ottimo", "Optimal value")} \\(\\tilde z(\\text{LP})\\) = <b>${mig(sa, 1)}</b>`,
         [RIQ.tab("", ["", tx("\\tilde w"), tx("\\tilde b")], [
           [M.tinta(C.a, T("minimi quadrati (QP)", "least squares (QP)")), nt(ls.w, 3), nt(ls.b, 2)],
           [M.tinta(C.blu, T("scarti assoluti (LP)", "least abs. deviations (LP)")), nt(lad.w, 3), nt(lad.b, 2)]])]);
@@ -508,9 +518,9 @@
           "e la somma dei loro valori assoluti (LP), con alcuni giorni di sciopero anomali.",
           "A bakery estimates the pieces sold as a function of the temperature with a line. Two criteria are compared: the sum of the squared residuals (QP) " +
           "and the sum of their absolute values (LP), with some anomalous strike days."),
-        variabili: T("\\(w, b\\): pendenza e intercetta della retta, libere; \\(r_i\\): residuo del giorno \\(i\\), libero.",
-          "\\(w, b\\): slope and intercept of the line, free; \\(r_i\\): residual of day \\(i\\), free."),
-        sig, tabelle: [tab], piu, modello, cap: 13, num, sol,
+        variabili: T("\\(w, b\\): pendenza e intercetta della retta, libere; \\(r_i\\): residuo del giorno \\(i\\), libero, con \\(i \\in \\{1, \\dots, n\\}\\).",
+          "\\(w, b\\): slope and intercept of the line, free; \\(r_i\\): residual of day \\(i\\), free, with \\(i \\in \\{1, \\dots, n\\}\\)."),
+        sig, tabelle: [tab, sca], piu, modello, cap: 13, num, sol,
         prova: T("Porta \\(\\delta\\) a −200: \\(\\tilde w\\) del QP passa da −3,61 a −4,32, quello del LP solo a −3,74. Con \\(\\delta = 0\\), scegli «55 giorni normali»: \\(\\tilde b\\) del QP sale da 202,34 a 213,58.",
           "Set \\(\\delta\\) to −200: \\(\\tilde w\\) of the QP goes from −3.61 to −4.32, that of the LP only to −3.74. With \\(\\delta = 0\\), choose «55 normal days»: \\(\\tilde b\\) of the QP rises from 202.34 to 213.58."),
       });
