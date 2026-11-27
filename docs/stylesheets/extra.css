@@ -71,7 +71,7 @@
 /* riquadro «Dati»: significato dei simboli in una riga, valori solo nelle tabelle */
 .md-typeset .plm-dati { margin: .2em 0 .6em; font-size: .72rem; line-height: 1.4; overflow-x: auto;
   padding: .4em .7em .25em; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--gi-line) 90%, transparent); }
-.md-typeset .plm-dati .plm-dati-sig { margin: 0 0 .2em; font-size: .8rem; }
+.md-typeset .plm-dati .plm-dati-sig { margin: 0 0 .55em; font-size: .8rem; }   /* spazio prima delle tabelle (Fabio, 27/11/2026) */
 .plm-dati-tabs { display: flex; flex-wrap: wrap; gap: .2em 1.6em; align-items: flex-start; }
 .md-typeset .gi .plm-dati table.gi-tabella { width: auto; margin: 0 0 .2em; }
 .md-typeset .gi .plm-dati table.gi-tabella td, .md-typeset .gi .plm-dati table.gi-tabella th { min-width: 2.2em; padding: .05em .4em; }
@@ -145,3 +145,6 @@
 .md-typeset .gi[data-vetrina] .plm-dati .plm-dati-sig { font-size: .74rem; }
 .md-typeset .gi[data-vetrina] .plm-dati .plm-sol-t > p { margin: 0; }
 .md-typeset .gi[data-vetrina] .plm-dati table.gi-tabella td, .md-typeset .gi[data-vetrina] .plm-dati table.gi-tabella th { padding-top: 0; padding-bottom: 0; }
+
+/* titolo delle tabelle dei dati staccato dalla tabella (Fabio, 27/11/2026) */
+.md-typeset .plm-dati .plm-sol-t > p { margin-bottom: .4em; }
