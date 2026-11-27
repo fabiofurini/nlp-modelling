@@ -151,3 +151,5 @@
 /* valori delle tabelle dei dati staccati dalla riga di intestazione (Fabio, 27/11/2026) */
 .md-typeset .gi .plm-dati table.gi-tabella th, .md-typeset .gi .plm-sol table.gi-tabella th { padding-bottom: .65em; }
 .md-typeset .gi[data-vetrina] .plm-sol table.gi-tabella th { padding-bottom: .1em; }   /* home PNL: niente spazio in più, deve stare in una schermata */
+/* home: le due colonne cominciano alla stessa altezza (Fabio, 27/11/2026) */
+.gi[data-vetrina] .gi-formula .plm > .plm-box:first-child, .gi[data-vetrina] .gi-formula > .plm-box:first-child { margin-top: 0; }   /* allineate in alto */
