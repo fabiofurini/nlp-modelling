@@ -191,8 +191,8 @@
       let sol;
       if (R.port.stato !== "ottimo") sol = M.tinta(C.rosso, T("Nessun portafoglio ammissibile: ", "No feasible portfolio: ")) +
         T(`con \\(u = ${n(R.u * 100, 0)}\\%\\) il rendimento massimo è ${pc(R.rmax || 0, 2)}.`, `with \\(u = ${n(R.u * 100, 0)}\\%\\) the maximum return is ${pc(R.rmax || 0, 2)}.`);
-      else sol = RIQ.sol(`${T("Varianza minima", "Minimum variance")} \\(z(\\text{NLP})\\) = <b>${nt(R.port.varianza, 5)}</b> (${T("volatilità", "volatility")} ${pc(R.port.vol, 2)})`,
-        [RIQ.tab("", ["%", ...intest.slice(1)], [[tx("\\tilde x_i"), ...R.port.x.map((q) => z(100 * q, 1))]], true)]);
+      else sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(z(\\text{NLP})\\) = <b>${nt(R.port.varianza, 5)}</b> (${T("volatilità", "volatility")} ${pc(R.port.vol, 2)})`,
+        [RIQ.tab("", ["%", ...intest.slice(1)], [[tx("\\tilde x(\\text{NLP})"), ...R.port.x.map((q) => z(100 * q, 1))]], true)]);
       RIQ.mostra(st, {
         problema: T("Un investitore divide il capitale fra alcuni titoli. Sceglie le quote con la varianza minima del rendimento, " +
           "un rendimento atteso almeno pari a quello richiesto e una quota massima per titolo.",
@@ -274,8 +274,8 @@
         : `\\dfrac{${n(P.M, 0)}}{1 + e^{-${n(P.alfa, 0)} + ${n(P.beta, 3)}\\, p}}`;
       const num = `<p class="plm-tit">${T("Il modello dell'istanza: 2 variabili, 2 vincoli.", "The model of the instance: 2 variables, 2 constraints.")}</p>` +
         `<div class="plm-riga">\\(\\displaystyle \\begin{aligned} \\max ~~ (p - ${n(v[1], 0)})\\, q & \\\\ ${SA()} \\quad q &\\le ${dnum}, \\\\ q &\\le ${n(v[0], 0)}, \\\\ p,\\ q &\\ge 0. \\end{aligned}\\)</div>`;
-      const sol = RIQ.sol(`${T("Profitto ottimo", "Optimal profit")} \\(z(\\text{NLP})\\) = <b>${euro(R.profitto)}</b>`,
-        [RIQ.tab("", [tx("\\tilde p") + " (€)", tx("\\tilde q") + T(" (biglietti)", " (tickets)")], [[nt(R.p, 2), nt(R.q, 0)]])],
+      const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(z(\\text{NLP})\\) = <b>${euro(R.profitto)}</b>`,
+        [RIQ.tab("", [tx("\\tilde p(\\text{NLP})") + " (€)", tx("\\tilde q(\\text{NLP})") + T(" (biglietti)", " (tickets)")], [[nt(R.p, 2), nt(R.q, 0)]])],
         R.vincolata ? T("Il teatro è pieno: \\(\\tilde q = k\\).", "The theatre is full: \\(\\tilde q = k\\).") : T("Il teatro non è pieno: \\(\\tilde q < k\\).", "The theatre is not full: \\(\\tilde q < k\\)."));
       RIQ.mostra(st, {
         problema: T("Un teatro fissa il prezzo di un biglietto. La domanda scende al crescere del prezzo e i biglietti venduti non superano la capienza: " +
@@ -298,7 +298,7 @@
       M.linea(crea, P.X(R.p), P.Y(0), P.X(R.p), P.Y(R.profitto / 1000), { strokeColor: C.blu, strokeWidth: 1.5, dash: 2 });
       M.pallino(crea, P.X(R.p), P.Y(R.profitto / 1000), { size: 6, fillColor: C.blu, strokeColor: "#ffffff", strokeWidth: 1.5 });
       // il valore in una posizione fissa (angolo in alto a destra del pannello): non salta quando si muove un cursore
-      M.scritta(crea, m.X1 - 8, S.H - m.alto - 8, `p̃ = ${euro(R.p, 2)}`, { anchorX: "right", anchorY: "top", fontSize: 13, strokeColor: C.blu, cssStyle: "font-weight:700" });
+      M.scritta(crea, m.X1 - 8, S.H - m.alto - 8, `p̃(NLP) = ${euro(R.p, 2)}`, { anchorX: "right", anchorY: "top", fontSize: 13, strokeColor: C.blu, cssStyle: "font-weight:700" });
     },
     legenda: (C) => [[C.b, T("profitto con la capienza \\(k\\)", "profit with capacity \\(k\\)"), ""], [C.grigio, T("profitto senza capienza", "profit without capacity"), "dashed"],
       [C.blu, T("prezzo ottimo", "optimal price"), "punto"]],
@@ -340,8 +340,8 @@
         T(`Il tetto più basso possibile è ${nt(R.mm.max, 3)} km.`, `The lowest possible cap is ${nt(R.mm.max, 3)} km.`);
       else {
         const s = R.sol;
-        sol = RIQ.sol(`${T("Distanza totale pesata", "Total weighted distance")} \\(z(\\text{NLP})\\) = <b>${nt(s.costo, 1)}</b> (${T("media", "mean")} ${nt(s.media, 3)} km)`,
-          [RIQ.tab("", [tx("\\tilde x") + " (km)", tx("\\tilde y") + " (km)", T("distanza massima (km)", "maximum distance (km)")], [[nt(s.x, 2), nt(s.y, 2), nt(s.max, 3)]])],
+        sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(z(\\text{NLP})\\) = <b>${nt(s.costo, 1)}</b> (${T("media", "mean")} ${nt(s.media, 3)} km)`,
+          [RIQ.tab("", [tx("\\tilde x(\\text{NLP})") + " (km)", tx("\\tilde y(\\text{NLP})") + " (km)", T("distanza massima (km)", "maximum distance (km)")], [[nt(s.x, 2), nt(s.y, 2), nt(s.max, 3)]])],
           s.max >= v[0] - 1e-3 ? T("Il tetto \\(D\\) è attivo.", "The cap \\(D\\) is active.") : T("Il tetto \\(D\\) non è attivo: l'ottimo è il punto di Weber.", "The cap \\(D\\) is not active: the optimum is the Weber point."));
       }
       RIQ.mostra(st, {
@@ -450,7 +450,7 @@
       const num = `<p class="plm-tit">${T(`Il QP dell'istanza: ${nn + 3} variabili, ${nn} vincoli (più \\(\\xi_i \\ge 0\\)).`, `The QP of the instance: ${nn + 3} variables, ${nn} constraints (plus \\(\\xi_i \\ge 0\\)).`)}</p>` +
         `<div class="plm-riga plm-lungo">\\(\\displaystyle \\begin{aligned} \\min ~~ & \\tfrac12 (w_1^2 + w_2^2) + ${n(c.C, 3)}\\, (\\xi_1 + \\xi_2 + \\dots + \\xi_{${nn}}) \\\\[1ex] ${SA()} ~~ & ${vin.join(", \\\\ & ")}, \\\\ & \\xi_i \\ge 0, \\quad ${PER("i", nn)}. \\end{aligned}\\)</div>`;
       const sol = RIQ.sol(`${T("Valore ottimo", "Optimal value")} \\(z(\\text{NLP})\\) = <b>${nt(c.obj, 3)}</b>`,
-        [RIQ.tab("", [tx("\\tilde w_1"), tx("\\tilde w_2"), tx("\\tilde b"), tx("\\sum_i \\tilde\\xi_i"), T("margine \\(2/\\|\\tilde w\\|\\)", "margin \\(2/\\|\\tilde w\\|\\)")],
+        [RIQ.tab("", [tx("\\tilde w_1(\\text{NLP})"), tx("\\tilde w_2(\\text{NLP})"), tx("\\tilde b(\\text{NLP})"), tx("\\sum_i \\tilde\\xi_i"), T("margine \\(2/\\|\\tilde w\\|\\)", "margin \\(2/\\|\\tilde w\\|\\)")],
           [[nt(c.w[0], 3), nt(c.w[1], 3), nt(c.b, 3), nt(xi.reduce((s, v) => s + v, 0), 3), nt(2 / Math.hypot(c.w[0], c.w[1]), 3)]])],
         T(`Vettori di supporto (sul margine o dentro): ${sv}; classificati male: ${err}.`, `Support vectors (on the margin or inside it): ${sv}; misclassified: ${err}.`));
       RIQ.mostra(st, {
