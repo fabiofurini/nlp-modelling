@@ -149,4 +149,5 @@
 /* titolo delle tabelle dei dati staccato dalla tabella (Fabio, 27/11/2026) */
 .md-typeset .plm-dati .plm-sol-t > p { margin-bottom: .4em; }
 /* valori delle tabelle dei dati staccati dalla riga di intestazione (Fabio, 27/11/2026) */
-.md-typeset .gi .plm-dati table.gi-tabella th { padding-bottom: .45em; }
+.md-typeset .gi .plm-dati table.gi-tabella th, .md-typeset .gi .plm-sol table.gi-tabella th { padding-bottom: .65em; }
+.md-typeset .gi[data-vetrina] .plm-sol table.gi-tabella th { padding-bottom: .1em; }   /* home PNL: niente spazio in più, deve stare in una schermata */
